@@ -1,0 +1,235 @@
+"use client";
+
+import { useLanguage } from "../context/LanguageContext";
+
+export default function AboutPage() {
+  const { language } = useLanguage();
+
+  const t = {
+    en: {
+      back: "← Back to Home",
+      badge: "About Lensia Media",
+      hero: "We build creators, not just content.",
+      intro:
+        "Lensia Media is a creative growth agency helping creators and brands grow through high-converting thumbnails, editing, YouTube SEO and long-term content strategy.",
+
+      storyBadge: "Our Story",
+      storyTitle: "Built for the modern creator economy.",
+      story1:
+        "We founded Lensia Media with one mission: help creators grow through strategy instead of guesswork.",
+      story2:
+        "Every thumbnail, title and editing decision is focused on increasing click-through rate, audience retention and long-term brand value.",
+      story3:
+        "Our goal isn't simply producing content—it's building recognizable digital brands.",
+
+      foundersBadge: "Meet the Founders",
+      foundersTitle: "The people behind Lensia Media",
+      foundersText:
+        "A creative partnership combining design, strategy and YouTube growth.",
+
+      founder1Role: "Co-Founder • Creative Director",
+      founder1Desc:
+        "Leads creative direction, thumbnail design and visual branding for creators and businesses.",
+
+      founder2Role: "Co-Founder • Growth Strategist",
+      founder2Desc:
+        "Specializes in YouTube SEO, analytics and long-term content growth systems.",
+
+      valuesBadge: "Our Values",
+      valuesTitle: "What drives every project",
+
+      v1: "Performance First",
+      v1d:
+        "Every creative decision is backed by measurable performance and audience psychology.",
+
+      v2: "Fast Execution",
+      v2d:
+        "Reliable communication, structured workflow and efficient delivery.",
+
+      v3: "Long-Term Growth",
+      v3d:
+        "We build sustainable brands instead of chasing temporary trends.",
+
+      cta: "Ready to grow your channel?",
+      ctaText:
+        "Let's discuss your goals and build a strategy tailored to your content.",
+      button: "Contact Us",
+    },
+
+    sr: {
+      back: "← Nazad na početnu",
+      badge: "O Lensia Media",
+      hero: "Gradimo kreatore, a ne samo sadržaj.",
+      intro:
+        "Lensia Media je kreativna growth agencija koja pomaže kreatorima i brendovima kroz thumbnail dizajn, montažu, YouTube SEO i dugoročnu strategiju sadržaja.",
+
+      storyBadge: "Naša priča",
+      storyTitle: "Stvoreni za modernu ekonomiju kreatora.",
+      story1:
+        "Osnovali smo Lensia Media sa jednom misijom – da pomognemo kreatorima da rastu kroz strategiju, a ne nagađanje.",
+      story2:
+        "Svaki thumbnail, naslov i montaža imaju jedan cilj: veći CTR, bolje zadržavanje publike i jači brend.",
+      story3:
+        "Naš cilj nije samo pravljenje sadržaja, već izgradnja prepoznatljivih digitalnih brendova.",
+
+      foundersBadge: "Upoznajte osnivače",
+      foundersTitle: "Ljudi koji stoje iza Lensia Media",
+      foundersText:
+        "Kreativno partnerstvo koje spaja dizajn, strategiju i YouTube rast.",
+
+      founder1Role: "Suosnivač • Creative Director",
+      founder1Desc:
+        "Zadužen za kreativni pravac, thumbnail dizajn i vizuelni identitet kreatora i kompanija.",
+
+      founder2Role: "Suosnivač • Growth Strategist",
+      founder2Desc:
+        "Specijalizovan za YouTube SEO, analitiku i sisteme za dugoročni rast kanala.",
+
+      valuesBadge: "Naše vrednosti",
+      valuesTitle: "Šta stoji iza svakog projekta",
+
+      v1: "Rezultati na prvom mestu",
+      v1d:
+        "Svaka kreativna odluka zasnovana je na podacima i psihologiji publike.",
+
+      v2: "Brza realizacija",
+      v2d:
+        "Jasna komunikacija, organizovan proces i pouzdana isporuka.",
+
+      v3: "Dugoročan rast",
+      v3d:
+        "Gradimo održive brendove umesto kratkotrajnih trendova.",
+
+      cta: "Spreman da razviješ svoj kanal?",
+      ctaText:
+        "Hajde da razgovaramo o tvojim ciljevima i napravimo strategiju prilagođenu tvom sadržaju.",
+      button: "Kontaktiraj nas",
+    },
+  }[language];
+
+  return (
+    <main className="min-h-screen bg-[#070B14] text-white">
+      {/* Hero */}
+      <section className="relative overflow-hidden border-b border-white/10">
+        <div className="absolute inset-0">
+          <div className="absolute left-1/2 top-20 h-80 w-80 -translate-x-1/2 rounded-full bg-purple-600/20 blur-[120px]" />
+        </div>
+
+        <div className="relative mx-auto max-w-6xl px-6 py-20">
+          <a
+            href="/"
+            className="inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-white"
+          >
+            {t.back}
+          </a>
+
+          <div className="mt-10 max-w-3xl">
+            <div className="inline-flex rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-1 text-sm font-medium text-purple-300">
+              {t.badge}
+            </div>
+
+            <h1 className="mt-6 text-5xl font-extrabold md:text-7xl">
+              {t.hero}
+            </h1>
+
+            <p className="mt-6 text-xl leading-8 text-slate-300">
+              {t.intro}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Story */}
+      <section className="mx-auto max-w-6xl px-6 py-20">
+        <div className="grid gap-12 lg:grid-cols-2">
+          <div>
+            <p className="text-sm uppercase tracking-[0.3em] text-purple-400">
+              {t.storyBadge}
+            </p>
+
+            <h2 className="mt-4 text-4xl font-bold">
+              {t.storyTitle}
+            </h2>
+          </div>
+
+          <div className="space-y-6 leading-8 text-slate-300">
+            <p>{t.story1}</p>
+            <p>{t.story2}</p>
+            <p>{t.story3}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Founders */}
+      <section className="mx-auto max-w-6xl px-6 pb-20">
+        <div className="text-center">
+          <p className="text-sm uppercase tracking-[0.3em] text-purple-400">
+            {t.foundersBadge}
+          </p>
+
+          <h2 className="mt-4 text-4xl font-bold">
+            {t.foundersTitle}
+          </h2>
+
+          <p className="mx-auto mt-4 max-w-2xl text-slate-400">
+            {t.foundersText}
+          </p>
+        </div>
+
+        <div className="mt-14 grid gap-8 md:grid-cols-2">
+          <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5">
+            <img
+              src="/team/founder1.jpg"
+              alt="Founder 1"
+              className="aspect-[4/5] w-full object-cover"
+            />
+
+            <div className="p-6">
+              <h3 className="text-2xl font-bold">Your Name</h3>
+              <p className="mt-1 text-purple-400">{t.founder1Role}</p>
+              <p className="mt-4 leading-7 text-slate-300">
+                {t.founder1Desc}
+              </p>
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5">
+            <img
+              src="/team/founder2.jpg"
+              alt="Founder 2"
+              className="aspect-[4/5] w-full object-cover"
+            />
+
+            <div className="p-6">
+              <h3 className="text-2xl font-bold">Partner Name</h3>
+              <p className="mt-1 text-purple-400">{t.founder2Role}</p>
+              <p className="mt-4 leading-7 text-slate-300">
+                {t.founder2Desc}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+
+      {/* CTA */}
+      <section className="mx-auto max-w-6xl px-6 pb-24">
+        <div className="rounded-3xl border border-purple-500/20 bg-gradient-to-r from-purple-600/10 to-indigo-600/10 p-10 text-center">
+          <h2 className="text-3xl font-bold">{t.cta}</h2>
+
+          <p className="mx-auto mt-4 max-w-2xl text-slate-300">
+            {t.ctaText}
+          </p>
+
+          <a
+            href="/#contact"
+            className="mt-8 inline-flex rounded-2xl bg-purple-600 px-8 py-4 font-semibold transition hover:bg-purple-500"
+          >
+            {t.button}
+          </a>
+        </div>
+      </section>
+    </main>
+  );
+}
