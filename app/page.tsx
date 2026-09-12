@@ -815,8 +815,8 @@ const scrollToSection = (id: string) => {
 
       <h2 className="mt-4 text-4xl font-bold text-white md:text-5xl">
         {language === "en"
-          ? "Two creators building modern media brands."
-          : "Dva kreatora koja grade moderne media brendove."}
+          ? "Two young creators building modern media brands."
+          : "Dva mlada kreatora koja grade moderne media brendove."}
       </h2>
 
       <p className="mt-6 leading-8 text-slate-400">
@@ -882,147 +882,344 @@ const scrollToSection = (id: string) => {
     {/* Service Popup */}
 <AnimatePresence>
   {selectedService === "thumbnail" && (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={() => setSelectedService(null)}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-6"
-    >
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#0B1020] p-8"
-      >
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-3xl font-bold text-white">
-            {language === "en"
-              ? "Thumbnail Examples"
-              : "Primeri Thumbnailova"}
-          </h2>
-
-          <button
-            onClick={() => setSelectedService(null)}
-            className="rounded-xl p-2 text-slate-400 hover:bg-white/10 hover:text-white"
-          >
-            ✕
-          </button>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-2">
-          {["thumb1", "thumb2", "thumb3", "thumb4"].map((img) => (
-            <div
-              key={img}
-              className="overflow-hidden rounded-xl border border-white/10"
-            >
-              <img
-                src={`/thumbnails/${img}.png`}
-                alt={
-                  language === "en"
-                    ? "Thumbnail example"
-                    : "Primer thumbnaila"
-                }
-                className="aspect-video w-full object-cover transition duration-300 hover:scale-105"
-              />
-            </div>
-          ))}
-        </div>
-
-    
-      </motion.div>
-    </motion.div>
-  )}
-
-
-  {selectedService === "strategy" && (
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
     onClick={() => setSelectedService(null)}
-    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-6"
+    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 md:p-6"
   >
     <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
+      initial={{ scale: 0.95, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.9, opacity: 0 }}
-      transition={{ duration: 0.2 }}
+      exit={{ scale: 0.95, opacity: 0 }}
+      transition={{ duration: 0.25 }}
       onClick={(e) => e.stopPropagation()}
-      className="w-full max-w-4xl rounded-3xl border border-white/10 bg-[#0B1020] p-8"
+      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020]"
     >
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-3xl font-bold text-white">
-          {language === "en"
-            ? "Channel Strategy"
-            : "Strategija Kanala"}
-        </h2>
+      {/* HERO */}
+      <div className="relative overflow-hidden rounded-t-[32px] bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-8">
+        <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-3xl" />
 
-        <button
-          onClick={() => setSelectedService(null)}
-          className="rounded-xl p-2 text-slate-400 hover:bg-white/10 hover:text-white"
-        >
-          ✕
-        </button>
-      </div>
-
-      <div className="space-y-4">
-        <div className="rounded-xl border border-white/10 bg-white/5 p-5">
-          <p className="text-xs uppercase tracking-widest text-purple-300">
-            {language === "en" ? "STEP 1" : "KORAK 1"}
+        <div className="relative">
+          <p className="text-xs uppercase tracking-[0.35em] text-purple-200">
+            {language === "en" ? "Thumbnail Design" : "Thumbnail Dizajn"}
           </p>
 
-          <h3 className="mt-2 text-xl font-semibold text-white">
+          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
             {language === "en"
-              ? "Niche Positioning"
-              : "Pozicioniranje Niše"}
-          </h3>
+              ? "Thumbnails That Drive Clicks"
+              : "Thumbnailovi Koji Donose Klikove"}
+          </h2>
 
-          <p className="mt-2 text-slate-400">
+          <p className="mt-4 max-w-2xl text-purple-100 leading-7">
             {language === "en"
-              ? "Define the audience, content angle and competitive position."
-              : "Definišemo ciljnu publiku, pravac sadržaja i konkurentsku poziciju."}
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-white/10 bg-white/5 p-5">
-          <p className="text-xs uppercase tracking-widest text-purple-300">
-            {language === "en" ? "STEP 2" : "KORAK 2"}
-          </p>
-
-          <h3 className="mt-2 text-xl font-semibold text-white">
-            {language === "en"
-              ? "Content Pillars"
-              : "Stubovi Sadržaja"}
-          </h3>
-
-          <p className="mt-2 text-slate-400">
-            {language === "en"
-              ? "Create 3–5 repeatable video formats that build a recognizable brand."
-              : "Kreiramo 3–5 formata videa koji grade prepoznatljiv brend."}
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-white/10 bg-white/5 p-5">
-          <p className="text-xs uppercase tracking-widest text-purple-300">
-            {language === "en" ? "STEP 3" : "KORAK 3"}
-          </p>
-
-          <h3 className="mt-2 text-xl font-semibold text-white">
-            {language === "en"
-              ? "Weekly Upload System"
-              : "Nedeljni Sistem Objava"}
-          </h3>
-
-          <p className="mt-2 text-slate-400">
-            {language === "en"
-              ? "Plan uploads, thumbnails and SEO into one consistent workflow."
-              : "Povezujemo objave, thumbnailove i SEO u jedan dosledan sistem."}
+              ? "We design high-converting YouTube thumbnails focused on curiosity, clarity and strong visual hierarchy."
+              : "Dizajniramo YouTube thumbnailove sa fokusom na CTR, jasnu poruku i profesionalan vizuelni identitet."}
           </p>
         </div>
       </div>
+
+      {/* CONTENT */}
+      <div className="p-6 md:p-8 space-y-8">
+        {/* Gallery */}
+        <div>
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "Recent Work" : "Naši Radovi"}
+          </h3>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            {["thumb1", "thumb2", "thumb3", "thumb4"].map((img) => (
+              <div
+                key={img}
+                className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+              >
+                <img
+                  src={`/thumbnails/${img}.png`}
+                  alt="Thumbnail"
+                  className="aspect-video w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Features */}
+        <div>
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "What You Get" : "Šta Dobijaš"}
+          </h3>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            {[
+              {
+                title: language === "en" ? "High CTR Design" : "Dizajn za CTR",
+                desc:
+                  language === "en"
+                    ? "Every thumbnail is built to maximize click-through rate."
+                    : "Svaki thumbnail je pravljen sa ciljem većeg CTR-a.",
+              },
+              {
+                title:
+                  language === "en"
+                    ? "Professional Editing"
+                    : "Profesionalna Obrada",
+                desc:
+                  language === "en"
+                    ? "Clean composition, lighting and visual hierarchy."
+                    : "Čista kompozicija, osvetljenje i jasna hijerarhija.",
+              },
+              {
+                title:
+                  language === "en"
+                    ? "Brand Consistency"
+                    : "Dosledan Brending",
+                desc:
+                  language === "en"
+                    ? "A recognizable style across every upload."
+                    : "Prepoznatljiv izgled kroz ceo kanal.",
+              },
+              {
+                title:
+                  language === "en" ? "Fast Delivery" : "Brza Isporuka",
+                desc:
+                  language === "en"
+                    ? "Ready-to-upload thumbnails delivered in high quality."
+                    : "Thumbnail spreman za objavu u visokoj rezoluciji.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              >
+                <h4 className="font-semibold text-white">{item.title}</h4>
+                <p className="mt-2 text-sm leading-6 text-slate-400">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Process */}
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "Our Process" : "Naš Proces"}
+          </h3>
+
+          <div className="mt-6 space-y-5">
+            {[
+              {
+                n: "01",
+                t: language === "en" ? "Research" : "Analiza",
+                d:
+                  language === "en"
+                    ? "Study competitors, audience and click patterns."
+                    : "Analiziramo konkurenciju, publiku i obrasce klikova.",
+              },
+              {
+                n: "02",
+                t: language === "en" ? "Design" : "Dizajn",
+                d:
+                  language === "en"
+                    ? "Create multiple concepts with strong visual hierarchy."
+                    : "Kreiramo koncept sa jasnom vizuelnom hijerarhijom.",
+              },
+              {
+                n: "03",
+                t: language === "en" ? "Refinement" : "Finalizacija",
+                d:
+                  language === "en"
+                    ? "Polish every detail for maximum CTR potential."
+                    : "Finalna obrada svakog detalja radi maksimalnog CTR potencijala.",
+              },
+            ].map((step) => (
+              <div key={step.n} className="flex gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
+                  {step.n}
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-white">{step.t}</h4>
+                  <p className="mt-1 text-sm text-slate-400">{step.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Close */}
+      <button
+        onClick={() => setSelectedService(null)}
+        className="absolute right-6 top-6 rounded-xl bg-white/10 p-2 text-white transition hover:bg-white/20"
+      >
+        ✕
+      </button>
+    </motion.div>
+  </motion.div>
+)}
+
+
+{selectedService === "strategy" && (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    onClick={() => setSelectedService(null)}
+    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 md:p-6"
+  >
+    <motion.div
+      initial={{ scale: 0.95, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.95, opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      onClick={(e) => e.stopPropagation()}
+      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020]"
+    >
+      {/* HERO */}
+      <div className="relative overflow-hidden rounded-t-[32px] bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-8">
+        <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-3xl" />
+
+        <div className="relative">
+          <p className="text-xs uppercase tracking-[0.35em] text-purple-200">
+            {language === "en" ? "Growth Strategy" : "Strategija Rasta"}
+          </p>
+
+          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
+            {language === "en"
+              ? "Build a Channel That Scales"
+              : "Izgradi Kanal Koji Raste"}
+          </h2>
+
+          <p className="mt-4 max-w-2xl text-purple-100 leading-7">
+            {language === "en"
+              ? "We create a repeatable content strategy based on audience behavior, niche positioning and long-term YouTube growth."
+              : "Pravimo sistem sadržaja zasnovan na publici, pozicioniranju niše i dugoročnom rastu na YouTube-u."}
+          </p>
+        </div>
+      </div>
+
+      {/* CONTENT */}
+      <div className="p-6 md:p-8">
+        <div>
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "What's Included" : "Šta Dobijaš"}
+          </h3>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            {[
+              {
+                title:
+                  language === "en"
+                    ? "Niche Positioning"
+                    : "Pozicioniranje Niše",
+                desc:
+                  language === "en"
+                    ? "Define your audience and competitive advantage."
+                    : "Definišemo ciljnu publiku i prednost u odnosu na konkurenciju.",
+              },
+              {
+                title:
+                  language === "en"
+                    ? "Content Pillars"
+                    : "Stubovi Sadržaja",
+                desc:
+                  language === "en"
+                    ? "3–5 repeatable formats that build consistency."
+                    : "3–5 formata videa koji stvaraju dosledan sadržaj.",
+              },
+              {
+                title:
+                  language === "en"
+                    ? "Upload Schedule"
+                    : "Plan Objavljivanja",
+                desc:
+                  language === "en"
+                    ? "A realistic weekly publishing workflow."
+                    : "Realan nedeljni sistem objavljivanja.",
+              },
+              {
+                title:
+                  language === "en"
+                    ? "Growth Roadmap"
+                    : "Plan Rasta",
+                desc:
+                  language === "en"
+                    ? "Clear priorities for the next 30–90 days."
+                    : "Jasni prioriteti za narednih 30–90 dana.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              >
+                <h4 className="font-semibold text-white">{item.title}</h4>
+                <p className="mt-2 text-sm leading-6 text-slate-400">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* PROCESS */}
+        <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "Our Process" : "Naš Proces"}
+          </h3>
+
+          <div className="mt-6 space-y-5">
+            {[
+              {
+                n: "01",
+                t: language === "en" ? "Research" : "Istraživanje",
+                d:
+                  language === "en"
+                    ? "Analyze your channel, niche and competitors."
+                    : "Analiziramo kanal, nišu i konkurenciju.",
+              },
+              {
+                n: "02",
+                t: language === "en" ? "Strategy" : "Strategija",
+                d:
+                  language === "en"
+                    ? "Design repeatable content formats and positioning."
+                    : "Kreiramo formate sadržaja i pozicioniranje kanala.",
+              },
+              {
+                n: "03",
+                t: language === "en"
+                    ? "Execution Plan"
+                    : "Plan Izvršenja",
+                d:
+                  language === "en"
+                    ? "You receive a structured publishing roadmap."
+                    : "Dobijaš kompletan plan objavljivanja i rasta.",
+              },
+            ].map((step) => (
+              <div key={step.n} className="flex gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
+                  {step.n}
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-white">{step.t}</h4>
+                  <p className="mt-1 text-sm text-slate-400">{step.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* CLOSE */}
+      <button
+        onClick={() => setSelectedService(null)}
+        className="absolute right-6 top-6 rounded-xl bg-white/10 p-2 text-white transition hover:bg-white/20"
+      >
+        ✕
+      </button>
     </motion.div>
   </motion.div>
 )}
@@ -1043,136 +1240,157 @@ const scrollToSection = (id: string) => {
       exit={{ scale: 0.95, opacity: 0 }}
       transition={{ duration: 0.25 }}
       onClick={(e) => e.stopPropagation()}
-      className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020] p-6 md:p-8"
+      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020]"
     >
-      {/* Header */}
-      <div className="mb-8 flex items-start justify-between">
-        <div>
-          <p className="text-xs uppercase tracking-[0.35em] text-purple-400">
+      {/* HERO */}
+      <div className="relative overflow-hidden rounded-t-[32px] bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-8">
+        <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-3xl" />
+
+        <div className="relative">
+          <p className="text-xs uppercase tracking-[0.35em] text-purple-200">
             {language === "en" ? "Brand Identity" : "Vizuelni Identitet"}
           </p>
 
-          <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
+          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
             {language === "en"
               ? "Build a Brand People Remember"
               : "Izgradi Brend Koji Se Pamti"}
           </h2>
 
-          <p className="mt-4 max-w-2xl leading-7 text-slate-400">
+          <p className="mt-4 max-w-2xl text-purple-100 leading-7">
             {language === "en"
-              ? "A strong visual identity makes your channel instantly recognizable. We design every element to create consistency, professionalism and long-term brand value."
-              : "Jak vizuelni identitet čini tvoj kanal odmah prepoznatljivim. Dizajniramo svaki element kako bismo stvorili doslednost, profesionalnost i dugoročnu vrednost brenda."}
+              ? "We create a consistent visual identity that makes your channel instantly recognizable across YouTube and every social platform."
+              : "Kreiramo dosledan vizuelni identitet koji čini tvoj kanal odmah prepoznatljivim na YouTube-u i svim društvenim mrežama."}
+          </p>
+        </div>
+      </div>
+
+      {/* CONTENT */}
+      <div className="p-6 md:p-8 space-y-8">
+        {/* Services */}
+        <div>
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "What's Included" : "Šta Dobijaš"}
+          </h3>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            {[
+              {
+                title: language === "en" ? "Logo System" : "Sistem Logotipa",
+                desc:
+                  language === "en"
+                    ? "Primary and secondary logo for YouTube, social media and future business use."
+                    : "Primarni i sekundarni logotip za YouTube, društvene mreže i buduću upotrebu.",
+              },
+              {
+                title:
+                  language === "en" ? "Visual Direction" : "Vizuelni Pravac",
+                desc:
+                  language === "en"
+                    ? "Colors, typography and a complete design language."
+                    : "Boje, tipografija i kompletan dizajn sistem.",
+              },
+              {
+                title:
+                  language === "en" ? "Channel Presence" : "Izgled Kanala",
+                desc:
+                  language === "en"
+                    ? "Banner, profile picture and branded assets optimized for every device."
+                    : "Baner, profilna slika i svi elementi optimizovani za svaki uređaj.",
+              },
+              {
+                title:
+                  language === "en" ? "Thumbnail Style" : "Stil Thumbnailova",
+                desc:
+                  language === "en"
+                    ? "A repeatable thumbnail system that improves recognition."
+                    : "Prepoznatljiv stil thumbnailova koji gradi identitet kanala.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              >
+                <h4 className="font-semibold text-white">{item.title}</h4>
+                <p className="mt-2 text-sm leading-6 text-slate-400">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Why Branding Matters */}
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <p className="text-xs uppercase tracking-[0.25em] text-purple-300">
+            {language === "en" ? "Why Branding Matters" : "Zašto je Brending Bitan"}
+          </p>
+
+          <p className="mt-4 text-slate-300 leading-7">
+            {language === "en"
+              ? "Strong branding increases recognition, builds trust and makes every upload feel like part of one professional ecosystem. Consistency is often the difference between a creator and a memorable brand."
+              : "Jak brending povećava prepoznatljivost, gradi poverenje i čini da svaki video izgleda kao deo jednog profesionalnog sistema. Doslednost je često razlika između običnog kreatora i prepoznatljivog brenda."}
           </p>
         </div>
 
-        <button
-          onClick={() => setSelectedService(null)}
-          className="rounded-xl p-2 text-slate-400 transition hover:bg-white/10 hover:text-white"
-        >
-          ✕
-        </button>
-      </div>
+        {/* Process */}
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "Our Process" : "Naš Proces"}
+          </h3>
 
-      {/* What we create */}
-      <div className="grid gap-4 md:grid-cols-2">
-        {[
-          {
-            title: language === "en" ? "Logo System" : "Sistem Logotipa",
-            desc:
-              language === "en"
-                ? "Primary and secondary logo for YouTube, social media and future business use."
-                : "Primarni i sekundarni logotip za YouTube, društvene mreže i buduću upotrebu.",
-          },
-          {
-            title: language === "en" ? "Visual Direction" : "Vizuelni Pravac",
-            desc:
-              language === "en"
-                ? "Colors, typography and a complete design language."
-                : "Boje, tipografija i kompletan dizajn sistem.",
-          },
-          {
-            title: language === "en" ? "Channel Presence" : "Izgled Kanala",
-            desc:
-              language === "en"
-                ? "Banner, profile picture and branded assets optimized for every device."
-                : "Baner, profilna slika i svi elementi optimizovani za svaki uređaj.",
-          },
-          {
-            title: language === "en" ? "Thumbnail Style" : "Stil Thumbnailova",
-            desc:
-              language === "en"
-                ? "A repeatable thumbnail system that improves recognition."
-                : "Sistem thumbnailova koji povećava prepoznatljivost.",
-          },
-        ].map((item) => (
-          <div
-            key={item.title}
-            className="rounded-2xl border border-white/10 bg-white/5 p-5"
-          >
-            <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-            <p className="mt-3 text-sm leading-6 text-slate-400">
-              {item.desc}
-            </p>
+          <div className="mt-6 space-y-5">
+            {[
+              {
+                n: "01",
+                t: language === "en" ? "Discovery" : "Analiza",
+                d:
+                  language === "en"
+                    ? "Research your niche, audience and competitors."
+                    : "Istražujemo tvoju nišu, publiku i konkurenciju.",
+              },
+              {
+                n: "02",
+                t: language === "en" ? "Identity" : "Identitet",
+                d:
+                  language === "en"
+                    ? "Define the visual personality of your brand."
+                    : "Definišemo vizuelnu ličnost tvog brenda.",
+              },
+              {
+                n: "03",
+                t: language === "en" ? "Design & Delivery" : "Dizajn i Isporuka",
+                d:
+                  language === "en"
+                    ? "Deliver organized logo, banner and branding assets ready for immediate use."
+                    : "Isporučujemo logotip, baner i kompletne brend elemente spremne za korišćenje.",
+              },
+            ].map((step) => (
+              <div key={step.n} className="flex gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
+                  {step.n}
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-white">{step.t}</h4>
+                  <p className="mt-1 text-sm text-slate-400">{step.d}</p>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
 
-      {/* Process */}
-      <div className="mt-8 rounded-2xl border border-purple-500/20 bg-purple-500/5 p-6">
-        <h3 className="text-xl font-semibold text-white">
-          {language === "en" ? "Our Process" : "Naš Proces"}
-        </h3>
-
-        <div className="mt-6 space-y-5">
-          {[
-            [
-              "01",
-              language === "en" ? "Discovery" : "Analiza",
-              language === "en"
-                ? "Researching your niche, audience and competitors."
-                : "Istraživanje niše, publike i konkurencije.",
-            ],
-            [
-              "02",
-              language === "en" ? "Identity" : "Identitet",
-              language === "en"
-                ? "Defining your visual personality."
-                : "Definisanje vizuelne ličnosti brenda.",
-            ],
-            [
-              "03",
-              language === "en" ? "Design" : "Dizajn",
-              language === "en"
-                ? "Creating logos, banners and branding assets."
-                : "Kreiranje logotipa, banera i svih brend elemenata.",
-            ],
-            [
-              "04",
-              language === "en" ? "Delivery" : "Isporuka",
-              language === "en"
-                ? "Organized files ready for immediate use."
-                : "Organizovani fajlovi spremni za korišćenje.",
-            ],
-          ].map(([num, title, desc]) => (
-            <div key={num} className="flex gap-4">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
-                {num}
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-white">{title}</h4>
-                <p className="mt-1 text-sm text-slate-400">{desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div> 
+      {/* CLOSE */}
+      <button
+        onClick={() => setSelectedService(null)}
+        className="absolute right-6 top-6 rounded-xl bg-white/10 p-2 text-white transition hover:bg-white/20"
+      >
+        ✕
+      </button>
     </motion.div>
   </motion.div>
 )}
-
-
-
 
 {selectedService === "analytics" && (
   <motion.div
@@ -1180,161 +1398,195 @@ const scrollToSection = (id: string) => {
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
     onClick={() => setSelectedService(null)}
-    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-6"
+    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 md:p-6"
   >
     <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
+      initial={{ scale: 0.95, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.9, opacity: 0 }}
-      transition={{ duration: 0.2 }}
+      exit={{ scale: 0.95, opacity: 0 }}
+      transition={{ duration: 0.25 }}
       onClick={(e) => e.stopPropagation()}
-      className="w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#0B1020] p-8"
+      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020]"
     >
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-3xl font-bold text-white">
-          {language === "en" ? "Statistics Analysis" : "Analiza statistike"}
-        </h2>
+      {/* HERO */}
+      <div className="relative overflow-hidden rounded-t-[32px] bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-8">
+        <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-3xl" />
 
-        <button
-          onClick={() => setSelectedService(null)}
-          className="rounded-xl p-2 text-slate-400 hover:bg-white/10 hover:text-white"
-        >
-          ✕
-        </button>
-      </div>
-
-      <p className="mb-8 text-slate-400">
-        {language === "en"
-          ? "We analyze the metrics that actually drive channel growth and identify where the biggest improvements can be made."
-          : "Analiziramo metrike koje zaista pokreću rast kanala i pronalazimo najveće prilike za napredak."}
-      </p>
-
-      <div className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm text-slate-400">CTR</p>
-          <p className="mt-2 text-4xl font-bold text-white">8.7%</p>
-          <p className="mt-2 text-sm text-green-400">
-            {language === "en" ? "+2.3% improvement" : "+2.3% poboljšanje"}
+        <div className="relative">
+          <p className="text-xs uppercase tracking-[0.35em] text-purple-200">
+            {language === "en" ? "Performance Analytics" : "Analitika Performansi"}
           </p>
-        </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm text-slate-400">
-            {language === "en" ? "Avg. View Duration" : "Prosečno Gledanje"}
-          </p>
-          <p className="mt-2 text-4xl font-bold text-white">6:42</p>
-          <p className="mt-2 text-sm text-green-400">+31% retention</p>
-        </div>
-
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <p className="text-sm text-slate-400">
-            {language === "en" ? "Monthly Views" : "Mesečni Pregledi"}
-          </p>
-          <p className="mt-2 text-4xl font-bold text-white">1.2M</p>
-          <p className="mt-2 text-sm text-green-400">
-            {language === "en" ? "Growth example" : "Primer rasta"}
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
-        <div className="mb-4 flex items-center justify-between">
-          <h3 className="font-semibold text-white">
+          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
             {language === "en"
-              ? "Click Through Rate Trend"
-              : "Trend CTR-a"}
+              ? "Turn Data Into Growth"
+              : "Pretvori Podatke u Rast"}
+          </h2>
+
+          <p className="mt-4 max-w-2xl text-purple-100 leading-7">
+            {language === "en"
+              ? "We analyze the metrics that truly drive YouTube growth and identify the highest-impact opportunities for your channel."
+              : "Analiziramo metrike koje zaista pokreću rast na YouTube-u i pronalazimo najveće prilike za napredak tvog kanala."}
+          </p>
+        </div>
+      </div>
+
+      {/* CONTENT */}
+      <div className="p-6 md:p-8 space-y-8">
+        {/* Metrics */}
+        <div>
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "Key Metrics We Analyze" : "Ključne Metrike"}
           </h3>
-          <span className="text-sm text-slate-400">
-            {language === "en" ? "Last 90 days" : "Poslednjih 90 dana"}
-          </span>
+
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            {[
+              {
+                title: "CTR",
+                desc:
+                  language === "en"
+                    ? "Understand what makes viewers click."
+                    : "Otkrivamo šta povećava stopu klikova.",
+              },
+              {
+                title:
+                  language === "en"
+                    ? "Audience Retention"
+                    : "Retention Publike",
+                desc:
+                  language === "en"
+                    ? "Pinpoint where viewers lose interest."
+                    : "Pronalazimo tačne momente kada publika odlazi.",
+              },
+              {
+                title:
+                  language === "en"
+                    ? "Traffic Sources"
+                    : "Izvori Saobraćaja",
+                desc:
+                  language === "en"
+                    ? "Evaluate Browse, Search and Suggested traffic."
+                    : "Analiza Browse, Search i Suggested izvora.",
+              },
+              {
+                title:
+                  language === "en"
+                    ? "Returning Viewers"
+                    : "Povratni Gledaoci",
+                desc:
+                  language === "en"
+                    ? "Measure audience loyalty and long-term growth."
+                    : "Merimo lojalnost publike i potencijal dugoročnog rasta.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              >
+                <h4 className="font-semibold text-white">{item.title}</h4>
+                <p className="mt-2 text-sm leading-6 text-slate-400">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="flex h-40 items-end justify-between gap-2">
-          {[25, 40, 32, 55, 48, 72, 86, 80, 95, 88].map((h, i) => (
-            <div
-              key={i}
-              className="w-full rounded-t-lg bg-gradient-to-t from-purple-600 to-purple-400"
-              style={{ height: `${h}%` }}
-            />
-          ))}
+        {/* Deliverables */}
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "What You'll Receive" : "Šta Dobijaš"}
+          </h3>
+
+          <div className="mt-5 grid gap-3 md:grid-cols-2">
+            {[
+              language === "en"
+                ? "Detailed performance report"
+                : "Detaljan izveštaj performansi",
+              language === "en"
+                ? "CTR improvement opportunities"
+                : "Prilike za povećanje CTR-a",
+              language === "en"
+                ? "Retention breakdown"
+                : "Analiza retention-a",
+              language === "en"
+                ? "Traffic source evaluation"
+                : "Analiza izvora saobraćaja",
+              language === "en"
+                ? "Audience behavior insights"
+                : "Uvid u ponašanje publike",
+              language === "en"
+                ? "Actionable growth recommendations"
+                : "Konkretne preporuke za rast",
+            ].map((item) => (
+              <div key={item} className="flex items-center gap-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-600 text-xs font-bold text-white">
+                  ✓
+                </div>
+                <span className="text-slate-300">{item}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-3 flex justify-between text-xs text-slate-500">
-          <span>Jan</span>
-          <span>Feb</span>
-          <span>Mar</span>
+        {/* Process */}
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "Our Process" : "Naš Proces"}
+          </h3>
+
+          <div className="mt-6 space-y-5">
+            {[
+              {
+                n: "01",
+                t: language === "en" ? "Collect Data" : "Prikupljanje Podataka",
+                d:
+                  language === "en"
+                    ? "Review YouTube Analytics across your content."
+                    : "Pregled svih ključnih podataka iz YouTube Analytics-a.",
+              },
+              {
+                n: "02",
+                t: language === "en" ? "Find Patterns" : "Pronalaženje Obrazaca",
+                d:
+                  language === "en"
+                    ? "Identify what's limiting growth and what's already working."
+                    : "Otkrivamo šta usporava rast i šta već funkcioniše.",
+              },
+              {
+                n: "03",
+                t: language === "en" ? "Optimization Plan" : "Plan Optimizacije",
+                d:
+                  language === "en"
+                    ? "Receive prioritized actions with measurable impact."
+                    : "Dobijaš prioritetne korake sa najvećim potencijalom rasta.",
+              },
+            ].map((step) => (
+              <div key={step.n} className="flex gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
+                  {step.n}
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-white">{step.t}</h4>
+                  <p className="mt-1 text-sm text-slate-400">{step.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2">
-        <div className="rounded-xl border border-white/10 bg-white/5 p-5">
-          <h4 className="font-semibold text-white">
-            {language === "en" ? "What We Analyze" : "Šta Analiziramo"}
-          </h4>
-
-          <ul className="mt-3 space-y-2 text-sm text-slate-400">
-            <li>
-              •{" "}
-              {language === "en"
-                ? "Click Through Rate (CTR)"
-                : "Stopa Klikova (CTR)"}
-            </li>
-            <li>
-              •{" "}
-              {language === "en"
-                ? "Audience Retention"
-                : "Zadržavanje Publike"}
-            </li>
-            <li>
-              •{" "}
-              {language === "en" ? "Traffic Sources" : "Izvori Saobraćaja"}
-            </li>
-            <li>
-              •{" "}
-              {language === "en"
-                ? "Returning Viewers"
-                : "Povratni Gledaoci"}
-            </li>
-          </ul>
-        </div>
-
-        <div className="rounded-xl border border-white/10 bg-white/5 p-5">
-          <h4 className="font-semibold text-white">
-            {language === "en" ? "What You Receive" : "Šta Dobijaš"}
-          </h4>
-
-          <ul className="mt-3 space-y-2 text-sm text-slate-400">
-            <li>
-              •{" "}
-              {language === "en"
-                ? "Detailed Channel Analysis"
-                : "Detaljna analiza kanala"}
-            </li>
-            <li>
-              •{" "}
-              {language === "en"
-                ? "Growth Recommendations"
-                : "Preporuke za Rast"}
-            </li>
-            <li>
-              •{" "}
-              {language === "en"
-                ? "Thumbnail Feedback"
-                : "Analiza Thumbnailova"}
-            </li>
-            <li>
-              •{" "}
-              {language === "en"
-                ? "SEO Improvements"
-                : "SEO Poboljšanja"}
-            </li>
-          </ul>
-        </div>
-      </div>
+      {/* CLOSE */}
+      <button
+        onClick={() => setSelectedService(null)}
+        className="absolute right-6 top-6 rounded-xl bg-white/10 p-2 text-white transition hover:bg-white/20"
+      >
+        ✕
+      </button>
     </motion.div>
   </motion.div>
 )}
-
 
 
 {selectedService === "audit" && (
@@ -1343,98 +1595,180 @@ const scrollToSection = (id: string) => {
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
     onClick={() => setSelectedService(null)}
-    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-6"
+    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 md:p-6"
   >
     <motion.div
-  initial={{ scale: 0.9, opacity: 0 }}
-  animate={{ scale: 1, opacity: 1 }}
-  exit={{ scale: 0.9, opacity: 0 }}
-  transition={{ duration: 0.2 }}
-  onClick={(e) => e.stopPropagation()}
-  className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#0B1020] p-8"
->
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-3xl font-bold text-white">
-          {language === "en" ? "Channel Audit" : "Analiza Kanala"}
-        </h2>
+      initial={{ scale: 0.95, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.95, opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      onClick={(e) => e.stopPropagation()}
+      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020]"
+    >
+      {/* HERO */}
+      <div className="relative overflow-hidden rounded-t-[32px] bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-8">
+        <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-3xl" />
 
-        <button
-          onClick={() => setSelectedService(null)}
-          className="rounded-xl p-2 text-slate-400 hover:bg-white/10 hover:text-white"
-        >
-          ✕
-        </button>
+        <div className="relative">
+          <p className="text-xs uppercase tracking-[0.35em] text-purple-200">
+            {language === "en" ? "Channel Audit" : "Analiza Kanala"}
+          </p>
+
+          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
+            {language === "en"
+              ? "A Complete Health Check For Your Channel"
+              : "Kompletan Health Check Tvog Kanala"}
+          </h2>
+
+          <p className="mt-4 max-w-2xl text-purple-100 leading-7">
+            {language === "en"
+              ? "We perform a comprehensive review of your branding, SEO, thumbnails and content structure to uncover the biggest growth opportunities."
+              : "Radimo detaljnu analizu brendinga, SEO-a, thumbnailova i strukture sadržaja kako bismo pronašli najveće prilike za rast."}
+          </p>
+        </div>
       </div>
 
-      <p className="mb-8 text-slate-400">
-        {language === "en"
-          ? "A complete review of your YouTube channel across branding, SEO, thumbnails and content structure."
-          : "Kompletna analiza YouTube kanala kroz brending, SEO, thumbnailove i strukturu sadržaja."}
-      </p>
+      {/* CONTENT */}
+      <div className="p-6 md:p-8 space-y-8">
+        {/* Checklist */}
+        <div>
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "20+ Point Evaluation" : "Analiza Kroz 20+ Tačaka"}
+          </h3>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        {(
-          language === "en"
-            ? [
-                "Channel Branding",
-                "Logo & Banner",
-                "Thumbnail Quality",
-                "Title Optimization",
-                "Video Descriptions",
-                "Keyword Strategy",
-                "CTR Analysis",
-                "Audience Retention",
-                "Content Structure",
-                "Upload Consistency",
-              ]
-            : [
-                "Brending Kanala",
-                "Logo i Baner",
-                "Kvalitet Thumbnailova",
-                "Optimizacija Naslova",
-                "Opisi Videa",
-                "Strategija Ključnih Reči",
-                "CTR Analiza",
-                "Zadržavanje Publike",
-                "Struktura Sadržaja",
-                "Doslednost Objava",
-              ]
-        ).map((item) => (
-          <div
-            key={item}
-            className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4"
-          >
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-green-600 text-sm font-bold">
-              ✓
-            </div>
-            <span className="text-white">{item}</span>
+          <div className="mt-5 grid gap-3 md:grid-cols-2">
+            {(
+              language === "en"
+                ? [
+                    "Channel Branding",
+                    "Logo & Banner",
+                    "Thumbnail Quality",
+                    "Title Optimization",
+                    "Video Descriptions",
+                    "Keyword Strategy",
+                    "CTR Analysis",
+                    "Audience Retention",
+                    "Content Structure",
+                    "Upload Consistency",
+                  ]
+                : [
+                    "Brending Kanala",
+                    "Logo i Baner",
+                    "Kvalitet Thumbnailova",
+                    "Optimizacija Naslova",
+                    "Opisi Videa",
+                    "Strategija Ključnih Reči",
+                    "CTR Analiza",
+                    "Zadržavanje Publike",
+                    "Struktura Sadržaja",
+                    "Doslednost Objava",
+                  ]
+            ).map((item) => (
+              <div
+                key={item}
+                className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4"
+              >
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-green-600 text-sm font-bold text-white">
+                  ✓
+                </div>
+                <span className="text-white">{item}</span>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+
+        {/* Deliverables */}
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "What You'll Receive" : "Šta Dobijaš"}
+          </h3>
+
+          <div className="mt-5 grid gap-3 md:grid-cols-2">
+            {[
+              language === "en"
+                ? "Detailed audit report (PDF)"
+                : "Detaljan audit izveštaj (PDF)",
+              language === "en"
+                ? "Personalized growth roadmap"
+                : "Personalizovan plan rasta",
+              language === "en"
+                ? "Thumbnail & CTR feedback"
+                : "Analizu thumbnailova i CTR-a",
+              language === "en"
+                ? "SEO improvement opportunities"
+                : "SEO prilike za napredak",
+              language === "en"
+                ? "Content structure review"
+                : "Pregled strukture sadržaja",
+              language === "en"
+                ? "Prioritized action list"
+                : "Listu prioriteta za dalje korake",
+            ].map((item) => (
+              <div key={item} className="flex items-center gap-3">
+                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-600 text-xs font-bold text-white">
+                  ✓
+                </div>
+                <span className="text-slate-300">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Process */}
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "Our Process" : "Naš Proces"}
+          </h3>
+
+          <div className="mt-6 space-y-5">
+            {[
+              {
+                n: "01",
+                t: language === "en" ? "Channel Review" : "Pregled Kanala",
+                d:
+                  language === "en"
+                    ? "We analyze every major aspect of your YouTube channel."
+                    : "Analiziramo svaki važan segment tvog YouTube kanala.",
+              },
+              {
+                n: "02",
+                t: language === "en" ? "Opportunity Mapping" : "Mapiranje Prilika",
+                d:
+                  language === "en"
+                    ? "We identify weaknesses and the highest-impact improvements."
+                    : "Pronalazimo slabosti i najveće prilike za napredak.",
+              },
+              {
+                n: "03",
+                t: language === "en" ? "Action Plan" : "Akcioni Plan",
+                d:
+                  language === "en"
+                    ? "You receive a clear roadmap with practical next steps."
+                    : "Dobijaš jasan plan sa konkretnim koracima za rast.",
+              },
+            ].map((step) => (
+              <div key={step.n} className="flex gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
+                  {step.n}
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-white">{step.t}</h4>
+                  <p className="mt-1 text-sm text-slate-400">{step.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className="mt-8 rounded-2xl border border-purple-500/20 bg-purple-500/5 p-6">
-        <h3 className="text-xl font-semibold text-white">
-          {language === "en" ? "What You Receive" : "Šta Dobijaš"}
-        </h3>
-
-        <ul className="mt-4 space-y-2 text-slate-300">
-          {language === "en" ? (
-            <>
-              <li>• 20+ point channel evaluation</li>
-              <li>• Personalized improvement roadmap</li>
-              <li>• Thumbnail & SEO feedback</li>
-              <li>• Actionable growth recommendations</li>
-            </>
-          ) : (
-            <>
-              <li>• Analiza kanala kroz 20+ tačaka</li>
-              <li>• Personalizovan plan unapređenja</li>
-              <li>• Analiza Thumbnailova i SEO-a</li>
-              <li>• Konkretne preporuke za rast</li>
-            </>
-          )}
-        </ul>
-      </div>
+      {/* CLOSE */}
+      <button
+        onClick={() => setSelectedService(null)}
+        className="absolute right-6 top-6 rounded-xl bg-white/10 p-2 text-white transition hover:bg-white/20"
+      >
+        ✕
+      </button>
     </motion.div>
   </motion.div>
 )}
@@ -1447,137 +1781,194 @@ const scrollToSection = (id: string) => {
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
     onClick={() => setSelectedService(null)}
-    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-6"
+    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 md:p-6"
   >
     <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
+      initial={{ scale: 0.95, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.9, opacity: 0 }}
-      transition={{ duration: 0.2 }}
+      exit={{ scale: 0.95, opacity: 0 }}
+      transition={{ duration: 0.25 }}
       onClick={(e) => e.stopPropagation()}
-      className="w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#0B1020] p-8"
+      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020]"
     >
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-3xl font-bold text-white">
-          {language === "en"
-            ? "YouTube SEO"
-            : "YouTube SEO Optimizacija"}
-        </h2>
+      {/* HERO */}
+      <div className="relative overflow-hidden rounded-t-[32px] bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-8">
+        <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-3xl" />
 
-        <button
-          onClick={() => setSelectedService(null)}
-          className="rounded-xl p-2 text-slate-400 hover:bg-white/10 hover:text-white"
-        >
-          ✕
-        </button>
-      </div>
+        <div className="relative">
+          <p className="text-xs uppercase tracking-[0.35em] text-purple-200">
+            {language === "en" ? "YouTube SEO" : "YouTube SEO"}
+          </p>
 
-      <p className="mb-8 text-slate-400">
-        {language === "en"
-          ? "Every upload is optimized for discoverability using titles, descriptions, keywords and metadata that improve search visibility."
-          : "Svaka objava optimizuje se kroz naslove, opise, ključne reči i metapodatke kako bi povećala vidljivost u pretrazi."}
-      </p>
+          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
+            {language === "en"
+              ? "Get Discovered More Often"
+              : "Povećaj Vidljivost u Pretrazi"}
+          </h2>
 
-      <div className="mb-8 rounded-2xl border border-green-500/20 bg-green-500/10 p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-green-300">
-              {language === "en" ? "SEO Score" : "SEO Ocena"}
-            </p>
-            <h3 className="mt-1 text-5xl font-bold text-white">96/100</h3>
-          </div>
-
-          <div className="rounded-full bg-green-500 px-4 py-2 text-sm font-semibold text-white">
-            {language === "en" ? "Excellent" : "Odlično"}
-          </div>
+          <p className="mt-4 max-w-2xl text-purple-100 leading-7">
+            {language === "en"
+              ? "We optimize every upload using keyword research, titles, descriptions and metadata to improve discoverability."
+              : "Optimizujemo svaki video kroz istraživanje ključnih reči, naslove, opise i metapodatke kako bi sadržaj bio lakše pronađen."}
+          </p>
         </div>
       </div>
 
-      <div className="mb-6 rounded-xl border border-white/10 bg-white/5 p-5">
-        <p className="mb-2 text-xs uppercase tracking-widest text-purple-300">
-          {language === "en"
-            ? "Optimized Title"
-            : "Optimizovan Naslov"}
-        </p>
+      {/* CONTENT */}
+      <div className="p-6 md:p-8 space-y-8">
+        {/* What's Included */}
+        <div>
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "What's Included" : "Šta Dobijaš"}
+          </h3>
 
-        <h3 className="text-xl font-semibold text-white">
-          {language === "en"
-            ? "How I Gained 1,000,000 Views With Better Thumbnails"
-            : "Kako sam došao do 1.000.000 pregleda uz bolje thumbnailove"}
-        </h3>
-      </div>
-
-      <div className="mb-6 rounded-xl border border-white/10 bg-white/5 p-5">
-        <p className="mb-2 text-xs uppercase tracking-widest text-purple-300">
-          {language === "en"
-            ? "Optimized Description"
-            : "Optimizovan Opis"}
-        </p>
-
-        <p className="text-slate-300">
-          {language === "en"
-            ? "Learn the thumbnail strategy, CTR optimization and YouTube SEO techniques used to increase visibility and audience retention on modern YouTube channels..."
-            : "Saznajte strategiju thumbnailova, optimizaciju CTR-a i YouTube SEO tehnike koje povećavaju vidljivost i zadržavanje publike na modernim YouTube kanalima..."}
-        </p>
-      </div>
-
-      <div className="mb-8 rounded-xl border border-white/10 bg-white/5 p-5">
-        <p className="mb-3 text-xs uppercase tracking-widest text-purple-300">
-          {language === "en"
-            ? "Primary Keywords"
-            : "Glavne Ključne Reči"}
-        </p>
-
-        <div className="flex flex-wrap gap-2">
-          {[
-            "youtube seo",
-            "thumbnail design",
-            "high ctr",
-            "youtube growth",
-            "viral thumbnails",
-            "content strategy",
-          ].map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full bg-purple-500/20 px-3 py-1 text-sm text-purple-200"
-            >
-              {tag}
-            </span>
-          ))}
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            {[
+              {
+                title: language === "en" ? "Keyword Research" : "Ključne Reči",
+                desc:
+                  language === "en"
+                    ? "Find high-potential search terms for your niche."
+                    : "Pronalazimo ključne reči sa najvećim potencijalom.",
+              },
+              {
+                title: language === "en" ? "SEO Titles" : "SEO Naslovi",
+                desc:
+                  language === "en"
+                    ? "Titles built for both clicks and search intent."
+                    : "Naslovi optimizovani za CTR i pretragu.",
+              },
+              {
+                title:
+                  language === "en"
+                    ? "Description Optimization"
+                    : "Optimizacija Opisa",
+                desc:
+                  language === "en"
+                    ? "Descriptions structured for visibility and relevance."
+                    : "Strukturirani opisi koji povećavaju vidljivost.",
+              },
+              {
+                title: language === "en" ? "Metadata" : "Metapodaci",
+                desc:
+                  language === "en"
+                    ? "Tags, hashtags and publishing structure."
+                    : "Tagovi, hashtagovi i pravilna struktura objave.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-2xl border border-white/10 bg-white/5 p-5"
+              >
+                <h4 className="font-semibold text-white">{item.title}</h4>
+                <p className="mt-2 text-sm leading-6 text-slate-400">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        {(
-          language === "en"
-            ? [
-                "Keyword Research",
-                "SEO Title",
-                "Description Optimization",
-                "Hashtag Structure",
-                "Metadata Review",
-                "Search Intent Match",
-              ]
-            : [
-                "Istraživanje Ključnih Reči",
-                "SEO Naslov",
-                "Optimizacija Opisa",
-                "Struktura Hashtagova",
-                "Pregled Metapodataka",
-                "Usklađenost sa Pretragom",
-              ]
-        ).map((item) => (
-          <div
-            key={item}
-            className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4"
-          >
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-green-600 text-sm font-bold">
-              ✓
+        {/* Example */}
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <p className="text-xs uppercase tracking-[0.25em] text-purple-300">
+            {language === "en"
+              ? "Example Optimization"
+              : "Primer Optimizacije"}
+          </p>
+
+          <div className="mt-5 space-y-4">
+            <div className="rounded-xl border border-white/5 bg-[#111827] p-4">
+              <p className="mb-2 text-xs text-slate-500">
+                {language === "en" ? "Optimized Title" : "Optimizovan Naslov"}
+              </p>
+
+              <h4 className="font-semibold text-white">
+                {language === "en"
+                  ? "How I Gained 1,000,000 Views With Better Thumbnails"
+                  : "Kako sam došao do 1.000.000 pregleda uz bolje thumbnailove"}
+              </h4>
             </div>
-            <span className="text-white">{item}</span>
+
+            <div className="rounded-xl border border-white/5 bg-[#111827] p-4">
+              <p className="mb-2 text-xs text-slate-500">
+                {language === "en" ? "Primary Keywords" : "Glavne Ključne Reči"}
+              </p>
+
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "youtube seo",
+                  "thumbnail design",
+                  "high ctr",
+                  "youtube growth",
+                ].map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full bg-purple-500/20 px-3 py-1 text-sm text-purple-200"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
-        ))}
+        </div>
+
+        {/* Process */}
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <h3 className="text-xl font-semibold text-white">
+            {language === "en" ? "Our Process" : "Naš Proces"}
+          </h3>
+
+          <div className="mt-6 space-y-5">
+            {[
+              {
+                n: "01",
+                t: language === "en" ? "Research" : "Istraživanje",
+                d:
+                  language === "en"
+                    ? "Analyze search demand and competitor keywords."
+                    : "Analiza pretrage i ključnih reči konkurencije.",
+              },
+              {
+                n: "02",
+                t: language === "en" ? "Optimization" : "Optimizacija",
+                d:
+                  language === "en"
+                    ? "Rewrite titles, descriptions and metadata."
+                    : "Optimizujemo naslove, opise i metapodatke.",
+              },
+              {
+                n: "03",
+                t: language === "en" ? "Growth System" : "Sistem Rasta",
+                d:
+                  language === "en"
+                    ? "Receive a repeatable SEO framework for future uploads."
+                    : "Dobijaš sistem koji možeš primenjivati na svaki novi video.",
+              },
+            ].map((step) => (
+              <div key={step.n} className="flex gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
+                  {step.n}
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-white">{step.t}</h4>
+                  <p className="mt-1 text-sm text-slate-400">{step.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
+
+      {/* CLOSE */}
+      <button
+        onClick={() => setSelectedService(null)}
+        className="absolute right-6 top-6 rounded-xl bg-white/10 p-2 text-white transition hover:bg-white/20"
+      >
+        ✕
+      </button>
     </motion.div>
   </motion.div>
 )}
