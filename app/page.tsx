@@ -160,7 +160,7 @@ const scrollToSection = (id: string) => {
   onClick={() => (window.location.href = "/buy")}
   className="text-slate-300 transition hover:text-white"
 >
-  Buy
+  {language === "en" ? "Buy" : "Kupi"}
 </button>
 
 </div>

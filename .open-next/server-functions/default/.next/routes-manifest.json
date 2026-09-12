@@ -66,6 +66,12 @@
       "namedRegex": "^/plans/growth(?:/)?$"
     },
     {
+      "page": "/plans/launch",
+      "regex": "^/plans/launch(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/plans/launch(?:/)?$"
+    },
+    {
       "page": "/plans/media-pro",
       "regex": "^/plans/media\\-pro(?:/)?$",
       "routeKeys": {},

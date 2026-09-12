@@ -6,6 +6,7 @@
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js",
   "/plans/growth/page": "app/plans/growth/page.js",
+  "/plans/launch/page": "app/plans/launch/page.js",
   "/plans/media-pro/page": "app/plans/media-pro/page.js",
   "/plans/performance/page": "app/plans/performance/page.js",
   "/plans/starter/page": "app/plans/starter/page.js",

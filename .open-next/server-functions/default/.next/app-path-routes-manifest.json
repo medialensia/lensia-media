@@ -6,6 +6,7 @@
   "/favicon.ico/route": "/favicon.ico",
   "/page": "/",
   "/plans/growth/page": "/plans/growth",
+  "/plans/launch/page": "/plans/launch",
   "/plans/media-pro/page": "/plans/media-pro",
   "/plans/performance/page": "/plans/performance",
   "/plans/starter/page": "/plans/starter",

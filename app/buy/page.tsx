@@ -12,6 +12,12 @@ export default function BuyPage() {
 
   const plans = [
   {
+    name: "Launch",
+    price: "FREE",
+    descEn: "Non-monetized Channels Only",
+    descSr: "Samo Kanali Bez Monetizacije",
+  },
+  {
     name: "Starter",
     price: "€69",
     descEn: "8 Thumbnails • YouTube SEO",
@@ -109,7 +115,7 @@ export default function BuyPage() {
         </div>
 
         {/* Plans */}
-        <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
           {plans.map((plan) => (
             <button
               key={plan.name}
@@ -248,61 +254,91 @@ export default function BuyPage() {
           </div>
 
           {/* Summary */}
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-8">
-            <h2 className="text-2xl font-bold">
-              {language === "en" ? "Summary" : "Pregled"}
-            </h2>
+<div className="rounded-3xl border border-white/10 bg-white/5 p-8">
+  <h2 className="text-2xl font-bold">
+    {language === "en" ? "Summary" : "Pregled"}
+  </h2>
 
-            <div className="mt-8 rounded-2xl bg-[#0D1324] p-5">
-              <p className="text-sm text-slate-400">
-                {language === "en"
-                  ? "Selected Plan"
-                  : "Izabrani Paket"}
-              </p>
+  <div className="mt-8 rounded-2xl bg-[#0D1324] p-5">
+    <p className="text-sm text-slate-400">
+      {language === "en" ? "Selected Plan" : "Izabrani Paket"}
+    </p>
 
-              <h3 className="mt-2 text-2xl font-bold">{current.name}</h3>
+    <h3 className="mt-2 text-2xl font-bold">{current.name}</h3>
 
-              <p className="mt-3 text-4xl font-extrabold text-white">
-  {current.price}
-</p>
+    <p
+      className={`mt-3 text-4xl font-extrabold ${
+        current.name === "Launch"
+          ? "text-emerald-400"
+          : "text-white"
+      }`}
+    >
+      {current.price}
+    </p>
 
-              <p className="mt-4 text-sm text-slate-400">
-                {language === "en"
-                  ? current.descEn
-                  : current.descSr}
-              </p>
-            </div>
+    <p className="mt-4 text-sm text-slate-400">
+      {language === "en" ? current.descEn : current.descSr}
+    </p>
 
-            <div className="mt-8 space-y-3 text-sm text-slate-300">
-              <div>
-                ✓{" "}
-                {language === "en"
-                  ? "Project discussion included"
-                  : "Uključen razgovor o projektu"}
-              </div>
-              <div>
-                ✓{" "}
-                {language === "en"
-                  ? "Delivery starts after approval"
-                  : "Izrada počinje nakon odobrenja"}
-              </div>
-              <div>
-                ✓{" "}
-                {language === "en"
-                  ? "Payment after agreement"
-                  : "Plaćanje nakon dogovora"}
-              </div>
-            </div>
+    {current.name === "Launch" && (
+      <div className="mt-5 rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-4">
+        <p className="text-xs font-semibold uppercase tracking-wide text-emerald-300">
+          {language === "en"
+            ? "After Monetization"
+            : "Nakon Monetizacije"}
+        </p>
 
-            <div className="mt-8 border-t border-white/10 pt-6">
-              <p className="text-xs text-slate-500">
-                {language === "en"
-                  ? "No payment is required before we discuss your project."
-                  : "Plaćanje nije potrebno pre nego što dogovorimo projekat."}
-              </p>
-            </div>
-          </div>
-        </div>
+        <p className="mt-2 text-lg font-bold text-white">
+          €35 + 35%
+        </p>
+
+        <p className="mt-1 text-xs leading-5 text-slate-300">
+          {language === "en"
+            ? "Performance agreement for the first 12 months after YouTube monetization."
+            : "Ugovor o saradnji važi prvih 12 meseci nakon YouTube monetizacije."}
+        </p>
+      </div>
+    )}
+  </div>
+
+  <div className="mt-8 space-y-3 text-sm text-slate-300">
+    <div>
+      ✓{" "}
+      {language === "en"
+        ? "Project discussion included"
+        : "Uključen razgovor o projektu"}
+    </div>
+    <div>
+      ✓{" "}
+      {language === "en"
+        ? "Delivery starts after approval"
+        : "Izrada počinje nakon odobrenja"}
+    </div>
+    <div>
+      ✓{" "}
+      {current.name === "Launch"
+        ? language === "en"
+          ? "No upfront payment required"
+          : "Bez početnog plaćanja"
+        : language === "en"
+        ? "Payment after agreement"
+        : "Plaćanje nakon dogovora"}
+    </div>
+  </div>
+
+  <div className="mt-8 border-t border-white/10 pt-6">
+    <p className="text-xs text-slate-500">
+      {current.name === "Launch"
+        ? language === "en"
+          ? "Launch is available only for non-monetized YouTube channels."
+          : "Launch je dostupan isključivo kanalima bez monetizacije."
+        : language === "en"
+        ? "No payment is required before we discuss your project."
+        : "Plaćanje nije potrebno pre nego što dogovorimo projekat."}
+    </p>
+  </div>
+</div>
+</div>
       </section>
     </main>
   );

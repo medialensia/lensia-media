@@ -276,11 +276,11 @@ export default function LaunchPlan() {
               <div className="my-6 h-px bg-white/10" />
 
               <a
-                href="/contact"
-                className="flex w-full justify-center rounded-2xl bg-emerald-500 py-4 font-semibold transition hover:bg-emerald-400"
-              >
-                {t.cta}
-              </a>
+  href="/buy?plan=Launch"
+  className="flex w-full justify-center rounded-2xl bg-emerald-500 py-4 font-semibold transition hover:bg-emerald-400"
+>
+  {t.cta}
+</a>
 
               <p className="mt-4 text-center text-xs leading-5 text-slate-500">
                 {t.note}
