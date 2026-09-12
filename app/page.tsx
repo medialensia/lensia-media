@@ -824,6 +824,77 @@ const scrollToSection = (id: string) => {
           ? "Lensia Media is a creative agency focused on YouTube growth, branding and content optimization. We combine design, analytics and strategy to help creators and businesses grow sustainably."
           : "Lensia Media je kreativna agencija fokusirana na YouTube rast, brending i optimizaciju sadržaja. Spajamo dizajn, analitiku i strategiju kako bismo pomogli kreatorima i kompanijama da dugoročno rastu."}
       </p>
+
+      {/* Professional Experience */}
+      <div className="mt-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm">
+        <div className="bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-purple-200">
+            {language === "en"
+              ? "Professional Experience"
+              : "Profesionalno Iskustvo"}
+          </p>
+
+          <div className="mt-4 flex items-center gap-4">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 p-3">
+              <img
+                src="/logos/company-logo.png"
+                alt="Company Logo"
+                className="max-h-full max-w-full object-contain"
+              />
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold text-white">Euronews serbia</h3>
+              <p className="text-sm text-purple-100">
+                {language === "en"
+                  ? "Digital Media & YouTube"
+                  : "Digitalni Mediji i YouTube"}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-6">
+          <p className="mb-5 text-sm leading-7 text-slate-300">
+            {language === "en"
+              ? "Real industry experience managing YouTube content, improving click-through rate and producing high-performing visual media."
+              : "Praktično iskustvo u vođenju YouTube sadržaja, optimizaciji CTR-a i kreiranju vizuelnog sadržaja visokih performansi."}
+          </p>
+
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              language === "en"
+                ? "CTR Optimization"
+                : "Optimizacija CTR-a",
+              language === "en"
+                ? "Thumbnail Design"
+                : "Thumbnail Dizajn",
+              language === "en"
+                ? "YouTube SEO"
+                : "YouTube SEO",
+              language === "en"
+                ? "Video Editing"
+                : "Video Montaža",
+              language === "en"
+                ? "Channel Strategy"
+                : "Strategija Kanala",
+              language === "en"
+                ? "Analytics"
+                : "Analitika",
+            ].map((item) => (
+              <div
+                key={item}
+                className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2"
+              >
+                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-600 text-[10px] font-bold text-white">
+                  ✓
+                </div>
+                <span className="text-xs font-medium text-white">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
 
     {/* Right */}
@@ -839,9 +910,7 @@ const scrollToSection = (id: string) => {
         </div>
 
         <div className="p-4">
-          <h3 className="font-semibold text-white">
-            {language === "en" ? "Miloš Vranješ" : "Miloš Vranješ"}
-          </h3>
+          <h3 className="font-semibold text-white">Miloš Vranješ</h3>
           <p className="text-sm text-slate-400">
             {language === "en"
               ? "Creative Director"
@@ -861,9 +930,7 @@ const scrollToSection = (id: string) => {
         </div>
 
         <div className="p-4">
-          <h3 className="font-semibold text-white">
-            {language === "en" ? " Lazar Sekulić" : "Lazar Sekulić"}
-          </h3>
+          <h3 className="font-semibold text-white">Lazar Sekulić</h3>
           <p className="text-sm text-slate-400">
             {language === "en"
               ? "Growth Strategist"
@@ -874,7 +941,6 @@ const scrollToSection = (id: string) => {
     </div>
   </div>
 </motion.section>
-
 
 
 
