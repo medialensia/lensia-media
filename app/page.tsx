@@ -16,6 +16,7 @@ const { language, setLanguage } = useLanguage();
 const [scrolled, setScrolled] = useState(false);
 const [activeSection, setActiveSection] = useState("home");
 const [selectedService, setSelectedService] = useState<string | null>(null);
+const [mobileMenu, setMobileMenu] = useState(false);
 
 useEffect(() => {
   const handleScroll = () => {
@@ -44,6 +45,18 @@ useEffect(() => {
 
   return () => window.removeEventListener("scroll", handleScroll);
 }, []);
+
+useEffect(() => {
+  if (selectedService) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+
+  return () => {
+    document.body.style.overflow = "auto";
+  };
+}, [selectedService]);
 
  
 const scrollToSection = (id: string) => {
@@ -82,120 +95,159 @@ const scrollToSection = (id: string) => {
 
 
   return (
-    <main className="min-h-screen bg-[#070B14]">
-      {/* Navbar */}
-      <header className="fixed top-0 left-0 w-full z-50 flex justify-center pt-5">
-        <nav
-  className={`w-[92%] max-w-7xl rounded-2xl px-6 py-4 transition-all duration-300 ${
-    scrolled
-      ? "glass border border-white/10 bg-[#0B1020]/80 shadow-2xl"
-      : "glass bg-white/5"
+   <main
+  className={`bg-[#070B14] ${
+    selectedService ? "h-screen overflow-hidden" : "min-h-screen"
   }`}
-><div
-  className="pointer-events-none fixed inset-0 opacity-[0.03] z-0"
-  style={{
-    backgroundImage:
-      "url('/noise.png')",
-  }}
-/>
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <button
-  onClick={() =>
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    })
-  }
-  className="text-left cursor-pointer"
-  
 >
-  <h2 className="font-[family-name:var(--font-manrope)] text-xl font-bold tracking-wider">
-    LENSIA Media
-  </h2>
-  <p className="text-[10px] text-slate-400 -mt-1">
-    {language === "en" ? "Growth Together" : "Rastemo Zajedno"}
-  </p>
-</button>
+    
+ {/* Navbar */}
+<header className="fixed top-0 left-0 z-50 flex w-full justify-center pt-3 md:pt-5">
+  <nav
+    className={`w-[94%] max-w-7xl rounded-2xl px-4 py-3 transition-all duration-300 md:px-6 md:py-4 ${
+      scrolled
+        ? "glass border border-white/10 bg-[#0B1020]/80 shadow-2xl"
+        : "glass bg-white/5"
+    }`}
+  >
+    <div className="flex items-center justify-between">
+      {/* Logo */}
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className="text-left"
+      >
+        <h2 className="text-lg font-bold tracking-wide md:text-xl">
+          LENSIA Media
+        </h2>
+        <p className="text-[9px] text-slate-400 md:text-[10px]">
+          {language === "en" ? "Growth Together" : "Rastemo Zajedno"}
+        </p>
+      </button>
 
-            {/* Menu */}
-           <div className="hidden items-center gap-8 text-sm md:flex">
+      {/* Desktop Menu */}
+<div className="hidden items-center gap-8 text-sm md:flex">
+  <button onClick={() => scrollToSection("services")}>
+    {language === "en" ? "Services" : "Usluge"}
+  </button>
 
+  <button onClick={() => scrollToSection("pricing")}>
+    {language === "en" ? "Pricing" : "Cene"}
+  </button>
+
+  <button onClick={() => scrollToSection("contact")}>
+    {language === "en" ? "Contact" : "Kontakt"}
+  </button>
 
   <button
-  onClick={() => scrollToSection("services")}
-  className={`transition ${
-    activeSection === "services"
-      ? "text-purple-400"
-      : "text-slate-300 hover:text-white"
-  }`}
->
-  {language === "en" ? "Services" : "Usluge"}
-</button>
-
-  <button
-  onClick={() => scrollToSection("pricing")}
-  className={`transition ${
-    activeSection === "pricing"
-      ? "text-purple-400"
-      : "text-slate-300 hover:text-white"
-  }`}
->
-  {language === "en" ? "Pricing" : "Cene"}
-</button>
-
-<button
-  onClick={() => scrollToSection("contact")}
-  className={`transition ${
-    activeSection === "contact"
-      ? "text-purple-400"
-      : "text-slate-300 hover:text-white"
-  }`}
->
-  {language === "en" ? "Contact" : "Kontakt"}
-</button>
-
-
-<button
-  onClick={() => (window.location.href = "/buy")}
-  className="text-slate-300 transition hover:text-white"
+  type="button"
+  onClick={() => window.location.assign("/buy")}
+  className="cursor-pointer font-medium text-white transition hover:text-purple-400"
 >
   {language === "en" ? "Buy" : "Kupi"}
 </button>
 
 </div>
 
-            {/* Right side */}
-            <div className="glass flex rounded-xl p-1 text-sm">
+{/* Right */}
+<div className="flex items-center gap-3">
+  {/* Language */}
   <button
-  onClick={() => setLanguage(language === "en" ? "sr" : "en")}
-  className="glass relative flex h-10 w-20 items-center rounded-xl p-1 transition"
->
-  <div
-    className={`absolute h-8 w-9 rounded-lg bg-purple-600 transition-all duration-300 ${
-      language === "en" ? "left-1" : "left-10"
-    }`}
-  />
+    onClick={() => setLanguage(language === "en" ? "sr" : "en")}
+    className="glass relative flex h-10 w-20 items-center rounded-xl p-1 transition"
+  >
+    <div
+      className={`absolute top-1 h-8 w-9 rounded-lg bg-purple-600 transition-all duration-300 ${
+        language === "en" ? "left-1" : "left-10"
+      }`}
+    />
 
-  <span className="z-10 w-1/2 text-center text-xs font-semibold text-white">
-    EN
-  </span>
+    <span className="z-10 w-1/2 text-center text-xs font-semibold text-white">
+      EN
+    </span>
 
-  <span className="z-10 w-1/2 text-center text-xs font-semibold text-white">
-    SR
-  </span>
-</button>
+    <span className="z-10 w-1/2 text-center text-xs font-semibold text-white">
+      SR
+    </span>
+  </button>
+
+  {/* Hamburger */}
+  <button
+    onClick={() => setMobileMenu(!mobileMenu)}
+    className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 md:hidden"
+  >
+    {mobileMenu ? (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M6 6L18 18M18 6L6 18"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+      </svg>
+    ) : (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M4 7H20" stroke="white" strokeWidth="2" strokeLinecap="round" />
+        <path d="M4 12H20" stroke="white" strokeWidth="2" strokeLinecap="round" />
+        <path d="M4 17H20" stroke="white" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    )}
+  </button>
 </div>
-          </div>
-        </nav>
-      </header>
+</div>
+
+{/* Mobile Menu */}
+<AnimatePresence>
+  {mobileMenu && (
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      className="mt-3 flex flex-col gap-3 border-t border-white/10 pt-3 text-sm md:hidden"
+    >
+      <button
+        onClick={() => {
+          scrollToSection("services");
+          setMobileMenu(false);
+        }}
+      >
+        {language === "en" ? "Services" : "Usluge"}
+      </button>
+
+      <button
+        onClick={() => {
+          scrollToSection("pricing");
+          setMobileMenu(false);
+        }}
+      >
+        {language === "en" ? "Pricing" : "Cene"}
+      </button>
+
+      <button
+        onClick={() => {
+          scrollToSection("contact");
+          setMobileMenu(false);
+        }}
+      >
+        {language === "en" ? "Contact" : "Kontakt"}
+      </button>
+
+      <button
+        onClick={() => {
+          window.location.href = "/buy";
+          setMobileMenu(false);
+        }}
+      >
+        {language === "en" ? "Buy" : "Kupi"}
+      </button>
+    </motion.div>
+  )}
+</AnimatePresence>
+
+</nav>
+</header>
 
 
-
-
-
-      {/* Hero */}
-<section className="relative flex min-h-screen items-center overflow-hidden px-6">
+      <section className="relative flex min-h-screen items-center overflow-hidden px-5 pt-28 pb-16 sm:px-6 lg:px-6 lg:pt-0 lg:pb-0">
 
   {/* Premium Animated Background */}
   <div className="absolute inset-0 overflow-hidden">
@@ -204,25 +256,25 @@ const scrollToSection = (id: string) => {
     <motion.div
       animate={{ scale: [1, 1.12, 1], opacity: [0.4, 0.65, 0.4] }}
       transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600 blur-[140px]"
+      className="absolute left-1/2 top-1/2 h-[420px] w-[420px] sm:h-[520px] sm:w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600 blur-[140px]"
     />
 
     <motion.div
       animate={{ scale: [1, 1.18, 1], opacity: [0.25, 0.45, 0.25] }}
       transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-      className="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-fuchsia-500 blur-[90px]"
+      className="absolute left-1/2 top-1/2 h-56 w-56 sm:h-72 sm:w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-fuchsia-500 blur-[90px]"
     />
 
     <motion.div
       animate={{ rotate: 360 }}
       transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-      className="absolute left-1/2 top-1/2 h-[720px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-purple-400/15"
+      className="absolute left-1/2 top-1/2 h-[520px] w-[520px] sm:h-[720px] sm:w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-purple-400/15"
     />
 
     <motion.div
       animate={{ rotate: -360 }}
       transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-      className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-fuchsia-400/10"
+      className="absolute left-1/2 top-1/2 h-[380px] w-[380px] sm:h-[520px] sm:w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-fuchsia-400/10"
     />
 
     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#070B14]" />
@@ -230,7 +282,7 @@ const scrollToSection = (id: string) => {
 
   {/* CONTENT */}
   <div className="relative z-10 mx-auto w-full max-w-7xl">
-    <div className="grid items-center gap-14 lg:grid-cols-2">
+    <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
 
       {/* LEFT */}
       <div className="text-center lg:text-left">
@@ -241,10 +293,10 @@ const scrollToSection = (id: string) => {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-xl"
+            className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-xl"
           >
             <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-xs uppercase tracking-[0.25em] text-slate-300">
+            <span className="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-slate-300">
               {language === "en" ? "YouTube Growth Agency" : "YouTube Growth Agencija"}
             </span>
           </motion.div>
@@ -257,7 +309,7 @@ const scrollToSection = (id: string) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="mb-4 text-sm font-medium uppercase tracking-[0.35em] text-purple-400"
+            className="mb-4 text-xs font-medium uppercase tracking-[0.35em] text-purple-400 sm:text-sm"
           >
             {language === "en" ? "Growth Together" : "Rastemo Zajedno"}
           </motion.p>
@@ -267,7 +319,7 @@ const scrollToSection = (id: string) => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="font-[family-name:var(--font-manrope)] text-5xl font-extrabold leading-none text-white md:text-8xl"
+          className="font-[family-name:var(--font-manrope)] text-[56px] font-extrabold leading-[0.9] tracking-[-0.03em] text-white sm:text-6xl md:text-8xl"
         >
           LENSIA
           <br />
@@ -281,7 +333,7 @@ const scrollToSection = (id: string) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="mt-8 max-w-xl text-lg leading-8 text-slate-300 md:text-xl lg:mx-0 mx-auto"
+            className="mx-auto mt-6 max-w-md text-base leading-7 text-slate-300 sm:text-lg sm:leading-8 lg:mx-0 lg:max-w-xl lg:text-xl"
           >
             {language === "en"
               ? "We help creators and brands grow through high-converting thumbnails, SEO, branding and channel strategy."
@@ -293,17 +345,17 @@ const scrollToSection = (id: string) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
-          className="mt-10 flex justify-center lg:justify-start"
+          className="mt-8 flex justify-center lg:mt-10 lg:justify-start"
         >
           <button
             onClick={() => scrollToSection("contact")}
-            className="purple-gradient rounded-2xl px-8 py-4 text-base font-semibold text-white transition hover:scale-105"
+            className="purple-gradient w-full rounded-2xl px-8 py-4 text-base font-semibold text-white transition hover:scale-105 sm:w-auto"
           >
             {language === "en" ? "Get Free Audit" : "Besplatna Analiza"}
           </button>
         </motion.div>
 
-        <div className="mt-10 flex flex-wrap justify-center gap-6 text-sm text-slate-400 lg:justify-start">
+        <div className="mt-8 flex flex-wrap justify-center gap-3 text-xs text-slate-400 sm:gap-6 sm:text-sm lg:justify-start">
           <div className="flex items-center gap-2">
             <div className="h-2 w-2 rounded-full bg-purple-400" />
             Thumbnail Design
@@ -321,7 +373,7 @@ const scrollToSection = (id: string) => {
       </div>
 
       {/* RIGHT */}
-      <div className="relative hidden lg:flex items-center justify-center">
+      <div className="relative flex items-center justify-center lg:justify-end">
 
         <div className="absolute h-[460px] w-[460px] rounded-full bg-purple-600/20 blur-[120px]" />
 
@@ -330,7 +382,7 @@ const scrollToSection = (id: string) => {
           alt="Lensia Dashboard"
           animate={{ y: [0, -10, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="relative z-10 w-[560px] drop-shadow-[0_0_70px_rgba(139,92,246,.35)]"
+          className="relative z-10 mt-2 w-[320px] sm:w-[380px] lg:mt-0 lg:w-[560px] drop-shadow-[0_0_70px_rgba(139,92,246,.35)]"
         />
 
       </div>
@@ -349,7 +401,7 @@ const scrollToSection = (id: string) => {
           y: { duration: 1.8, repeat: Infinity },
           opacity: { duration: 0.3 }
         }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
+        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 sm:block lg:bottom-10"
       >
         <button
           onClick={() => scrollToSection("services")}
@@ -403,7 +455,7 @@ const scrollToSection = (id: string) => {
       {language === "en" ? "Services" : "Usluge"}
     </p>
 
-    <h2 className="mt-4 font-[family-name:var(--font-manrope)] text-4xl font-bold text-white md:text-5xl">
+    <h2 className="mt-4 font-[family-name:var(--font-manrope)] text-3xl font-bold leading-tight text-white md:text-5xl">
       {language === "en"
         ? "Everything You Need to Grow"
         : "Sve što ti je potrebno za rast"}
@@ -416,7 +468,7 @@ const scrollToSection = (id: string) => {
     </p>
   </div>
 
-  <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+  <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
     {[
       {
         title: language === "en" ? "Thumbnail Design" : "Dizajn Thumbnaila",
@@ -546,14 +598,14 @@ const scrollToSection = (id: string) => {
   whileInView={{ opacity: 1, y: 0 }}
   viewport={{ once: true, amount: 0.2 }}
   transition={{ duration: 0.6 }}
-  className="mx-auto max-w-7xl px-6 py-28"
+  className="mx-auto max-w-7xl px-5 py-20 md:px-6 md:py-28"
 >
   <div className="text-center">
     <p className="text-sm uppercase tracking-[0.3em] text-purple-400">
       {language === "en" ? "Pricing" : "Cene"}
     </p>
 
-    <h2 className="mt-4 font-[family-name:var(--font-manrope)] text-4xl font-bold text-white md:text-5xl">
+    <h2 className="mt-4 font-[family-name:var(--font-manrope)] text-3xl font-bold leading-tight text-white md:text-5xl">
       {language === "en" ? "Choose Your Plan" : "Izaberi Svoj Paket"}
     </h2>
 
@@ -564,7 +616,7 @@ const scrollToSection = (id: string) => {
     </p>
   </div>
 
-  <div className="mt-16 grid gap-5 lg:grid-cols-5">
+  <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
     {[
       {
         name: "Launch",
@@ -599,7 +651,7 @@ const scrollToSection = (id: string) => {
         key={plan.name}
         whileHover={{ y: -8, scale: 1.02 }}
         transition={{ type: "spring", stiffness: 260, damping: 18 }}
-        className={`relative flex flex-col rounded-3xl p-6 ${
+        className={`relative flex flex-col rounded-3xl p-5 md:p-6 ${
           plan.popular
             ? "border border-purple-500 bg-purple-500/10"
             : plan.free
@@ -662,6 +714,8 @@ const scrollToSection = (id: string) => {
   </div>
 </motion.section>
 
+
+
 {/* Contact */}
 
 <motion.section
@@ -671,10 +725,8 @@ const scrollToSection = (id: string) => {
   viewport={{ once: true, amount: 0.2 }}
   transition={{ duration: 0.6 }}
   className="mx-auto max-w-5xl px-6 py-28"
-  
 >
   <div className="glass relative overflow-hidden rounded-[32px] p-10 md:p-14">
-
     <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-purple-600/20 blur-3xl" />
     <div className="absolute -left-20 bottom-0 h-56 w-56 rounded-full bg-fuchsia-600/10 blur-3xl" />
 
@@ -685,20 +737,20 @@ const scrollToSection = (id: string) => {
 
       <h2 className="mt-4 font-[family-name:var(--font-manrope)] text-4xl font-bold text-white md:text-5xl">
         {language === "en"
-          ? "Let's Grow Together"
-          : "Hajde da Rastemo Zajedno"}
+          ? "Let's Grow Your Channel"
+          : "Hajde da Razvijemo Tvoj Kanal"}
       </h2>
 
-      <p className="mx-auto mt-6 max-w-2xl text-slate-400">
+      <p className="mx-auto mt-6 max-w-2xl leading-8 text-slate-400">
         {language === "en"
-          ? "Tell us about your channel and we'll get back to you within 24 hours."
-          : "Pošalji nam email i odgovorićemo u roku od 24 sata."}
+          ? "Tell us about your channel, goals and current challenges. We'll personally review everything and reply with a free growth strategy."
+          : "Pošalji nam informacije o svom kanalu, ciljevima i izazovima. Lično ćemo pregledati kanal i odgovoriti besplatnom strategijom rasta."}
       </p>
 
       <a
-  href="mailto:lensiamedia@gmail.com"
-  className="purple-gradient mx-auto mt-10 flex w-full max-w-md items-center justify-center gap-3 rounded-2xl px-8 py-4 text-lg font-semibold text-white transition hover:scale-105"
->
+        href="mailto:lensiamedia@gmail.com"
+        className="purple-gradient mx-auto mt-10 flex w-full max-w-md items-center justify-center gap-3 rounded-2xl px-8 py-4 text-lg font-semibold text-white transition hover:scale-105"
+      >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <path
             d="M4 6l8 6 8-6M5 6h14a1 1 0 011 1v10a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1z"
@@ -712,15 +764,37 @@ const scrollToSection = (id: string) => {
         lensiamedia@gmail.com
       </a>
 
-      <p className="mt-5 text-sm text-slate-500">
+      <div className="mt-8 grid gap-3 sm:grid-cols-3">
+        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <p className="text-2xl font-bold text-white">&lt;12h</p>
+          <p className="mt-1 text-xs text-slate-400">
+            {language === "en" ? "Average response" : "Prosečan odgovor"}
+          </p>
+        </div>
+
+        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <p className="text-2xl font-bold text-white">FREE</p>
+          <p className="mt-1 text-xs text-slate-400">
+            {language === "en" ? "Channel audit" : "Analiza kanala"}
+          </p>
+        </div>
+
+        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+          <p className="text-2xl font-bold text-white">🌍</p>
+          <p className="mt-1 text-xs text-slate-400">
+            {language === "en" ? "Worldwide" : "Globalno"}
+          </p>
+        </div>
+      </div>
+
+      <p className="mt-6 text-sm text-slate-500">
         {language === "en"
-          ? "Average response time: under 24 hours"
-          : "Prosečno vreme odgovora: manje od 24h"}
+          ? "No contracts • Free consultation • Worldwide creators"
+          : "Bez ugovorne obaveze • Besplatna konsultacija • Kreatori širom sveta"}
       </p>
     </div>
   </div>
 </motion.section>
-
 
 
 {/* About */}
@@ -821,7 +895,7 @@ const scrollToSection = (id: string) => {
         exit={{ scale: 0.9, opacity: 0 }}
         transition={{ duration: 0.2 }}
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-5xl rounded-3xl border border-white/10 bg-[#0B1020] p-8"
+        className="w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#0B1020] p-8"
       >
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-3xl font-bold text-white">
@@ -955,92 +1029,147 @@ const scrollToSection = (id: string) => {
 
 
 
-{selectedService === "branding" && (
+  {selectedService === "branding" && (
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
     onClick={() => setSelectedService(null)}
-    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-6"
+    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 md:p-6"
   >
     <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
+      initial={{ scale: 0.95, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.9, opacity: 0 }}
-      transition={{ duration: 0.2 }}
+      exit={{ scale: 0.95, opacity: 0 }}
+      transition={{ duration: 0.25 }}
       onClick={(e) => e.stopPropagation()}
-      className="w-full max-w-5xl rounded-3xl border border-white/10 bg-[#0B1020] p-8"
+      className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020] p-6 md:p-8"
     >
-      <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-3xl font-bold text-white">
-          {language === "en" ? "Brand Identity" : "Vizuelni Identitet"}
-        </h2>
+      {/* Header */}
+      <div className="mb-8 flex items-start justify-between">
+        <div>
+          <p className="text-xs uppercase tracking-[0.35em] text-purple-400">
+            {language === "en" ? "Brand Identity" : "Vizuelni Identitet"}
+          </p>
+
+          <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
+            {language === "en"
+              ? "Build a Brand People Remember"
+              : "Izgradi Brend Koji Se Pamti"}
+          </h2>
+
+          <p className="mt-4 max-w-2xl leading-7 text-slate-400">
+            {language === "en"
+              ? "A strong visual identity makes your channel instantly recognizable. We design every element to create consistency, professionalism and long-term brand value."
+              : "Jak vizuelni identitet čini tvoj kanal odmah prepoznatljivim. Dizajniramo svaki element kako bismo stvorili doslednost, profesionalnost i dugoročnu vrednost brenda."}
+          </p>
+        </div>
 
         <button
           onClick={() => setSelectedService(null)}
-          className="rounded-xl p-2 text-slate-400 hover:bg-white/10 hover:text-white"
+          className="rounded-xl p-2 text-slate-400 transition hover:bg-white/10 hover:text-white"
         >
           ✕
         </button>
       </div>
 
-      <p className="mb-8 text-slate-400">
-        {language === "en"
-          ? "A consistent visual identity helps creators become instantly recognizable across YouTube and social media."
-          : "Dosledan vizuelni identitet čini kreatore odmah prepoznatljivim na YouTube-u i društvenim mrežama."}
-      </p>
-
+      {/* What we create */}
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="overflow-hidden rounded-xl border border-white/10">
-          <img
-            src="/branding/logo.jpg"
-            alt={language === "en" ? "Logo example" : "Primer logotipa"}
-            className="aspect-video w-full object-cover"
-          />
-          <div className="p-3 text-sm text-slate-300">
-            {language === "en" ? "Logo Design" : "Dizajn Logotipa"}
+        {[
+          {
+            title: language === "en" ? "Logo System" : "Sistem Logotipa",
+            desc:
+              language === "en"
+                ? "Primary and secondary logo for YouTube, social media and future business use."
+                : "Primarni i sekundarni logotip za YouTube, društvene mreže i buduću upotrebu.",
+          },
+          {
+            title: language === "en" ? "Visual Direction" : "Vizuelni Pravac",
+            desc:
+              language === "en"
+                ? "Colors, typography and a complete design language."
+                : "Boje, tipografija i kompletan dizajn sistem.",
+          },
+          {
+            title: language === "en" ? "Channel Presence" : "Izgled Kanala",
+            desc:
+              language === "en"
+                ? "Banner, profile picture and branded assets optimized for every device."
+                : "Baner, profilna slika i svi elementi optimizovani za svaki uređaj.",
+          },
+          {
+            title: language === "en" ? "Thumbnail Style" : "Stil Thumbnailova",
+            desc:
+              language === "en"
+                ? "A repeatable thumbnail system that improves recognition."
+                : "Sistem thumbnailova koji povećava prepoznatljivost.",
+          },
+        ].map((item) => (
+          <div
+            key={item.title}
+            className="rounded-2xl border border-white/10 bg-white/5 p-5"
+          >
+            <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-400">
+              {item.desc}
+            </p>
           </div>
-        </div>
-
-        <div className="overflow-hidden rounded-xl border border-white/10">
-          <img
-            src="/branding/banner.jpg"
-            alt={language === "en" ? "Banner example" : "Primer banera"}
-            className="aspect-video w-full object-cover"
-          />
-          <div className="p-3 text-sm text-slate-300">
-            {language === "en" ? "YouTube Banner" : "YouTube Baner"}
-          </div>
-        </div>
-
-        <div className="overflow-hidden rounded-xl border border-white/10">
-          <img
-            src="/branding/palette.jpg"
-            alt={language === "en" ? "Color palette" : "Paleta boja"}
-            className="aspect-video w-full object-cover"
-          />
-          <div className="p-3 text-sm text-slate-300">
-            {language === "en" ? "Color Palette" : "Paleta Boja"}
-          </div>
-        </div>
-
-        <div className="overflow-hidden rounded-xl border border-white/10">
-          <img
-            src="/branding/style.jpg"
-            alt={language === "en" ? "Brand style guide" : "Vodič vizuelnog stila"}
-            className="aspect-video w-full object-cover"
-          />
-          <div className="p-3 text-sm text-slate-300">
-            {language === "en"
-              ? "Visual Style Guide"
-              : "Vodič Vizuelnog Stila"}
-          </div>
-        </div>
+        ))}
       </div>
+
+      {/* Process */}
+      <div className="mt-8 rounded-2xl border border-purple-500/20 bg-purple-500/5 p-6">
+        <h3 className="text-xl font-semibold text-white">
+          {language === "en" ? "Our Process" : "Naš Proces"}
+        </h3>
+
+        <div className="mt-6 space-y-5">
+          {[
+            [
+              "01",
+              language === "en" ? "Discovery" : "Analiza",
+              language === "en"
+                ? "Researching your niche, audience and competitors."
+                : "Istraživanje niše, publike i konkurencije.",
+            ],
+            [
+              "02",
+              language === "en" ? "Identity" : "Identitet",
+              language === "en"
+                ? "Defining your visual personality."
+                : "Definisanje vizuelne ličnosti brenda.",
+            ],
+            [
+              "03",
+              language === "en" ? "Design" : "Dizajn",
+              language === "en"
+                ? "Creating logos, banners and branding assets."
+                : "Kreiranje logotipa, banera i svih brend elemenata.",
+            ],
+            [
+              "04",
+              language === "en" ? "Delivery" : "Isporuka",
+              language === "en"
+                ? "Organized files ready for immediate use."
+                : "Organizovani fajlovi spremni za korišćenje.",
+            ],
+          ].map(([num, title, desc]) => (
+            <div key={num} className="flex gap-4">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
+                {num}
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-white">{title}</h4>
+                <p className="mt-1 text-sm text-slate-400">{desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div> 
     </motion.div>
   </motion.div>
 )}
-
 
 
 
@@ -1059,7 +1188,7 @@ const scrollToSection = (id: string) => {
       exit={{ scale: 0.9, opacity: 0 }}
       transition={{ duration: 0.2 }}
       onClick={(e) => e.stopPropagation()}
-      className="w-full max-w-5xl rounded-3xl border border-white/10 bg-[#0B1020] p-8"
+      className="w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#0B1020] p-8"
     >
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-3xl font-bold text-white">
@@ -1217,13 +1346,13 @@ const scrollToSection = (id: string) => {
     className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-6"
   >
     <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.9, opacity: 0 }}
-      transition={{ duration: 0.2 }}
-      onClick={(e) => e.stopPropagation()}
-      className="w-full max-w-4xl rounded-3xl border border-white/10 bg-[#0B1020] p-8"
-    >
+  initial={{ scale: 0.9, opacity: 0 }}
+  animate={{ scale: 1, opacity: 1 }}
+  exit={{ scale: 0.9, opacity: 0 }}
+  transition={{ duration: 0.2 }}
+  onClick={(e) => e.stopPropagation()}
+  className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#0B1020] p-8"
+>
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-3xl font-bold text-white">
           {language === "en" ? "Channel Audit" : "Analiza Kanala"}
@@ -1326,7 +1455,7 @@ const scrollToSection = (id: string) => {
       exit={{ scale: 0.9, opacity: 0 }}
       transition={{ duration: 0.2 }}
       onClick={(e) => e.stopPropagation()}
-      className="w-full max-w-5xl rounded-3xl border border-white/10 bg-[#0B1020] p-8"
+      className="w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/10 bg-[#0B1020] p-8"
     >
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-3xl font-bold text-white">
