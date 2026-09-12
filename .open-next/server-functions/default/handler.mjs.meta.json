@@ -4573,7 +4573,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/ssr/app_buy_page_tsx_0hmkhjx._.js": {
-      "bytes": 6642,
+      "bytes": 7619,
       "imports": [],
       "format": "cjs"
     },
@@ -4792,7 +4792,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/ssr/app_page_tsx_0pxmutw._.js": {
-      "bytes": 158312,
+      "bytes": 158328,
       "imports": [],
       "format": "cjs"
     },
@@ -4834,7 +4834,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/ssr/app_plans_launch_page_tsx_0kdxlrr._.js": {
-      "bytes": 7219,
+      "bytes": 7227,
       "imports": [],
       "format": "cjs"
     },
@@ -8600,7 +8600,7 @@
           "bytesInOutput": 256
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/app_buy_page_tsx_0hmkhjx._.js": {
-          "bytesInOutput": 6895
+          "bytesInOutput": 7895
         },
         ".open-next/server-functions/default/.next/server/chunks/[externals]__0l8ei7u._.js": {
           "bytesInOutput": 1286
@@ -8621,7 +8621,7 @@
           "bytesInOutput": 249
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/app_page_tsx_0pxmutw._.js": {
-          "bytesInOutput": 173430
+          "bytesInOutput": 173448
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1tcrkfo._.js": {
           "bytesInOutput": 4294
@@ -8639,7 +8639,7 @@
           "bytesInOutput": 273
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/app_plans_launch_page_tsx_0kdxlrr._.js": {
-          "bytesInOutput": 7479
+          "bytesInOutput": 7487
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__117uec4._.js": {
           "bytesInOutput": 4312
@@ -8897,7 +8897,7 @@
           "bytesInOutput": 63434
         }
       },
-      "bytes": 3280499
+      "bytes": 3281525
     }
   }
 }
