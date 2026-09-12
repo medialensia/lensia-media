@@ -564,40 +564,58 @@ const scrollToSection = (id: string) => {
     </p>
   </div>
 
-  <div className="mt-16 grid gap-5 lg:grid-cols-4">
+  <div className="mt-16 grid gap-5 lg:grid-cols-5">
     {[
+      {
+        name: "Launch",
+        price: "FREE",
+        free: true,
+        path: "/plans/launch",
+      },
       {
         name: "Starter",
         price: "€69",
+        path: "/plans/starter",
       },
       {
         name: "Growth",
         price: "€99",
         popular: true,
+        path: "/plans/growth",
       },
       {
         name: "Media Pro",
         price: "€199",
+        path: "/plans/media-pro",
       },
       {
         name: "Performance",
         price: "€95",
         extra: "+15%",
+        path: "/plans/performance",
       },
     ].map((plan) => (
       <motion.div
         key={plan.name}
         whileHover={{ y: -8, scale: 1.02 }}
         transition={{ type: "spring", stiffness: 260, damping: 18 }}
-        className={`relative rounded-3xl p-6 ${
+        className={`relative flex flex-col rounded-3xl p-6 ${
           plan.popular
             ? "border border-purple-500 bg-purple-500/10"
+            : plan.free
+            ? "border border-emerald-500/40 bg-emerald-500/10"
             : "glass border border-transparent"
         }`}
       >
         {plan.popular && (
           <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-purple-600 px-3 py-1 text-[10px] font-bold uppercase text-white">
             {language === "en" ? "Most Popular" : "Najpopularniji"}
+          </div>
+        )}
+
+        {plan.free && (
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[10px] font-bold uppercase text-white">
+            FREE
           </div>
         )}
 
@@ -609,6 +627,14 @@ const scrollToSection = (id: string) => {
           </span>
         </div>
 
+       {plan.free && (
+  <p className="mt-3 mb-5 text-xs font-medium leading-5 text-emerald-300">
+    {language === "en"
+      ? "For non-monetized channels only"
+      : "Samo za kanale bez monetizacije"}
+  </p>
+)}
+
         {plan.extra && (
           <p className="mt-1 text-sm font-medium text-purple-300">
             {language === "en"
@@ -619,18 +645,13 @@ const scrollToSection = (id: string) => {
 
         <button
           onClick={() => {
-            window.location.href =
-              plan.name === "Starter"
-                ? "/plans/starter"
-                : plan.name === "Growth"
-                ? "/plans/growth"
-                : plan.name === "Media Pro"
-                ? "/plans/media-pro"
-                : "/plans/performance";
+            window.location.href = plan.path;
           }}
-          className={`mt-8 w-full rounded-2xl py-3 text-sm font-semibold transition ${
+          className={`mt-auto w-full rounded-2xl py-3 text-sm font-semibold transition ${
             plan.popular
               ? "purple-gradient text-white hover:scale-105"
+              : plan.free
+              ? "bg-emerald-500 text-white hover:bg-emerald-400"
               : "glass text-white hover:bg-white/10"
           }`}
         >

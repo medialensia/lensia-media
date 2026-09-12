@@ -1,0 +1,14 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/about/page": "/about",
+  "/buy/page": "/buy",
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/",
+  "/plans/growth/page": "/plans/growth",
+  "/plans/media-pro/page": "/plans/media-pro",
+  "/plans/performance/page": "/plans/performance",
+  "/plans/starter/page": "/plans/starter",
+  "/privacy/page": "/privacy",
+  "/terms/page": "/terms"
+}
