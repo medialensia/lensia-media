@@ -12,13 +12,13 @@ export default function GrowthPlan() {
           badge: "Most Popular",
           title: "Growth Plan",
           subtitle:
-            "A complete growth package for creators who want better thumbnails, stronger branding and long-term YouTube strategy.",
-          priceLabel: "one-time payment",
+            "The ideal monthly package for creators who want faster growth, stronger thumbnails and advanced YouTube optimization.",
+          priceLabel: "/ month",
 
           included: "What's Included",
           who: "Who is this for?",
           whoText:
-            "The Growth Plan is designed for creators who already publish content consistently and want to improve click-through rate, branding and discoverability without guessing what works.",
+            "Perfect for creators who publish consistently and want higher CTR, better discoverability and a more professional channel presence.",
 
           process: "Our Process",
           faq: "FAQ",
@@ -28,43 +28,41 @@ export default function GrowthPlan() {
           delivery: "Delivery",
           revisions: "Revisions",
 
-          deliveryValue: "3–5 Days",
-          revisionsValue: "7 Days",
+          deliveryValue: "24–48 Hours",
+          revisionsValue: "Unlimited",
 
-          cta: "Contact Us",
-          note:
-            "Payment is completed only after the project is discussed and approved.",
+          cta: "Get Started",
+          note: "Monthly subscription with unlimited revisions.",
 
           features: [
-            "10 Premium Thumbnails",
-            "Complete YouTube SEO",
-            "Channel Branding Review",
-            "Growth Strategy Document",
-            "CTR Optimization Tips",
-            "Priority Email Support",
+            "20 Premium Thumbnails",
+            "Advanced YouTube SEO",
+            "A/B Thumbnail Variations",
             "Competitor Analysis",
-            "7-Day Revision Window",
+            "CTR Optimization",
+            "Unlimited Revisions",
+            "24/7 Support",
           ],
 
           steps: [
-            ["1", "Discovery", "We analyze your channel and goals."],
-            ["2", "Research", "Competitors, audience and SEO review."],
-            ["3", "Creation", "Design and optimization begin."],
-            ["4", "Delivery", "Final assets delivered with revisions."],
+            ["1", "Audit", "We analyze your channel, audience and competitors."],
+            ["2", "Strategy", "A thumbnail and SEO plan is created for maximum CTR."],
+            ["3", "Creation", "We design thumbnails and optimize every upload."],
+            ["4", "Growth", "We continuously improve performance through revisions and optimization."],
           ],
 
           faqs: [
             [
-              "How long does delivery take?",
-              "Usually between 3–5 business days depending on the project.",
+              "How many thumbnails are included?",
+              "20 premium thumbnails every month.",
             ],
             [
-              "Can I request revisions?",
-              "Yes. This package includes a 7-day revision period.",
+              "Are revisions limited?",
+              "No. This package includes unlimited revisions.",
             ],
             [
-              "Is this only for YouTube?",
-              "The strategy is focused on YouTube, while branding can also be used across other platforms.",
+              "Is support included?",
+              "Yes, you receive 24/7 support throughout the subscription.",
             ],
           ],
         }
@@ -73,13 +71,13 @@ export default function GrowthPlan() {
           badge: "Najpopularniji",
           title: "Growth Paket",
           subtitle:
-            "Kompletan paket za kreatore koji žele bolje thumbnailove, jači brending i dugoročnu YouTube strategiju.",
-          priceLabel: "jednokratno plaćanje",
+            "Idealan mesečni paket za kreatore koji žele brži rast, kvalitetnije thumbnailove i naprednu YouTube optimizaciju.",
+          priceLabel: "/ mesec",
 
           included: "Šta dobijaš",
           who: "Kome je namenjen?",
           whoText:
-            "Growth paket je namenjen kreatorima koji redovno objavljuju sadržaj i žele da povećaju CTR, unaprede brend i poboljšaju vidljivost kanala bez nagađanja šta funkcioniše.",
+            "Savršen za kreatore koji redovno objavljuju sadržaj i žele veći CTR, bolju vidljivost i profesionalniji izgled svog kanala.",
 
           process: "Naš proces",
           faq: "Česta pitanja",
@@ -89,43 +87,41 @@ export default function GrowthPlan() {
           delivery: "Isporuka",
           revisions: "Revizije",
 
-          deliveryValue: "3–5 dana",
-          revisionsValue: "7 dana",
+          deliveryValue: "24–48h",
+          revisionsValue: "Neograničene",
 
-          cta: "Kontaktiraj nas",
-          note:
-            "Plaćanje se vrši tek nakon razgovora i odobrenja projekta.",
+          cta: "Započni saradnju",
+          note: "Mesečna pretplata sa neograničenim revizijama.",
 
           features: [
-            "10 Premium Thumbnail-a",
-            "Kompletna YouTube SEO optimizacija",
-            "Analiza Channel Brandinga",
-            "Dokument strategije rasta",
-            "Saveti za veći CTR",
-            "Prioritetna email podrška",
+            "20 premium thumbnailova",
+            "Napredni YouTube SEO",
+            "A/B varijacije thumbnailova",
             "Analiza konkurencije",
-            "7 dana za revizije",
+            "Optimizacija CTR-a",
+            "Neograničene revizije",
+            "24/7 podrška",
           ],
 
           steps: [
-            ["1", "Analiza", "Analiziramo tvoj kanal i ciljeve."],
-            ["2", "Istraživanje", "Pregled konkurencije, publike i SEO-a."],
-            ["3", "Kreiranje", "Počinje dizajn i kompletna optimizacija."],
-            ["4", "Isporuka", "Finalni materijali sa uključenim revizijama."],
+            ["1", "Analiza", "Analiziramo tvoj kanal, publiku i konkurenciju."],
+            ["2", "Strategija", "Pravimo plan thumbnailova i SEO optimizacije za maksimalan CTR."],
+            ["3", "Kreiranje", "Dizajniramo thumbnailove i optimizujemo svaki upload."],
+            ["4", "Rast", "Kontinuirano unapređujemo rezultate kroz revizije i optimizaciju."],
           ],
 
           faqs: [
             [
-              "Koliko traje isporuka?",
-              "Najčešće između 3 i 5 radnih dana, u zavisnosti od projekta.",
+              "Koliko thumbnailova dobijam?",
+              "20 premium thumbnailova svakog meseca.",
             ],
             [
-              "Da li mogu da tražim izmene?",
-              "Da. Ovaj paket uključuje period revizija od 7 dana.",
+              "Da li su revizije ograničene?",
+              "Ne. Ovaj paket uključuje neograničene revizije.",
             ],
             [
-              "Da li je paket samo za YouTube?",
-              "Strategija je fokusirana na YouTube, dok se brending može koristiti i na drugim društvenim mrežama.",
+              "Da li je podrška uključena?",
+              "Da, dobijaš 24/7 podršku tokom cele saradnje.",
             ],
           ],
         };
@@ -160,7 +156,7 @@ export default function GrowthPlan() {
             </p>
 
             <div className="mt-10 flex items-end gap-2">
-              <span className="text-6xl font-extrabold">€109</span>
+              <span className="text-6xl font-extrabold">€99</span>
               <span className="pb-2 text-slate-400">{t.priceLabel}</span>
             </div>
           </div>
@@ -170,7 +166,6 @@ export default function GrowthPlan() {
       {/* Content */}
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid gap-12 lg:grid-cols-3">
-          {/* Left */}
           <div className="lg:col-span-2 space-y-12">
             <div>
               <h2 className="text-3xl font-bold">{t.included}</h2>
@@ -194,7 +189,6 @@ export default function GrowthPlan() {
 
             <div>
               <h2 className="text-3xl font-bold">{t.who}</h2>
-
               <p className="mt-5 leading-8 text-slate-300">{t.whoText}</p>
             </div>
 
@@ -242,7 +236,7 @@ export default function GrowthPlan() {
               <div className="mt-6 space-y-4 text-sm">
                 <div className="flex justify-between">
                   <span className="text-slate-400">{t.price}</span>
-                  <span>€109</span>
+                  <span>€99</span>
                 </div>
 
                 <div className="flex justify-between">

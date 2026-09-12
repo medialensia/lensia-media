@@ -9,111 +9,109 @@ export default function PerformancePlan() {
     language === "en"
       ? {
           back: "← Back to Home",
-          badge: "Performance Plan",
+          badge: "Partnership Plan",
           title: "Performance",
           subtitle:
-            "A flexible growth package that offers more than Starter while keeping the upfront investment low through a performance-based pricing model.",
-          priceLabel: "+ 15% revenue model",
+            "A premium partnership package for monetized YouTube creators. You receive our complete Media Pro service with a lower upfront cost.",
+          priceLabel: "/ month + 15% AdSense",
           included: "What's Included",
           who: "Who is this for?",
           whoText:
-            "Ideal for creators who upload consistently and want more support than the Starter package without paying the full price of Growth. The performance model keeps the initial cost accessible while rewarding long-term results.",
+            "Best suited for creators with a monetized YouTube channel who publish consistently and want a long-term growth partner.",
           works: "How It Works",
           summary: "Summary",
-          price: "Price",
-          revenue: "Revenue Model",
+          price: "Base Price",
+          revenue: "Revenue Share",
           delivery: "Delivery",
           support: "Support",
-          deliveryValue: "3–5 Days",
-          supportValue: "Monthly",
-          cta: "Contact Us",
+          deliveryValue: "24–48 Hours",
+          supportValue: "24/7",
+          cta: "Apply Now",
           note:
-            "Payment is completed only after the project is discussed and approved.",
-
+            "15% is calculated only from monthly YouTube AdSense revenue.",
           features: [
-            "8 Premium Thumbnails",
-            "YouTube SEO Optimization",
-            "CTR Improvement Strategy",
-            "Monthly Performance Review",
-            "Thumbnail A/B Recommendations",
-            "Growth Roadmap",
-            "Priority Email Support",
-            "15% Revenue Model",
+            "40 Premium Thumbnails",
+            "Complete YouTube SEO",
+            "Monthly Channel Analysis",
+            "Content Strategy",
+            "Priority Delivery",
+            "Unlimited Revisions",
+            "24/7 Support",
           ],
-
           steps: [
-            ["1", "Strategy", "We analyze your channel and growth potential."],
+            [
+              "1",
+              "Channel Audit",
+              "We analyze your channel, audience and growth opportunities.",
+            ],
             [
               "2",
               "Optimization",
-              "Thumbnails, SEO and CTR improvements are implemented.",
+              "We create thumbnails and optimize your entire SEO strategy.",
             ],
             [
               "3",
-              "Growth",
-              "We monitor performance and continuously improve results.",
+              "Scaling",
+              "CTR and channel performance are monitored every month.",
             ],
             [
               "4",
-              "Performance",
-              "The package combines a low upfront fee with a 15% revenue model.",
+              "Partnership",
+              "You pay €95/month plus 15% of your monthly AdSense revenue.",
             ],
           ],
         }
       : {
           back: "← Nazad na početnu",
-          badge: "Performance Paket",
+          badge: "Partnerski paket",
           title: "Performance",
           subtitle:
-            "Fleksibilan paket koji nudi više od Starter paketa, uz nisku početnu cenu zahvaljujući modelu naplate zasnovanom na rezultatima.",
-          priceLabel: "+ 15% model prihoda",
+            "Premium partnerski paket za monetizovane YouTube kreatore. Dobijaš kompletnu Media Pro uslugu uz niže početno ulaganje.",
+          priceLabel: "/ mesec + 15% AdSense",
           included: "Šta dobijaš",
           who: "Kome je namenjen?",
           whoText:
-            "Idealan za kreatore koji redovno objavljuju sadržaj i žele više podrške od Starter paketa, ali bez pune cene Growth paketa. Performance model održava početno ulaganje pristupačnim, dok nagrađuje dugoročne rezultate.",
+            "Idealan za kreatore koji imaju monetizovan YouTube kanal, redovno objavljuju sadržaj i žele dugoročnog partnera za rast.",
           works: "Kako funkcioniše",
           summary: "Pregled",
-          price: "Cena",
-          revenue: "Model prihoda",
+          price: "Osnovna cena",
+          revenue: "Udeo u zaradi",
           delivery: "Isporuka",
           support: "Podrška",
-          deliveryValue: "3–5 dana",
-          supportValue: "Mesečna",
-          cta: "Kontaktiraj nas",
+          deliveryValue: "24–48h",
+          supportValue: "24/7",
+          cta: "Prijavi se",
           note:
-            "Plaćanje se vrši tek nakon razgovora i odobrenja projekta.",
-
+            "15% se obračunava isključivo na mesečnu YouTube AdSense zaradu.",
           features: [
-            "8 Premium Thumbnail-a",
-            "YouTube SEO optimizacija",
-            "Strategija za veći CTR",
-            "Mesečni pregled performansi",
-            "A/B preporuke za thumbnail",
-            "Plan dugoročnog rasta",
-            "Prioritetna email podrška",
-            "15% model prihoda",
+            "40 premium thumbnailova",
+            "Kompletna YouTube SEO strategija",
+            "Mesečna analiza kanala",
+            "Strategija sadržaja",
+            "Prioritetna isporuka",
+            "Neograničene revizije",
+            "24/7 podrška",
           ],
-
           steps: [
             [
               "1",
-              "Strategija",
-              "Analiziramo tvoj kanal i potencijal za rast.",
+              "Analiza kanala",
+              "Analiziramo tvoj kanal, publiku i potencijal za rast.",
             ],
             [
               "2",
               "Optimizacija",
-              "Implementiramo thumbnail, SEO i CTR poboljšanja.",
+              "Kreiramo thumbnailove i unapređujemo kompletnu SEO strategiju.",
             ],
             [
               "3",
-              "Rast",
-              "Pratimo rezultate i kontinuirano unapređujemo performanse.",
+              "Skaliranje",
+              "Pratimo CTR i mesečne rezultate kako bismo povećali rast.",
             ],
             [
               "4",
-              "Performance model",
-              "Paket kombinuje nisku početnu cenu sa modelom od 15% prihoda.",
+              "Partnerski model",
+              "Plaćaš 95€/mesec + 15% mesečne YouTube AdSense zarade.",
             ],
           ],
         };
@@ -124,7 +122,7 @@ export default function PerformancePlan() {
         <div className="mx-auto max-w-6xl px-6 py-20">
           <a
             href="/"
-            className="text-sm text-slate-400 hover:text-white transition"
+            className="text-sm text-slate-400 transition hover:text-white"
           >
             {t.back}
           </a>
@@ -134,7 +132,7 @@ export default function PerformancePlan() {
               {t.badge}
             </div>
 
-            <h1 className="mt-6 text-5xl md:text-7xl font-extrabold">
+            <h1 className="mt-6 text-5xl font-extrabold md:text-7xl">
               {t.title}
             </h1>
 
@@ -143,7 +141,7 @@ export default function PerformancePlan() {
             </p>
 
             <div className="mt-10 flex items-end gap-2">
-              <span className="text-6xl font-extrabold">€69</span>
+              <span className="text-6xl font-extrabold">€95</span>
               <span className="pb-2 text-slate-400">{t.priceLabel}</span>
             </div>
           </div>
@@ -152,7 +150,6 @@ export default function PerformancePlan() {
 
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid gap-12 lg:grid-cols-3">
-          {/* Left */}
           <div className="lg:col-span-2">
             <h2 className="text-3xl font-bold">{t.included}</h2>
 
@@ -163,7 +160,7 @@ export default function PerformancePlan() {
                   className="rounded-2xl border border-white/10 bg-white/5 p-4"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-full bg-purple-600 flex items-center justify-center">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-600">
                       ✓
                     </div>
                     <span>{item}</span>
@@ -175,9 +172,7 @@ export default function PerformancePlan() {
             <div className="mt-16">
               <h2 className="text-3xl font-bold">{t.who}</h2>
 
-              <p className="mt-5 leading-8 text-slate-300">
-                {t.whoText}
-              </p>
+              <p className="mt-5 leading-8 text-slate-300">{t.whoText}</p>
             </div>
 
             <div className="mt-16">
@@ -200,7 +195,6 @@ export default function PerformancePlan() {
             </div>
           </div>
 
-          {/* Right Sidebar */}
           <div>
             <div className="sticky top-8 rounded-3xl border border-white/10 bg-white/5 p-6">
               <h3 className="text-2xl font-bold">{t.summary}</h3>
@@ -208,7 +202,7 @@ export default function PerformancePlan() {
               <div className="mt-6 space-y-4 text-sm">
                 <div className="flex justify-between">
                   <span className="text-slate-400">{t.price}</span>
-                  <span>€69</span>
+                  <span>€95</span>
                 </div>
 
                 <div className="flex justify-between">
@@ -231,7 +225,7 @@ export default function PerformancePlan() {
 
               <a
                 href="/buy"
-                className="flex w-full justify-center rounded-2xl bg-purple-600 py-4 font-semibold hover:bg-purple-500 transition"
+                className="flex w-full justify-center rounded-2xl bg-purple-600 py-4 font-semibold transition hover:bg-purple-500"
               >
                 {t.cta}
               </a>

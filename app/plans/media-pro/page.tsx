@@ -9,62 +9,60 @@ export default function MediaProPlan() {
     language === "en"
       ? {
           back: "← Back to Home",
-          badge: "Premium Package",
+          badge: "Premium Monthly Plan",
           title: "Media Pro",
           subtitle:
-            "The complete solution for creators and brands that want premium visuals, advanced SEO and a scalable YouTube growth system.",
-          priceLabel: "one-time payment",
+            "Our complete monthly solution for creators who want consistent growth, premium thumbnails and a professional YouTube strategy.",
+          priceLabel: "/ month",
           included: "What's Included",
           who: "Who is this for?",
           whoText:
-            "Built for established creators and businesses that want a premium content identity, higher CTR and a long-term competitive advantage on YouTube.",
+            "Perfect for established creators and brands that want a dedicated team managing thumbnails, SEO and long-term channel growth.",
           summary: "Summary",
           price: "Price",
           delivery: "Delivery",
           revisions: "Revisions",
-          deliveryValue: "5–7 Days",
-          revisionValue: "Unlimited*",
-          cta: "Contact Us",
-          note: "*Unlimited revisions during the 7-day revision period.",
+          deliveryValue: "24–48 Hours",
+          revisionValue: "Unlimited",
+          cta: "Get Started",
+          note: "Monthly subscription with priority support.",
           features: [
-            "20 Premium Thumbnails",
-            "Advanced YouTube SEO",
-            "Full Channel Branding",
-            "Custom Thumbnail System",
-            "Competitor Research",
-            "Content Growth Strategy",
-            "Priority Support",
-            "Unlimited Revisions (7 Days)",
+            "40 Premium Thumbnails",
+            "Complete YouTube SEO Strategy",
+            "Monthly Channel Analysis",
+            "Content Strategy",
+            "Priority Delivery",
+            "Unlimited Revisions",
+            "24/7 Support",
           ],
         }
       : {
           back: "← Nazad na početnu",
-          badge: "Premium Paket",
+          badge: "Premium mesečni paket",
           title: "Media Pro",
           subtitle:
-            "Kompletno rešenje za kreatore i brendove koji žele vrhunski vizuelni identitet, napredni SEO i skalabilan sistem rasta na YouTube-u.",
-          priceLabel: "jednokratno plaćanje",
+            "Kompletno mesečno rešenje za kreatore koji žele kontinuiran rast, vrhunske thumbnailove i profesionalnu YouTube strategiju.",
+          priceLabel: "/ mesec",
           included: "Šta dobijaš",
           who: "Kome je namenjen?",
           whoText:
-            "Napravljen za etablirane kreatore i kompanije koje žele premium identitet sadržaja, veći CTR i dugoročnu konkurentsku prednost na YouTube-u.",
+            "Idealan za etablirane kreatore i brendove koji žele tim koji će voditi thumbnailove, SEO i dugoročan rast njihovog YouTube kanala.",
           summary: "Pregled",
           price: "Cena",
           delivery: "Isporuka",
           revisions: "Revizije",
-          deliveryValue: "5–7 dana",
-          revisionValue: "Neograničeno*",
-          cta: "Kontaktiraj nas",
-          note: "*Neograničene revizije tokom perioda od 7 dana.",
+          deliveryValue: "24–48h",
+          revisionValue: "Neograničene",
+          cta: "Započni saradnju",
+          note: "Mesečna pretplata uz prioritetnu podršku.",
           features: [
-            "20 Premium Thumbnail-a",
-            "Napredna YouTube SEO optimizacija",
-            "Kompletan Channel Branding",
-            "Prilagođen Thumbnail Sistem",
-            "Analiza konkurencije",
-            "Strategija rasta sadržaja",
-            "Prioritetna podrška",
-            "Neograničene revizije (7 dana)",
+            "40 premium thumbnailova",
+            "Kompletna YouTube SEO strategija",
+            "Mesečna analiza kanala",
+            "Strategija sadržaja",
+            "Prioritetna isporuka",
+            "Neograničene revizije",
+            "24/7 podrška",
           ],
         };
 
@@ -74,7 +72,7 @@ export default function MediaProPlan() {
         <div className="mx-auto max-w-6xl px-6 py-20">
           <a
             href="/"
-            className="text-sm text-slate-400 hover:text-white transition"
+            className="text-sm text-slate-400 transition hover:text-white"
           >
             {t.back}
           </a>
@@ -84,7 +82,7 @@ export default function MediaProPlan() {
               {t.badge}
             </div>
 
-            <h1 className="mt-6 text-5xl md:text-7xl font-extrabold">
+            <h1 className="mt-6 text-5xl font-extrabold md:text-7xl">
               {t.title}
             </h1>
 
@@ -93,7 +91,7 @@ export default function MediaProPlan() {
             </p>
 
             <div className="mt-10 flex items-end gap-2">
-              <span className="text-6xl font-extrabold">€179</span>
+              <span className="text-6xl font-extrabold">€199</span>
               <span className="pb-2 text-slate-400">{t.priceLabel}</span>
             </div>
           </div>
@@ -102,7 +100,6 @@ export default function MediaProPlan() {
 
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid gap-12 lg:grid-cols-3">
-          {/* Left */}
           <div className="lg:col-span-2">
             <h2 className="text-3xl font-bold">{t.included}</h2>
 
@@ -113,7 +110,7 @@ export default function MediaProPlan() {
                   className="rounded-2xl border border-white/10 bg-white/5 p-4"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-full bg-purple-600 flex items-center justify-center">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-600">
                       ✓
                     </div>
                     <span>{item}</span>
@@ -125,13 +122,10 @@ export default function MediaProPlan() {
             <div className="mt-16">
               <h2 className="text-3xl font-bold">{t.who}</h2>
 
-              <p className="mt-5 leading-8 text-slate-300">
-                {t.whoText}
-              </p>
+              <p className="mt-5 leading-8 text-slate-300">{t.whoText}</p>
             </div>
           </div>
 
-          {/* Right Sidebar */}
           <div>
             <div className="sticky top-8 rounded-3xl border border-white/10 bg-white/5 p-6">
               <h3 className="text-2xl font-bold">{t.summary}</h3>
@@ -139,7 +133,7 @@ export default function MediaProPlan() {
               <div className="mt-6 space-y-4 text-sm">
                 <div className="flex justify-between">
                   <span className="text-slate-400">{t.price}</span>
-                  <span>€179</span>
+                  <span>€199</span>
                 </div>
 
                 <div className="flex justify-between">
@@ -157,7 +151,7 @@ export default function MediaProPlan() {
 
               <a
                 href="/buy"
-                className="flex w-full justify-center rounded-2xl bg-purple-600 py-4 font-semibold hover:bg-purple-500 transition"
+                className="flex w-full justify-center rounded-2xl bg-purple-600 py-4 font-semibold transition hover:bg-purple-500"
               >
                 {t.cta}
               </a>

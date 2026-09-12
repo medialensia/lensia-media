@@ -1,0 +1,14 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/about/page": "app/about/page.js",
+  "/buy/page": "app/buy/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js",
+  "/plans/growth/page": "app/plans/growth/page.js",
+  "/plans/media-pro/page": "app/plans/media-pro/page.js",
+  "/plans/performance/page": "app/plans/performance/page.js",
+  "/plans/starter/page": "app/plans/starter/page.js",
+  "/privacy/page": "app/privacy/page.js",
+  "/terms/page": "app/terms/page.js"
+}

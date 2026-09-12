@@ -11,31 +11,31 @@ export default function BuyPage() {
   const [success, setSuccess] = useState(false);
 
   const plans = [
-    {
-      name: "Starter",
-      price: "€69",
-      descEn: "5 Thumbnails • Basic SEO",
-      descSr: "5 Thumbnailova • Osnovni SEO",
-    },
-    {
-      name: "Growth",
-      price: "€109",
-      descEn: "10 Thumbnails • Branding",
-      descSr: "10 Thumbnailova • Brending",
-    },
-    {
-      name: "Media Pro",
-      price: "€179",
-      descEn: "20 Thumbnails • Full Identity",
-      descSr: "20 Thumbnailova • Kompletan Identitet",
-    },
-    {
-      name: "Performance",
-      price: "€69 + 15%",
-      descEn: "Revenue Partnership",
-      descSr: "Partnerski Model",
-    },
-  ];
+  {
+    name: "Starter",
+    price: "€69",
+    descEn: "8 Thumbnails • YouTube SEO",
+    descSr: "8 Thumbnailova • YouTube SEO",
+  },
+  {
+    name: "Growth",
+    price: "€99",
+    descEn: "20 Thumbnails • Advanced SEO",
+    descSr: "20 Thumbnailova • Napredni SEO",
+  },
+  {
+    name: "Media Pro",
+    price: "€199",
+    descEn: "40 Thumbnails • Complete Strategy",
+    descSr: "40 Thumbnailova • Kompletna Strategija",
+  },
+  {
+    name: "Performance",
+    price: "€95 + 15%",
+    descEn: "Media Pro + Revenue Partnership",
+    descSr: "Media Pro + Partnerski Model",
+  },
+];
 
   const current = plans.find((p) => p.name === selectedPlan)!;
 
@@ -91,7 +91,7 @@ export default function BuyPage() {
         </a>
 
         <div className="mt-8">
-          <p className="text-sm uppercase tracking-[0.3em] text-purple-400">
+          <p className="text-sm uppercase tracking-[0.3em] text-violet-400">
             BUY
           </p>
 
@@ -116,10 +116,10 @@ export default function BuyPage() {
               type="button"
               onClick={() => setSelectedPlan(plan.name)}
               className={`rounded-3xl border p-6 text-left transition-all ${
-                selectedPlan === plan.name
-                  ? "border-purple-500 bg-purple-500/10"
-                  : "border-white/10 bg-white/5 hover:border-purple-400/50"
-              }`}
+  selectedPlan === plan.name
+    ? "border-violet-500 bg-gradient-to-b from-violet-500/20 to-violet-700/10 shadow-[0_0_30px_rgba(139,92,246,0.18)]"
+    : "border-white/10 bg-white/5 hover:border-violet-400/40"
+}`}
             >
               <div className="flex items-center justify-between">
                 <h3 className="font-bold">{plan.name}</h3>
@@ -224,7 +224,9 @@ export default function BuyPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-2xl bg-purple-600 py-4 font-semibold text-white transition hover:bg-purple-500 disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full rounded-2xl 
+                bg-purple-600 py-4 font-semibold text-white transition hover:bg-purple-500 
+                disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loading
                   ? language === "en"
@@ -260,9 +262,9 @@ export default function BuyPage() {
 
               <h3 className="mt-2 text-2xl font-bold">{current.name}</h3>
 
-              <p className="mt-3 text-4xl font-extrabold text-purple-400">
-                {current.price}
-              </p>
+              <p className="mt-3 text-4xl font-extrabold text-white">
+  {current.price}
+</p>
 
               <p className="mt-4 text-sm text-slate-400">
                 {language === "en"

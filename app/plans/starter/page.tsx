@@ -9,58 +9,56 @@ export default function StarterPlan() {
     language === "en"
       ? {
           back: "← Back to Home",
-          badge: "Beginner Friendly",
+          badge: "Monthly Plan",
           title: "Starter Plan",
           subtitle:
-            "Perfect for new creators who want professional thumbnails and a stronger YouTube foundation.",
-          priceLabel: "one-time payment",
+            "The perfect monthly package for creators who want consistent, professional thumbnails and stronger YouTube optimization.",
+          priceLabel: "/ month",
           included: "What's Included",
           who: "Who is this for?",
           whoText:
-            "Ideal for creators starting their YouTube journey who need higher quality visuals and better optimization without a large investment.",
+            "Ideal for smaller creators who publish consistently and want a stronger visual identity, higher CTR and better channel optimization.",
           summary: "Summary",
           price: "Price",
           delivery: "Delivery",
           revisions: "Revisions",
-          deliveryValue: "3 Days",
-          revisionValue: "1 Round",
-          cta: "Contact Us",
-          note: "Payment happens after project approval.",
+          deliveryValue: "24–48 Hours",
+          revisionValue: "1 per Thumbnail",
+          cta: "Get Started",
+          note: "Monthly subscription. Cancel anytime.",
           features: [
-            "5 Premium Thumbnails",
-            "Basic YouTube SEO",
+            "8 Premium Thumbnails",
+            "SEO for 8 Videos",
             "Title & Description Optimization",
-            "CTR Improvement Suggestions",
-            "1 Revision Round",
-            "Email Support",
+            "1 Revision per Thumbnail",
+            "24/7 Support",
           ],
         }
       : {
           back: "← Nazad na početnu",
-          badge: "Početnički paket",
+          badge: "Mesečni paket",
           title: "Starter Paket",
           subtitle:
-            "Savršen za nove kreatore koji žele profesionalne thumbnailove i jaču osnovu za YouTube kanal.",
-          priceLabel: "jednokratno plaćanje",
+            "Savršen mesečni paket za kreatore koji žele profesionalne thumbnailove i jaču YouTube optimizaciju.",
+          priceLabel: "/ mesec",
           included: "Šta dobijaš",
           who: "Kome je namenjen?",
           whoText:
-            "Idealan za kreatore koji započinju svoj YouTube put i žele kvalitetniji vizuelni identitet i bolju optimizaciju bez velikog ulaganja.",
+            "Idealan za manje kreatore koji redovno objavljuju i žele bolji vizuelni identitet, veći CTR i profesionalniji izgled kanala.",
           summary: "Pregled",
           price: "Cena",
           delivery: "Isporuka",
           revisions: "Revizije",
-          deliveryValue: "3 dana",
-          revisionValue: "1 revizija",
-          cta: "Kontaktiraj nas",
-          note: "Plaćanje se vrši nakon odobrenja projekta.",
+          deliveryValue: "24–48h",
+          revisionValue: "1 po thumbnailu",
+          cta: "Započni saradnju",
+          note: "Mesečna pretplata. Otkazivanje u bilo kom trenutku.",
           features: [
-            "5 Premium Thumbnail-a",
-            "Osnovni YouTube SEO",
+            "8 premium thumbnailova",
+            "SEO za 8 videa",
             "Optimizacija naslova i opisa",
-            "Predlozi za veći CTR",
-            "1 Krug revizije",
-            "Email podrška",
+            "1 revizija po thumbnailu",
+            "24/7 podrška",
           ],
         };
 
@@ -98,7 +96,6 @@ export default function StarterPlan() {
 
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid gap-12 lg:grid-cols-3">
-          {/* Left */}
           <div className="lg:col-span-2">
             <h2 className="text-3xl font-bold">{t.included}</h2>
 
@@ -125,7 +122,6 @@ export default function StarterPlan() {
             </div>
           </div>
 
-          {/* Right */}
           <div>
             <div className="sticky top-8 rounded-3xl border border-white/10 bg-white/5 p-6">
               <h3 className="text-2xl font-bold">{t.summary}</h3>

@@ -554,9 +554,7 @@ const scrollToSection = (id: string) => {
     </p>
 
     <h2 className="mt-4 font-[family-name:var(--font-manrope)] text-4xl font-bold text-white md:text-5xl">
-      {language === "en"
-        ? "Choose Your Plan"
-        : "Izaberi Svoj Paket"}
+      {language === "en" ? "Choose Your Plan" : "Izaberi Svoj Paket"}
     </h2>
 
     <p className="mx-auto mt-6 max-w-2xl text-slate-400">
@@ -571,24 +569,20 @@ const scrollToSection = (id: string) => {
       {
         name: "Starter",
         price: "€69",
-        desc: language === "en" ? "Perfect for small creators" : "Idealno za manje kreatore",
       },
       {
         name: "Growth",
-        price: "€109",
+        price: "€99",
         popular: true,
-        desc: language === "en" ? "Most popular plan" : "Najpopularniji paket",
       },
       {
         name: "Media Pro",
-        price: "€179",
-        desc: language === "en" ? "Complete growth package" : "Kompletan paket rasta",
+        price: "€199",
       },
       {
         name: "Performance",
-        price: "€69",
+        price: "€95",
         extra: "+15%",
-        desc: language === "en" ? "Revenue partnership" : "Partnerski model",
       },
     ].map((plan) => (
       <motion.div
@@ -617,44 +611,35 @@ const scrollToSection = (id: string) => {
 
         {plan.extra && (
           <p className="mt-1 text-sm font-medium text-purple-300">
-            {plan.extra}
+            {language === "en"
+              ? `${plan.extra} YouTube Revenue`
+              : `${plan.extra} od YouTube zarade`}
           </p>
         )}
 
-        <p className="mt-4 text-sm leading-6 text-slate-400">
-          {plan.desc}
-        </p>
-
-  <button
-  onClick={() => {
-    window.location.href =
-      plan.name === "Starter"
-        ? "/plans/starter"
-        : plan.name === "Growth"
-        ? "/plans/growth"
-        : plan.name === "Media Pro"
-        ? "/plans/media-pro"
-        : "/plans/performance";
-  }}
-  className={`mt-8 w-full rounded-2xl py-3 text-sm font-semibold transition ${
-    plan.popular
-      ? "purple-gradient text-white hover:scale-105"
-      : "glass text-white hover:bg-white/10"
-  }`}
->
-  {language === "en" ? "View Plan" : "Pogledaj Paket"}
-</button>
+        <button
+          onClick={() => {
+            window.location.href =
+              plan.name === "Starter"
+                ? "/plans/starter"
+                : plan.name === "Growth"
+                ? "/plans/growth"
+                : plan.name === "Media Pro"
+                ? "/plans/media-pro"
+                : "/plans/performance";
+          }}
+          className={`mt-8 w-full rounded-2xl py-3 text-sm font-semibold transition ${
+            plan.popular
+              ? "purple-gradient text-white hover:scale-105"
+              : "glass text-white hover:bg-white/10"
+          }`}
+        >
+          {language === "en" ? "View Plan" : "Pogledaj Paket"}
+        </button>
       </motion.div>
     ))}
-
-    
   </div>
 </motion.section>
-
-
-
-
-
 
 {/* Contact */}
 
