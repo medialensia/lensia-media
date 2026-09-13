@@ -1,3 +1,18 @@
+import type { Metadata } from "next";
+import { Inter, Manrope } from "next/font/google";
+import "./globals.css";
+import { LanguageProvider } from "./context/LanguageContext";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://lensiamedia.com"),
 
@@ -52,3 +67,17 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png",
   },
 };
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className={`${inter.variable} ${manrope.variable}`}>
+        <LanguageProvider>{children}</LanguageProvider>
+      </body>
+    </html>
+  );
+}

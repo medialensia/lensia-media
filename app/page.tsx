@@ -10,7 +10,7 @@ import { useLanguage } from "./context/LanguageContext";
 
 export default function Home() {
 
-
+  
 const { language, setLanguage } = useLanguage();
 
 const [scrolled, setScrolled] = useState(false);
@@ -18,11 +18,88 @@ const [activeSection, setActiveSection] = useState("home");
 const [selectedService, setSelectedService] = useState<string | null>(null);
 const [mobileMenu, setMobileMenu] = useState(false);
 
+const [experienceIndex, setExperienceIndex] = useState(0);
+
+const experiences = [
+  {
+    company: "Euronews Serbia",
+    roleEn: "Digital Media & YouTube",
+    roleSr: "Digitalni Mediji i YouTube",
+    descEn: "Real industry experience managing YouTube content, improving click-through rate and producing high-performing visual media.",
+    descSr: "Praktično iskustvo u vođenju YouTube sadržaja, optimizaciji CTR-a i kreiranju vizuelnog sadržaja visokih performansi.",
+    logo: "/logos/company-logo.png",
+    featuresEn: [
+      "CTR Optimization",
+      "Thumbnail Design",
+      "YouTube SEO",
+      "Video Editing",
+      "Channel Strategy",
+      "Analytics",
+    ],
+    featuresSr: [
+      "Optimizacija CTR-a",
+      "Thumbnail Dizajn",
+      "YouTube SEO",
+      "Video Montaža",
+      "Strategija Kanala",
+      "Analitika",
+    ],
+  },
+  {
+    company: "Multiple Small Businesses",
+    roleEn: "Marketing & Growth",
+    roleSr: "Marketing Malih Biznisa",
+    descEn: "Planned and executed marketing strategies for multiple small businesses, helping increase visibility, customer acquisition and online presence.",
+    descSr: "Planiranje i realizacija marketinških strategija za više malih biznisa, sa fokusom na povećanje vidljivosti, novih klijenata i online prisustva.",
+    logo: null,
+    featuresEn: [
+      "Social Media Strategy",
+      "Brand Marketing",
+      "Content Creation",
+      "Customer Acquisition",
+      "Meta Ads",
+      "Local Business Growth",
+    ],
+    featuresSr: [
+      "Strategija Društvenih Mreža",
+      "Brend Marketing",
+      "Kreiranje Sadržaja",
+      "Privlačenje Klijenata",
+      "Meta Oglasi",
+      "Rast Malih Biznisa",
+    ],
+  },
+  {
+    company: "Independent Design Projects",
+    roleEn: "Brand Identity & Rebranding",
+    roleSr: "Rebrending i Vizuelni Dizajn",
+    descEn: "Created complete visual identities for small businesses including logos, menus, branding materials and redesign of existing brands.",
+    descSr: "Izrada kompletnog vizuelnog identiteta za male biznise uključujući logotipe, menije, promotivne materijale i redizajn postojećih brendova.",
+    logo: null,
+    featuresEn: [
+      "Logo Design",
+      "Menu Design",
+      "Brand Identity",
+      "Visual Design",
+      "Print Materials",
+      "Business Rebranding",
+    ],
+    featuresSr: [
+      "Dizajn Logotipa",
+      "Dizajn Menija",
+      "Vizuelni Identitet",
+      "Grafički Dizajn",
+      "Štampani Materijali",
+      "Rebrending Biznisa",
+    ],
+  },
+];
+
 useEffect(() => {
   const handleScroll = () => {
     setScrolled(window.scrollY > 40);
 
-    const sections = ["home", "services", "pricing", "contact"];
+    const sections = ["home", "services", "pricing", "contact","about"];
     const scrollPosition = window.scrollY + 250;
 
     for (const id of sections) {
@@ -133,6 +210,17 @@ const scrollToSection = (id: string) => {
   <button onClick={() => scrollToSection("pricing")}>
     {language === "en" ? "Pricing" : "Cene"}
   </button>
+
+  <button
+  onClick={() => scrollToSection("about")}
+  className={`transition ${
+    activeSection === "about"
+      ? "text-purple-400"
+      : "text-slate-300 hover:text-white"
+  }`}
+>
+  {language === "en" ? "About" : "O Nama"}
+</button>
 
   <button onClick={() => scrollToSection("contact")}>
     {language === "en" ? "Contact" : "Kontakt"}
@@ -716,6 +804,243 @@ const scrollToSection = (id: string) => {
 
 
 
+{/* About */}
+<motion.section
+  id="about"
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, amount: 0.2 }}
+  transition={{ duration: 0.6 }}
+  className="mx-auto max-w-7xl px-6 py-28"
+>
+  <p className="text-sm uppercase tracking-[0.3em] text-purple-400">
+    {language === "en" ? "About Us" : "O Nama"}
+  </p>
+
+  <h2 className="mt-4 text-4xl font-bold text-white md:text-5xl">
+    {language === "en"
+      ? "Three young creators building modern media brands."
+      : "Tri mlada kreatora koja grade moderne media brendove."}
+  </h2>
+
+  <p className="mt-6 max-w-4xl leading-8 text-slate-400">
+    {language === "en"
+      ? "Lensia Media is a creative agency focused on YouTube growth, branding and content optimization. We combine design, analytics and strategy to help creators and businesses grow sustainably."
+      : "Lensia Media je kreativna agencija fokusirana na YouTube rast, brending i optimizaciju sadržaja. Spajamo dizajn, analitiku i strategiju kako bismo pomogli kreatorima i kompanijama da dugoročno rastu."}
+  </p>
+
+  <div className="mt-10 grid gap-6 lg:grid-cols-[1.2fr_1fr] items-start">
+
+    {/* LEFT - Professional Experience */}
+    <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm">
+      <div className="bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-6">
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-purple-200">
+            {language === "en"
+              ? "Professional Experience"
+              : "Profesionalno Iskustvo"}
+          </p>
+
+          <div className="flex gap-2">
+            <button
+              onClick={() =>
+                setExperienceIndex(
+                  experienceIndex === 0
+                    ? experiences.length - 1
+                    : experienceIndex - 1
+                )
+              }
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-white hover:bg-white/20"
+            >
+              ←
+            </button>
+
+            <button
+              onClick={() =>
+                setExperienceIndex(
+                  experienceIndex === experiences.length - 1
+                    ? 0
+                    : experienceIndex + 1
+                )
+              }
+              className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-white hover:bg-white/20"
+            >
+              →
+            </button>
+          </div>
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={experienceIndex}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -30 }}
+            transition={{ duration: 0.25 }}
+            className="mt-4 flex items-center gap-4"
+          >
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10">
+              {experiences[experienceIndex].logo ? (
+                <img
+                  src={experiences[experienceIndex].logo}
+                  alt="Company Logo"
+                  className="max-h-10 max-w-10 object-contain"
+                />
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.8}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 21h18M5 21V7l7-4 7 4v14M9 9h6M9 13h6M9 17h6"
+                  />
+                </svg>
+              )}
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold text-white">
+                {experiences[experienceIndex].company}
+              </h3>
+              <p className="text-sm text-purple-100">
+                {language === "en"
+                  ? experiences[experienceIndex].roleEn
+                  : experiences[experienceIndex].roleSr}
+              </p>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      <div className="p-6">
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={experienceIndex}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+            className="mb-5 text-sm leading-7 text-slate-300"
+          >
+            {language === "en"
+              ? experiences[experienceIndex].descEn
+              : experiences[experienceIndex].descSr}
+          </motion.p>
+        </AnimatePresence>
+
+        <div className="mb-5 flex justify-center gap-2">
+          {experiences.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setExperienceIndex(i)}
+              className={`h-2 rounded-full transition-all ${
+                i === experienceIndex
+                  ? "w-8 bg-purple-500"
+                  : "w-2 bg-white/30"
+              }`}
+            />
+          ))}
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          {(language === "en"
+            ? experiences[experienceIndex].featuresEn
+            : experiences[experienceIndex].featuresSr
+          ).map((item) => (
+            <div
+              key={item}
+              className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2"
+            >
+              <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-600 text-[10px] font-bold text-white">
+                ✓
+              </div>
+              <span className="text-xs font-medium text-white">{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+{/* RIGHT - Founders */}
+<div className="grid h-full grid-cols-3 gap-4">
+  {[
+    {
+      name: "Miloš Vranješ",
+      image: "/team/founder1.png",
+      roleEn: "Founder & CEO",
+      roleSr: "Suosnivač i CEO",
+    },
+    {
+      name: "Lazar Sekulić",
+      image: "/team/founder2.png",
+      roleEn: "Balkan Client Manager",
+      roleSr: "Menadžer za Balkanske Klijente",
+    },
+    {
+      name: "Ime Prezime",
+      image: "/team/founder3.png",
+      roleEn: "International Growth Strategist",
+      roleSr: "Strateg za Internacionalni Rast",
+    },
+  ].map((founder, index) => {
+    const active = experienceIndex === index;
+
+    return (
+      <motion.div
+        key={founder.name}
+        layout
+        onClick={() => setExperienceIndex(index)}
+        animate={{
+          scale: active ? 1.06 : 0.97,
+          y: active ? -6 : 2,
+          opacity: active ? 1 : 0.82,
+        }}
+        transition={{
+          duration: 0.35,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className={`group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border ${
+          active
+            ? "border-purple-500 bg-white/10 shadow-[0_0_24px_rgba(124,58,237,0.30)]"
+            : "border-white/10 bg-white/5"
+        }`}
+      >
+        <div className="flex-1 overflow-hidden">
+          <img
+            src={founder.image}
+            alt={founder.name}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+
+        <div className="p-4">
+          <h3 className="text-sm font-semibold text-white">
+            {founder.name}
+          </h3>
+
+          <p
+            className={`mt-1 text-xs transition-colors duration-300 ${
+              active ? "text-purple-300" : "text-slate-400"
+            }`}
+          >
+            {language === "en" ? founder.roleEn : founder.roleSr}
+          </p>
+        </div>
+      </motion.div>
+    );
+  })}
+</div>
+  </div>
+</motion.section>
+
+
+
 {/* Contact */}
 
 <motion.section
@@ -795,153 +1120,6 @@ const scrollToSection = (id: string) => {
     </div>
   </div>
 </motion.section>
-
-
-{/* About */}
-<motion.section
-  id="about"
-  initial={{ opacity: 0, y: 40 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, amount: 0.2 }}
-  transition={{ duration: 0.6 }}
-  className="mx-auto max-w-7xl px-6 py-28"
->
-  <div className="grid items-center gap-14 lg:grid-cols-2">
-    {/* Left */}
-    <div>
-      <p className="text-sm uppercase tracking-[0.3em] text-purple-400">
-        {language === "en" ? "About Us" : "O Nama"}
-      </p>
-
-      <h2 className="mt-4 text-4xl font-bold text-white md:text-5xl">
-        {language === "en"
-          ? "Two young creators building modern media brands."
-          : "Dva mlada kreatora koja grade moderne media brendove."}
-      </h2>
-
-      <p className="mt-6 leading-8 text-slate-400">
-        {language === "en"
-          ? "Lensia Media is a creative agency focused on YouTube growth, branding and content optimization. We combine design, analytics and strategy to help creators and businesses grow sustainably."
-          : "Lensia Media je kreativna agencija fokusirana na YouTube rast, brending i optimizaciju sadržaja. Spajamo dizajn, analitiku i strategiju kako bismo pomogli kreatorima i kompanijama da dugoročno rastu."}
-      </p>
-
-      {/* Professional Experience */}
-      <div className="mt-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm">
-        <div className="bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-purple-200">
-            {language === "en"
-              ? "Professional Experience"
-              : "Profesionalno Iskustvo"}
-          </p>
-
-          <div className="mt-4 flex items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 p-3">
-              <img
-                src="/logos/company-logo.png"
-                alt="Company Logo"
-                className="max-h-full max-w-full object-contain"
-              />
-            </div>
-
-            <div>
-              <h3 className="text-xl font-bold text-white">Euronews serbia</h3>
-              <p className="text-sm text-purple-100">
-                {language === "en"
-                  ? "Digital Media & YouTube"
-                  : "Digitalni Mediji i YouTube"}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="p-6">
-          <p className="mb-5 text-sm leading-7 text-slate-300">
-            {language === "en"
-              ? "Real industry experience managing YouTube content, improving click-through rate and producing high-performing visual media."
-              : "Praktično iskustvo u vođenju YouTube sadržaja, optimizaciji CTR-a i kreiranju vizuelnog sadržaja visokih performansi."}
-          </p>
-
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              language === "en"
-                ? "CTR Optimization"
-                : "Optimizacija CTR-a",
-              language === "en"
-                ? "Thumbnail Design"
-                : "Thumbnail Dizajn",
-              language === "en"
-                ? "YouTube SEO"
-                : "YouTube SEO",
-              language === "en"
-                ? "Video Editing"
-                : "Video Montaža",
-              language === "en"
-                ? "Channel Strategy"
-                : "Strategija Kanala",
-              language === "en"
-                ? "Analytics"
-                : "Analitika",
-            ].map((item) => (
-              <div
-                key={item}
-                className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2"
-              >
-                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-600 text-[10px] font-bold text-white">
-                  ✓
-                </div>
-                <span className="text-xs font-medium text-white">{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {/* Right */}
-    <div className="grid grid-cols-2 gap-4">
-      {/* Founder */}
-      <div className="group overflow-hidden rounded-3xl border border-white/10 bg-white/5">
-        <div className="overflow-hidden">
-          <img
-            src="/team/founder1.png"
-            alt="Founder 1"
-            className="h-[360px] w-full object-cover transition-transform duration-500 group-hover:scale-110"
-          />
-        </div>
-
-        <div className="p-4">
-          <h3 className="font-semibold text-white">Miloš Vranješ</h3>
-          <p className="text-sm text-slate-400">
-            {language === "en"
-              ? "Creative Director"
-              : "Kreativni Direktor"}
-          </p>
-        </div>
-      </div>
-
-      {/* Co-Founder */}
-      <div className="group overflow-hidden rounded-3xl border border-white/10 bg-white/5">
-        <div className="overflow-hidden">
-          <img
-            src="/team/founder2.png"
-            alt="Founder 2"
-            className="h-[360px] w-full object-cover transition-transform duration-500 group-hover:scale-110"
-          />
-        </div>
-
-        <div className="p-4">
-          <h3 className="font-semibold text-white">Lazar Sekulić</h3>
-          <p className="text-sm text-slate-400">
-            {language === "en"
-              ? "Growth Strategist"
-              : "Strateg Rasta"}
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-</motion.section>
-
 
 
 
