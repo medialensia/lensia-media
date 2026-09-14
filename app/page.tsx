@@ -16,6 +16,7 @@ const { language, setLanguage } = useLanguage();
 const [scrolled, setScrolled] = useState(false);
 const [activeSection, setActiveSection] = useState("home");
 const [selectedService, setSelectedService] = useState<string | null>(null);
+const [scrollPosition, setScrollPosition] = useState(0);
 const [mobileMenu, setMobileMenu] = useState(false);
 
 const [experienceIndex, setExperienceIndex] = useState(0);
@@ -99,41 +100,48 @@ useEffect(() => {
   const handleScroll = () => {
     setScrolled(window.scrollY > 40);
 
-    const sections = ["home", "services", "pricing", "contact","about"];
-    const scrollPosition = window.scrollY + 250;
+    const sections = ["home", "services", "pricing", "contact", "about"];
+    const currentScroll = window.scrollY + 250;
 
     for (const id of sections) {
-  const section = document.getElementById(id);
+      const section = document.getElementById(id);
 
-  if (
-    section &&
-    scrollPosition >= section.offsetTop &&
-    scrollPosition < section.offsetTop + section.offsetHeight
-  ) {
-    setActiveSection(id);
-    break;
-  }
-}
+      if (
+        section &&
+        currentScroll >= section.offsetTop &&
+        currentScroll < section.offsetTop + section.offsetHeight
+      ) {
+        setActiveSection(id);
+        break;
+      }
     }
-
+  };
 
   window.addEventListener("scroll", handleScroll);
   handleScroll();
 
-  return () => window.removeEventListener("scroll", handleScroll);
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
 }, []);
 
 useEffect(() => {
   if (selectedService) {
+    setScrollPosition(window.scrollY);
     document.body.style.overflow = "hidden";
   } else {
-    document.body.style.overflow = "auto";
+    document.body.style.overflow = "";
+
+    requestAnimationFrame(() => {
+      window.scrollTo(0, scrollPosition);
+    });
   }
 
   return () => {
-    document.body.style.overflow = "auto";
+    document.body.style.overflow = "";
   };
-}, [selectedService]);
+}, [selectedService, scrollPosition]);
+
 
  
 const scrollToSection = (id: string) => {
@@ -171,12 +179,10 @@ const scrollToSection = (id: string) => {
 };
 
 
+
+
   return (
-   <main
-  className={`bg-[#070B14] ${
-    selectedService ? "h-screen overflow-hidden" : "min-h-screen"
-  }`}
->
+   <main className="min-h-screen bg-[#070B14]">
     
  {/* Navbar */}
 <header className="fixed top-0 left-0 z-50 flex w-full justify-center pt-3 md:pt-5">
@@ -439,7 +445,7 @@ const scrollToSection = (id: string) => {
             onClick={() => scrollToSection("contact")}
             className="purple-gradient w-full rounded-2xl px-8 py-4 text-base font-semibold text-white transition hover:scale-105 sm:w-auto"
           >
-            {language === "en" ? "Get Free Audit" : "Besplatna Analiza"}
+            {language === "en" ? "Get Started" : "Započni saradnju"}
           </button>
         </motion.div>
 
@@ -1068,8 +1074,8 @@ const scrollToSection = (id: string) => {
 
       <p className="mx-auto mt-6 max-w-2xl leading-8 text-slate-400">
         {language === "en"
-          ? "Tell us about your channel, goals and current challenges. We'll personally review everything and reply with a free growth strategy."
-          : "Pošalji nam informacije o svom kanalu, ciljevima i izazovima. Lično ćemo pregledati kanal i odgovoriti besplatnom strategijom rasta."}
+          ? "Tell us about your channel, goals, and current challenges. We'll review your request and get back to you with the best solution for your needs."
+          : "Pošalji nam informacije o svom kanalu, ciljevima i trenutnim izazovima. Pregledaćemo tvoj upit i javićemo ti se sa rešenjem koje najbolje odgovara tvojim potrebama."}
       </p>
 
       <a
@@ -1114,8 +1120,8 @@ const scrollToSection = (id: string) => {
 
       <p className="mt-6 text-sm text-slate-500">
         {language === "en"
-          ? "No contracts • Free consultation • Worldwide creators"
-          : "Bez ugovorne obaveze • Besplatna konsultacija • Kreatori širom sveta"}
+          ? "Free consultation • Worldwide creators"
+          : "Besplatna konsultacija • Kreatori širom sveta"}
       </p>
     </div>
   </div>
