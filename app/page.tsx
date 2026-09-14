@@ -819,8 +819,8 @@ const scrollToSection = (id: string) => {
 
   <h2 className="mt-4 text-4xl font-bold text-white md:text-5xl">
     {language === "en"
-      ? "Three young creators building modern media brands."
-      : "Tri mlada kreatora koja grade moderne media brendove."}
+      ? "Young team of creators building modern media brands."
+      : "Mladi tim kreatora koji gradi moderne medijske brendove."}
   </h2>
 
   <p className="mt-6 max-w-4xl leading-8 text-slate-400">
@@ -974,7 +974,7 @@ const scrollToSection = (id: string) => {
       name: "Miloš Vranješ",
       image: "/team/founder1.png",
       roleEn: "Founder & CEO",
-      roleSr: "Suosnivač i CEO",
+      roleSr: "Osnivač i CEO",
     },
     {
       name: "Lazar Sekulić",
@@ -983,7 +983,7 @@ const scrollToSection = (id: string) => {
       roleSr: "Menadžer za Balkanske Klijente",
     },
     {
-      name: "Ime Prezime",
+      name: "Vlatko Danilovski",
       image: "/team/founder3.png",
       roleEn: "International Growth Strategist",
       roleSr: "Strateg za Internacionalni Rast",

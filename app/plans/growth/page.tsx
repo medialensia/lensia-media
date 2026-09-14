@@ -18,7 +18,7 @@ export default function GrowthPlan() {
           included: "What's Included",
           who: "Who is this for?",
           whoText:
-            "Perfect for creators who publish consistently and want higher CTR, better discoverability and a more professional channel presence.",
+            "Designed for creators who already upload consistently and want a more structured and professional approach to managing their YouTube channel.",
 
           process: "Our Process",
           faq: "FAQ",
@@ -37,7 +37,7 @@ export default function GrowthPlan() {
           features: [
             "20 Premium Thumbnails",
             "Advanced YouTube SEO",
-            "A/B Thumbnail Variations",
+            "Thumbnail Strategy",
             "Competitor Analysis",
             "CTR Optimization",
             "Unlimited Revisions",
@@ -52,19 +52,19 @@ export default function GrowthPlan() {
           ],
 
           faqs: [
-            [
-              "How many thumbnails are included?",
-              "20 premium thumbnails every month.",
-            ],
-            [
-              "Are revisions limited?",
-              "No. This package includes unlimited revisions.",
-            ],
-            [
-              "Is support included?",
-              "Yes, you receive 24/7 support throughout the subscription.",
-            ],
-          ],
+                [
+                "How fast is delivery?",
+                "All requests are delivered within a maximum of 24 hours. Active clients also receive priority support.",
+                ],
+                [
+                "Is there a contract commitment?",
+                "Yes. The minimum commitment is one month. To cancel your package, please notify us at least 15 days before the next billing cycle.",
+               ],
+               [
+               "What if I need more than 20 thumbnails?",
+              "If your upload schedule requires more than 20 thumbnails, we can create a custom package tailored to your channel.",
+              ],
+]
         }
       : {
           back: "← Nazad na početnu",
@@ -77,7 +77,7 @@ export default function GrowthPlan() {
           included: "Šta dobijaš",
           who: "Kome je namenjen?",
           whoText:
-            "Savršen za kreatore koji redovno objavljuju sadržaj i žele veći CTR, bolju vidljivost i profesionalniji izgled svog kanala.",
+            "Namenjen je kreatorima koji već redovno objavljuju sadržaj i žele organizovaniji i profesionalniji pristup vođenju svog YouTube kanala.",
 
           process: "Naš proces",
           faq: "Česta pitanja",
@@ -96,7 +96,7 @@ export default function GrowthPlan() {
           features: [
             "20 premium thumbnailova",
             "Napredni YouTube SEO",
-            "A/B varijacije thumbnailova",
+            "Strategija thumbnailova",
             "Analiza konkurencije",
             "Optimizacija CTR-a",
             "Neograničene revizije",
@@ -111,19 +111,20 @@ export default function GrowthPlan() {
           ],
 
           faqs: [
-            [
-              "Koliko thumbnailova dobijam?",
-              "20 premium thumbnailova svakog meseca.",
-            ],
-            [
-              "Da li su revizije ograničene?",
-              "Ne. Ovaj paket uključuje neograničene revizije.",
-            ],
-            [
-              "Da li je podrška uključena?",
-              "Da, dobijaš 24/7 podršku tokom cele saradnje.",
-            ],
+          [
+             "Koliko traje isporuka?",
+             "Sve zahteve isporučujemo u roku od najviše 24 sata. Aktivni klijenti imaju i prioritetnu podršku.",
+         ],
+          [
+            "Da li postoji ugovorna obaveza?",
+            "Da. Minimalna obaveza traje jedan mesec. Za prekid paketa potrebno je da nas obavestite najmanje 15 dana pre narednog obračunskog perioda.",
+         ],
+         [
+            "Šta ako mi treba više od 20 thumbnailova?",
+             "Ako objavljuješ češće i potrebno ti je više od 20 thumbnailova, možemo napraviti prilagođen paket prema potrebama tvog kanala.",
           ],
+]
+        
         };
 
   return (
