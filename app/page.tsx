@@ -24,35 +24,49 @@ const [experienceIndex, setExperienceIndex] = useState(0);
 const experiences = [
   {
     company: "Euronews Serbia",
-    roleEn: "Digital Media & YouTube",
-    roleSr: "Digitalni Mediji i YouTube",
-    descEn: "Real industry experience managing YouTube content, improving click-through rate and producing high-performing visual media.",
-    descSr: "Praktično iskustvo u vođenju YouTube sadržaja, optimizaciji CTR-a i kreiranju vizuelnog sadržaja visokih performansi.",
+    roleEn: "YouTube Video Editor & Channel Operations",
+    roleSr: "YouTube Video Montaža i Upravljanje Kanalom",
+
+    descEn:
+      "Hands-on experience editing videos, publishing YouTube content, creating thumbnails, writing titles and optimizing metadata within an established channel strategy.",
+
+    descSr:
+      "Praktično iskustvo u montaži videa, objavi YouTube sadržaja, izradi thumbnailova, pisanju naslova i optimizaciji YouTube metapodataka u okviru definisane strategije kanala.",
+
     logo: "/logos/company-logo.png",
+
     featuresEn: [
-      "CTR Optimization",
+      "YouTube Publishing",
       "Thumbnail Design",
+      "Title Optimization",
       "YouTube SEO",
       "Video Editing",
-      "Channel Strategy",
       "Analytics",
     ],
+
     featuresSr: [
-      "Optimizacija CTR-a",
+      "Objava na YouTube",
       "Thumbnail Dizajn",
+      "Optimizacija Naslova",
       "YouTube SEO",
       "Video Montaža",
-      "Strategija Kanala",
       "Analitika",
     ],
   },
+
   {
     company: "Multiple Small Businesses",
     roleEn: "Marketing & Growth",
     roleSr: "Marketing Malih Biznisa",
-    descEn: "Planned and executed marketing strategies for multiple small businesses, helping increase visibility, customer acquisition and online presence.",
-    descSr: "Planiranje i realizacija marketinških strategija za više malih biznisa, sa fokusom na povećanje vidljivosti, novih klijenata i online prisustva.",
+
+    descEn:
+      "Planned and executed marketing strategies for multiple small businesses, increasing visibility, customer acquisition and online presence.",
+
+    descSr:
+      "Planiranje i realizacija marketinških strategija za više malih biznisa sa fokusom na povećanje vidljivosti, novih klijenata i online prisustva.",
+
     logo: null,
+
     featuresEn: [
       "Social Media Strategy",
       "Brand Marketing",
@@ -61,6 +75,7 @@ const experiences = [
       "Meta Ads",
       "Local Business Growth",
     ],
+
     featuresSr: [
       "Strategija Društvenih Mreža",
       "Brend Marketing",
@@ -70,13 +85,20 @@ const experiences = [
       "Rast Malih Biznisa",
     ],
   },
+
   {
     company: "Independent Design Projects",
     roleEn: "Brand Identity & Rebranding",
     roleSr: "Rebrending i Vizuelni Dizajn",
-    descEn: "Created complete visual identities for small businesses including logos, menus, branding materials and redesign of existing brands.",
-    descSr: "Izrada kompletnog vizuelnog identiteta za male biznise uključujući logotipe, menije, promotivne materijale i redizajn postojećih brendova.",
+
+    descEn:
+      "Designed complete visual identities for small businesses, including logos, menus, branding materials and rebranding of existing brands.",
+
+    descSr:
+      "Izrada kompletnog vizuelnog identiteta za male biznise, uključujući logotipe, menije, promotivne materijale i redizajn postojećih brendova.",
+
     logo: null,
+
     featuresEn: [
       "Logo Design",
       "Menu Design",
@@ -85,6 +107,7 @@ const experiences = [
       "Print Materials",
       "Business Rebranding",
     ],
+
     featuresSr: [
       "Dizajn Logotipa",
       "Dizajn Menija",
@@ -95,6 +118,7 @@ const experiences = [
     ],
   },
 ];
+
 
 useEffect(() => {
   const handleScroll = () => {
