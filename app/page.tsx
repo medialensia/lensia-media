@@ -867,8 +867,8 @@ const scrollToSection = (id: string) => {
         <div className="flex items-center justify-between">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-purple-200">
             {language === "en"
-              ? "Professional Experience"
-              : "Profesionalno Iskustvo"}
+              ? "Founder's Professional Experience"
+              : "Profesionalno Iskustvo osnivača"}
           </p>
 
           <div className="flex gap-2">
@@ -910,29 +910,21 @@ const scrollToSection = (id: string) => {
             className="mt-4 flex items-center gap-4"
           >
             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10">
-              {experiences[experienceIndex].logo ? (
-                <img
-                  src={experiences[experienceIndex].logo}
-                  alt="Company Logo"
-                  className="max-h-10 max-w-10 object-contain"
-                />
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.8}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 21h18M5 21V7l7-4 7 4v14M9 9h6M9 13h6M9 17h6"
-                  />
-                </svg>
-              )}
-            </div>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-8 w-8 text-white"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={1.8}
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M3 21h18M5 21V7l7-4 7 4v14M9 9h6M9 13h6M9 17h6"
+    />
+  </svg>
+</div>
 
             <div>
               <h3 className="text-xl font-bold text-white">

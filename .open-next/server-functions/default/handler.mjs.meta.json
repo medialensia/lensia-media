@@ -4792,7 +4792,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/ssr/app_page_tsx_0pxmutw._.js": {
-      "bytes": 176821,
+      "bytes": 176955,
       "imports": [],
       "format": "cjs"
     },
@@ -8621,7 +8621,7 @@
           "bytesInOutput": 249
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/app_page_tsx_0pxmutw._.js": {
-          "bytesInOutput": 192637
+          "bytesInOutput": 192771
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/[root-of-the-server]__1tcrkfo._.js": {
           "bytesInOutput": 4294
@@ -8897,7 +8897,7 @@
           "bytesInOutput": 63434
         }
       },
-      "bytes": 3309151
+      "bytes": 3309285
     }
   }
 }
