@@ -23,7 +23,9 @@ const [experienceIndex, setExperienceIndex] = useState(0);
 
 const experiences = [
   {
-    company: "Euronews Serbia",
+    company: language === "en"
+    ? "National News Television"
+    : "Nacionalna informativna televizija",
     roleEn: "YouTube Video Editor & Channel Operations",
     roleSr: "YouTube Video Montaža i Upravljanje Kanalom",
 
@@ -55,7 +57,9 @@ const experiences = [
   },
 
   {
-    company: "Multiple Small Businesses",
+    company: language === "en"
+  ? "Multiple Small Businesses"
+  : "Više Malih Biznisa",
     roleEn: "Marketing & Growth",
     roleSr: "Marketing Malih Biznisa",
 
@@ -87,7 +91,9 @@ const experiences = [
   },
 
   {
-    company: "Independent Design Projects",
+    company: language === "en"
+  ? "Independent Design Projects"
+  : "Samostalni Dizajn Projekti",
     roleEn: "Brand Identity & Rebranding",
     roleSr: "Rebrending i Vizuelni Dizajn",
 
