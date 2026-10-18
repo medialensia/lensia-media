@@ -1,0 +1,176 @@
+"use client";
+
+import { useLanguage } from "../../context/LanguageContext";
+
+export default function InstagramStarterPlan() {
+  const { language } = useLanguage();
+  const isEnglish = language === "en";
+
+  const content = isEnglish
+    ? {
+        back: "Back to home",
+        eyebrow: "LENSIA MEDIA / INSTAGRAM GROWTH",
+        title: "Instagram Starter",
+        description:
+          "A simple monthly package to keep your Instagram profile consistent, polished and ready to connect with your audience.",
+        priceLabel: "/ month",
+        priceCaption: "Instagram Starter monthly price",
+        included: "What’s included",
+        features: [
+          "8 Instagram post designs",
+          "8 Instagram Story designs",
+          "Monthly content calendar",
+          "Bio and profile optimization",
+          "Caption and hashtag suggestions",
+          "1 revision per design",
+        ],
+        faq: "Frequently asked questions",
+        questions: [
+          {
+            q: "Do you publish the content for me?",
+            a: "This package covers content preparation and design. You can publish the finished content yourself.",
+          },
+          {
+            q: "How long does delivery take?",
+            a: "We agree on a delivery schedule at the start of the month and share the content in organized batches.",
+          },
+          {
+            q: "Can I request additional designs?",
+            a: "Yes. Additional content can be discussed separately depending on your needs.",
+          },
+        ],
+        cta: "Get started",
+        ctaNote: "Monthly package · Clear deliverables",
+      }
+    : {
+        back: "Nazad na početnu",
+        eyebrow: "LENSIA MEDIA / INSTAGRAM GROWTH",
+        title: "Instagram Starter",
+        description:
+          "Jednostavan mesečni paket za uredan, dosledan i profesionalan Instagram profil koji lakše povezuje brend sa publikom.",
+        priceLabel: "/ mesečno",
+        priceCaption: "Mesečna cena Instagram Starter paketa",
+        included: "Šta nudimo",
+        features: [
+          "8 dizajniranih Instagram objava",
+          "8 dizajniranih Instagram Story objava",
+          "Mesečni kalendar sadržaja",
+          "Optimizacija bio opisa i profila",
+          "Predlozi za opise i hashtagove",
+          "1 revizija po dizajnu",
+        ],
+        faq: "Česta pitanja",
+        questions: [
+          {
+            q: "Da li vi objavljujete sadržaj umesto mene?",
+            a: "Paket obuhvata pripremu i dizajn sadržaja. Gotov sadržaj možeš samostalno da objavljuješ.",
+          },
+          {
+            q: "Koliko traje isporuka?",
+            a: "Raspored isporuke dogovaramo na početku meseca, a sadržaj dostavljamo u organizovanim celinama.",
+          },
+          {
+            q: "Mogu li da naručim dodatne dizajne?",
+            a: "Da. Dodatni sadržaj možemo dogovoriti zasebno, u skladu sa tvojim potrebama.",
+          },
+        ],
+        cta: "Započni saradnju",
+        ctaNote: "Mesečni paket · Jasno definisane isporuke",
+      };
+
+  return (
+    <main className="min-h-screen bg-[#050505] text-white">
+      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-6 py-6 sm:px-10 sm:py-8 lg:px-12">
+        <a
+          href="/"
+          className="inline-flex w-fit items-center gap-2 text-base text-white/55 transition-colors hover:text-white"
+        >
+          <span aria-hidden="true">←</span>
+          {content.back}
+        </a>
+
+        <header className="mt-7 flex flex-col gap-3 border-b border-white/10 pb-7 sm:mt-8 sm:pb-8">
+          <p className="inline-flex w-fit items-center gap-2 rounded-full border border-[#8b5cf6]/30 bg-[#8b5cf6]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-[#c4b5fd]">
+            {content.eyebrow}
+          </p>
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+            {content.title}
+          </h1>
+          <p className="max-w-2xl text-base leading-7 text-white/60 sm:text-lg">
+            {content.description}
+          </p>
+        </header>
+
+        <div className="grid flex-1 gap-8 py-7 md:grid-cols-[minmax(0,1fr)_360px] md:gap-12 md:py-8 lg:grid-cols-[minmax(0,1fr)_390px]">
+          <div className="flex min-w-0 flex-col gap-8">
+            <section>
+              <h2 className="text-xl font-semibold">{content.included}</h2>
+              <ul className="mt-4 grid gap-x-7 sm:grid-cols-2">
+                {content.features.map((feature) => (
+                  <li
+                    key={feature}
+                    className="flex items-start gap-2.5 border-b border-white/[0.07] py-3 text-base leading-6 text-white/80"
+                  >
+                    <span className="mt-px text-[#a78bfa]" aria-hidden="true">
+                      ✓
+                    </span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold">{content.faq}</h2>
+              <div className="mt-3 grid gap-x-8 sm:grid-cols-2">
+                {content.questions.map((item) => (
+                  <details
+                    key={item.q}
+                    className="group border-b border-white/10 py-4"
+                  >
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-medium text-white/85 marker:content-none [&::-webkit-details-marker]:hidden">
+                      <span>{item.q}</span>
+                      <span
+                        className="shrink-0 text-lg leading-none text-white/45 transition-transform group-open:rotate-45"
+                        aria-hidden="true"
+                      >
+                        +
+                      </span>
+                    </summary>
+                    <p className="pt-3 text-base leading-6 text-white/60">
+                      {item.a}
+                    </p>
+                  </details>
+                ))}
+              </div>
+            </section>
+          </div>
+
+          <aside className="h-fit rounded-2xl border border-white/10 bg-white/[0.035] p-7 md:sticky md:top-8 md:p-8">
+            <p className="text-sm font-medium text-[#c4b5fd]">
+              {content.priceCaption}
+            </p>
+            <div className="mt-3 flex items-baseline gap-2">
+              <span className="text-5xl font-semibold tracking-tight">€19</span>
+              <span className="text-sm text-white/45">{content.priceLabel}</span>
+            </div>
+            <div className="my-6 h-px bg-white/10" />
+            <p className="text-base leading-7 text-white/60">
+              {content.description}
+            </p>
+            <a
+              href="/buy"
+              className="mt-6 flex min-h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#8b5cf6] px-6 py-4 text-base font-semibold text-white transition-colors hover:bg-[#7c3aed]"
+            >
+              {content.cta}
+              <span aria-hidden="true">↗</span>
+            </a>
+            <p className="mt-4 text-center text-sm text-white/45">
+              {content.ctaNote}
+            </p>
+          </aside>
+        </div>
+      </div>
+    </main>
+  );
+}

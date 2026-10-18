@@ -1,12 +1,106 @@
-
 "use client";
 
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { motion, AnimatePresence } from "framer-motion";
 
 import { useLanguage } from "./context/LanguageContext";
+
+
+
+function ThumbnailGallery() {
+  const thumbnails = [
+    "thumb1.png",
+    "thumb2.png",
+    "thumb3.png",
+    "thumb4.png",
+    "thumb5.png",
+    "thumb6.png",
+    "thumb7.png",
+    "thumb8.png",
+    "thumb9.png",
+  ];
+
+  const firstGroupRef = useRef<HTMLDivElement>(null);
+  const [groupWidth, setGroupWidth] = useState(0);
+
+  useEffect(() => {
+    const group = firstGroupRef.current;
+    if (!group) return;
+
+    const measure = () => {
+      // Use the exact rendered width, including the gap between thumbnails.
+      setGroupWidth(group.getBoundingClientRect().width);
+    };
+
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(group);
+
+    // Re-measure after images load so the loop distance stays exact.
+    const images = Array.from(group.querySelectorAll("img"));
+    images.forEach((img) => {
+      if (!img.complete) img.addEventListener("load", measure);
+    });
+
+    return () => {
+      observer.disconnect();
+      images.forEach((img) => img.removeEventListener("load", measure));
+    };
+  }, []);
+
+
+
+
+
+
+
+
+  return (
+    <div className="w-full overflow-hidden">
+      <motion.div
+        className="flex w-max"
+        animate={groupWidth > 0 ? { x: [0, -groupWidth] } : { x: 0 }}
+        transition={{
+          x: {
+            // A fixed pixel speed feels consistent on different screen sizes.
+            duration: groupWidth > 0 ? groupWidth / 45 : 0,
+            ease: "linear",
+            repeat: Infinity,
+            repeatType: "loop",
+          },
+        }}
+        style={{ willChange: "transform" }}
+      >
+        {[0, 1].map((set) => (
+          <div
+            ref={set === 0 ? firstGroupRef : undefined}
+            className="flex shrink-0 items-stretch gap-4 pr-4"
+            key={set}
+            aria-hidden={set === 1}
+          >
+            {thumbnails.map((filename, i) => (
+              <div
+                className="w-[220px] shrink-0 overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] sm:w-[280px] lg:w-[320px]"
+                key={`${set}-${i}`}
+              >
+                <img
+                  src={`/thumbs/${filename}`}
+                  alt={set === 0 ? filename : ""}
+                  draggable={false}
+                  loading="lazy"
+                  className="block aspect-video h-auto w-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
 
 export default function Home() {
 
@@ -19,112 +113,7 @@ const [selectedService, setSelectedService] = useState<string | null>(null);
 const [scrollPosition, setScrollPosition] = useState(0);
 const [mobileMenu, setMobileMenu] = useState(false);
 
-const [experienceIndex, setExperienceIndex] = useState(0);
-
-const experiences = [
-  {
-    company: language === "en"
-    ? "National News Television"
-    : "Nacionalna informativna televizija",
-    roleEn: "YouTube Video Editor & Channel Operations",
-    roleSr: "YouTube Video Montaža i Upravljanje Kanalom",
-
-    descEn:
-      "Hands-on experience editing videos, publishing YouTube content, creating thumbnails, writing titles and optimizing metadata within an established channel strategy.",
-
-    descSr:
-      "Praktično iskustvo u montaži videa, objavi YouTube sadržaja, izradi thumbnailova, pisanju naslova i optimizaciji YouTube metapodataka u okviru definisane strategije kanala.",
-
-    logo: "/logos/company-logo.png",
-
-    featuresEn: [
-      "YouTube Publishing",
-      "Thumbnail Design",
-      "Title Optimization",
-      "YouTube SEO",
-      "Video Editing",
-      "Analytics",
-    ],
-
-    featuresSr: [
-      "Objava na YouTube",
-      "Thumbnail Dizajn",
-      "Optimizacija Naslova",
-      "YouTube SEO",
-      "Video Montaža",
-      "Analitika",
-    ],
-  },
-
-  {
-    company: language === "en"
-  ? "Multiple Small Businesses"
-  : "Više Malih Biznisa",
-    roleEn: "Marketing & Growth",
-    roleSr: "Marketing Malih Biznisa",
-
-    descEn:
-      "Planned and executed marketing strategies for multiple small businesses, increasing visibility, customer acquisition and online presence.",
-
-    descSr:
-      "Planiranje i realizacija marketinških strategija za više malih biznisa sa fokusom na povećanje vidljivosti, novih klijenata i online prisustva.",
-
-    logo: null,
-
-    featuresEn: [
-      "Social Media Strategy",
-      "Brand Marketing",
-      "Content Creation",
-      "Customer Acquisition",
-      "Meta Ads",
-      "Local Business Growth",
-    ],
-
-    featuresSr: [
-      "Strategija Društvenih Mreža",
-      "Brend Marketing",
-      "Kreiranje Sadržaja",
-      "Privlačenje Klijenata",
-      "Meta Oglasi",
-      "Rast Malih Biznisa",
-    ],
-  },
-
-  {
-    company: language === "en"
-  ? "Independent Design Projects"
-  : "Samostalni Dizajn Projekti",
-    roleEn: "Brand Identity & Rebranding",
-    roleSr: "Rebrending i Vizuelni Dizajn",
-
-    descEn:
-      "Designed complete visual identities for small businesses, including logos, menus, branding materials and rebranding of existing brands.",
-
-    descSr:
-      "Izrada kompletnog vizuelnog identiteta za male biznise, uključujući logotipe, menije, promotivne materijale i redizajn postojećih brendova.",
-
-    logo: null,
-
-    featuresEn: [
-      "Logo Design",
-      "Menu Design",
-      "Brand Identity",
-      "Visual Design",
-      "Print Materials",
-      "Business Rebranding",
-    ],
-
-    featuresSr: [
-      "Dizajn Logotipa",
-      "Dizajn Menija",
-      "Vizuelni Identitet",
-      "Grafički Dizajn",
-      "Štampani Materijali",
-      "Rebrending Biznisa",
-    ],
-  },
-];
-
+const [selectedMember, setSelectedMember] = useState(0);
 
 useEffect(() => {
   const handleScroll = () => {
@@ -212,2064 +201,1755 @@ const scrollToSection = (id: string) => {
 
 
   return (
-   <main className="min-h-screen bg-[#070B14]">
+   <main className="relative min-h-screen bg-[#050505]">
     
- {/* Navbar */}
-<header className="fixed top-0 left-0 z-50 flex w-full justify-center pt-3 md:pt-5">
-  <nav
-    className={`w-[94%] max-w-7xl rounded-2xl px-4 py-3 transition-all duration-300 md:px-6 md:py-4 ${
-      scrolled
-        ? "glass border border-white/10 bg-[#0B1020]/80 shadow-2xl"
-        : "glass bg-white/5"
-    }`}
-  >
-    <div className="flex items-center justify-between">
-      {/* Logo */}
+ 
+
+{/* Navbar */}
+<header className="fixed left-0 top-0 z-50 w-full px-4 pt-4 sm:px-8 sm:pt-5 lg:px-12">
+  <nav className="mx-auto max-w-[1600px]">
+    {/* MAIN NAVBAR */}
+    <div className="flex min-h-[68px] items-center justify-between border-b border-white/15 pb-3 sm:min-h-[72px] sm:pb-4">
+      {/* BRAND */}
       <button
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className="text-left"
+        type="button"
+        onClick={() => {
+          setMobileMenu(false);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        className="shrink-0 text-left"
       >
-        <h2 className="text-lg font-bold tracking-wide md:text-xl">
-          LENSIA Media
-        </h2>
-        <p className="text-[9px] text-slate-400 md:text-[10px]">
-          {language === "en" ? "Growth Together" : "Rastemo Zajedno"}
+        <p className="text-sm font-bold tracking-[0.12em] text-white sm:text-base">
+          LENSIA <span className="text-purple-400">MEDIA</span>
+        </p>
+
+        <p className="mt-1 text-[11px] text-slate-500 sm:text-xs">
+          {language === "en" ? "Growth Together" : "Rastemo zajedno"}
         </p>
       </button>
 
-      {/* Desktop Menu */}
-<div className="hidden items-center gap-8 text-sm md:flex">
-  <button onClick={() => scrollToSection("services")}>
-    {language === "en" ? "Services" : "Usluge"}
-  </button>
-
-  <button onClick={() => scrollToSection("pricing")}>
-    {language === "en" ? "Pricing" : "Cene"}
-  </button>
-
-  <button
-  onClick={() => scrollToSection("about")}
-  className={`transition ${
-    activeSection === "about"
-      ? "text-purple-400"
-      : "text-slate-300 hover:text-white"
-  }`}
->
-  {language === "en" ? "About" : "O Nama"}
-</button>
-
-  <button onClick={() => scrollToSection("contact")}>
-    {language === "en" ? "Contact" : "Kontakt"}
-  </button>
-
-  <button
-  type="button"
-  onClick={() => window.location.assign("/buy")}
-  className="cursor-pointer font-medium text-white transition hover:text-purple-400"
->
-  {language === "en" ? "Buy" : "Kupi"}
-</button>
-
-</div>
-
-{/* Right */}
-<div className="flex items-center gap-3">
-  {/* Language */}
-  <button
-    onClick={() => setLanguage(language === "en" ? "sr" : "en")}
-    className="glass relative flex h-10 w-20 items-center rounded-xl p-1 transition"
-  >
-    <div
-      className={`absolute top-1 h-8 w-9 rounded-lg bg-purple-600 transition-all duration-300 ${
-        language === "en" ? "left-1" : "left-10"
-      }`}
-    />
-
-    <span className="z-10 w-1/2 text-center text-xs font-semibold text-white">
-      EN
-    </span>
-
-    <span className="z-10 w-1/2 text-center text-xs font-semibold text-white">
-      SR
-    </span>
-  </button>
-
-  {/* Hamburger */}
-  <button
-    onClick={() => setMobileMenu(!mobileMenu)}
-    className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 md:hidden"
-  >
-    {mobileMenu ? (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-        <path
-          d="M6 6L18 18M18 6L6 18"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-      </svg>
-    ) : (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-        <path d="M4 7H20" stroke="white" strokeWidth="2" strokeLinecap="round" />
-        <path d="M4 12H20" stroke="white" strokeWidth="2" strokeLinecap="round" />
-        <path d="M4 17H20" stroke="white" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    )}
-  </button>
-</div>
-</div>
-
-{/* Mobile Menu */}
-<AnimatePresence>
-  {mobileMenu && (
-    <motion.div
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: "auto" }}
-      exit={{ opacity: 0, height: 0 }}
-      className="mt-3 flex flex-col gap-3 border-t border-white/10 pt-3 text-sm md:hidden"
-    >
-      <button
-        onClick={() => {
-          scrollToSection("services");
-          setMobileMenu(false);
-        }}
-      >
-        {language === "en" ? "Services" : "Usluge"}
-      </button>
-
-      <button
-        onClick={() => {
-          scrollToSection("pricing");
-          setMobileMenu(false);
-        }}
-      >
-        {language === "en" ? "Pricing" : "Cene"}
-      </button>
-
-      <button
-        onClick={() => {
-          scrollToSection("contact");
-          setMobileMenu(false);
-        }}
-      >
-        {language === "en" ? "Contact" : "Kontakt"}
-      </button>
-
-      <button
-        onClick={() => {
-          window.location.href = "/buy";
-          setMobileMenu(false);
-        }}
-      >
-        {language === "en" ? "Buy" : "Kupi"}
-      </button>
-    </motion.div>
-  )}
-</AnimatePresence>
-
-</nav>
-</header>
-
-
-      <section className="relative flex min-h-screen items-center overflow-hidden px-5 pt-28 pb-16 sm:px-6 lg:px-6 lg:pt-0 lg:pb-0">
-
-  {/* Premium Animated Background */}
-  <div className="absolute inset-0 overflow-hidden">
-    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:60px_60px] opacity-40" />
-
-    <motion.div
-      animate={{ scale: [1, 1.12, 1], opacity: [0.4, 0.65, 0.4] }}
-      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      className="absolute left-1/2 top-1/2 h-[420px] w-[420px] sm:h-[520px] sm:w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600 blur-[140px]"
-    />
-
-    <motion.div
-      animate={{ scale: [1, 1.18, 1], opacity: [0.25, 0.45, 0.25] }}
-      transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-      className="absolute left-1/2 top-1/2 h-56 w-56 sm:h-72 sm:w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-fuchsia-500 blur-[90px]"
-    />
-
-    <motion.div
-      animate={{ rotate: 360 }}
-      transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
-      className="absolute left-1/2 top-1/2 h-[520px] w-[520px] sm:h-[720px] sm:w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-purple-400/15"
-    />
-
-    <motion.div
-      animate={{ rotate: -360 }}
-      transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-      className="absolute left-1/2 top-1/2 h-[380px] w-[380px] sm:h-[520px] sm:w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-fuchsia-400/10"
-    />
-
-    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#070B14]" />
-  </div>
-
-  {/* CONTENT */}
-  <div className="relative z-10 mx-auto w-full max-w-7xl">
-    <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
-
-      {/* LEFT */}
-      <div className="text-center lg:text-left">
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={language + "-badge"}
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-xl"
-          >
-            <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-slate-300">
-              {language === "en" ? "YouTube Growth Agency" : "YouTube Growth Agencija"}
-            </span>
-          </motion.div>
-        </AnimatePresence>
-
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={language + "-slogan"}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="mb-4 text-xs font-medium uppercase tracking-[0.35em] text-purple-400 sm:text-sm"
-          >
-            {language === "en" ? "Growth Together" : "Rastemo Zajedno"}
-          </motion.p>
-        </AnimatePresence>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="font-[family-name:var(--font-manrope)] text-[56px] font-extrabold leading-[0.9] tracking-[-0.03em] text-white sm:text-6xl md:text-8xl"
-        >
-          LENSIA
-          <br />
-          MEDIA
-        </motion.h1>
-
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={language + "-hero-desc"}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }}
-            className="mx-auto mt-6 max-w-md text-base leading-7 text-slate-300 sm:text-lg sm:leading-8 lg:mx-0 lg:max-w-xl lg:text-xl"
-          >
-            {language === "en"
-              ? "We help creators and brands grow through high-converting thumbnails, SEO, branding and channel strategy."
-              : "Pomažemo kreatorima i brendovima da rastu kroz thumbnailove, SEO, brending i strategiju kanala."}
-          </motion.p>
-        </AnimatePresence>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          className="mt-8 flex justify-center lg:mt-10 lg:justify-start"
-        >
+      {/* DESKTOP NAVIGATION */}
+      <div className="hidden items-center gap-7 lg:flex xl:gap-10">
+        {[
+          {
+            id: "youtube-services",
+            label: language === "en" ? "Services" : "Usluge",
+          },
+          {
+            id: "pricing",
+            label: language === "en" ? "Pricing" : "Cene",
+          },
+          {
+            id: "about",
+            label: language === "en" ? "About" : "O nama",
+          },
+          {
+            id: "contact",
+            label: language === "en" ? "Contact" : "Kontakt",
+          },
+        ].map((item) => (
           <button
-            onClick={() => scrollToSection("contact")}
-            className="purple-gradient w-full rounded-2xl px-8 py-4 text-base font-semibold text-white transition hover:scale-105 sm:w-auto"
-          >
-            {language === "en" ? "Get Started" : "Započni saradnju"}
-          </button>
-        </motion.div>
-
-        <div className="mt-8 flex flex-wrap justify-center gap-3 text-xs text-slate-400 sm:gap-6 sm:text-sm lg:justify-start">
-          <div className="flex items-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-purple-400" />
-            Thumbnail Design
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-purple-400" />
-            YouTube SEO
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="h-2 w-2 rounded-full bg-purple-400" />
-            Branding
-          </div>
-        </div>
-
-      </div>
-
-      {/* RIGHT */}
-      <div className="relative flex items-center justify-center lg:justify-end">
-
-        <div className="absolute h-[460px] w-[460px] rounded-full bg-purple-600/20 blur-[120px]" />
-
-        <motion.img
-          src="/thumbnails/dashboard.png"
-          alt="Lensia Dashboard"
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="relative z-10 mt-2 w-[320px] sm:w-[380px] lg:mt-0 lg:w-[560px] drop-shadow-[0_0_70px_rgba(139,92,246,.35)]"
-        />
-
-      </div>
-
-    </div>
-  </div>
-
-  {/* Scroll indicator */}
-  <AnimatePresence>
-    {!scrolled && (
-      <motion.div
-        initial={{ opacity: 1 }}
-        exit={{ opacity: 0, y: 20 }}
-        animate={{ y: [0, 10, 0] }}
-        transition={{
-          y: { duration: 1.8, repeat: Infinity },
-          opacity: { duration: 0.3 }
-        }}
-        className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 sm:block lg:bottom-10"
-      >
-        <button
-          onClick={() => scrollToSection("services")}
-          className="flex flex-col items-center gap-2 text-slate-400 transition hover:text-white"
-        >
-          <span className="text-xs uppercase tracking-[0.25em]">Scroll</span>
-
-          <svg width="20" height="28" viewBox="0 0 20 28" fill="none">
-            <rect
-              x="4"
-              y="1"
-              width="12"
-              height="26"
-              rx="6"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            />
-            <motion.circle
-              cx="10"
-              cy="8"
-              r="2"
-              fill="currentColor"
-              animate={{ cy: [8, 16, 8] }}
-              transition={{ duration: 1.8, repeat: Infinity }}
-            />
-          </svg>
-        </button>
-      </motion.div>
-    )}
-  </AnimatePresence>
-
-</section>
-
-<div className="relative flex h-20 items-center justify-center">
-  <div className="h-px w-72 bg-gradient-to-r from-transparent via-purple-500 to-transparent" />
-  <div className="absolute h-2 w-2 rounded-full bg-purple-400 shadow-[0_0_20px_#8B5CF6]" />
-</div>
-
-
-{/* Services */}
-<motion.section
-  id="services"
-  initial={{ opacity: 0, y: 40 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, amount: 0.2 }}
-  transition={{ duration: 0.6 }}
-  className="mx-auto max-w-7xl px-6 py-28"
->
-  <div className="text-center">
-    <p className="text-sm uppercase tracking-[0.3em] text-purple-400">
-      {language === "en" ? "Services" : "Usluge"}
-    </p>
-
-    <h2 className="mt-4 font-[family-name:var(--font-manrope)] text-3xl font-bold leading-tight text-white md:text-5xl">
-      {language === "en"
-        ? "Everything You Need to Grow"
-        : "Sve što ti je potrebno za rast"}
-    </h2>
-
-    <p className="mx-auto mt-6 max-w-2xl text-slate-400">
-      {language === "en"
-        ? "From thumbnails and SEO to branding and strategy — we help creators build stronger YouTube brands."
-        : "Od thumbnailova i SEO-a do brendinga i strategije — pomažemo kreatorima da izgrade jači YouTube brend."}
-    </p>
-  </div>
-
-  <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-    {[
-      {
-        title: language === "en" ? "Thumbnail Design" : "Dizajn Thumbnaila",
-        desc:
-          language === "en"
-            ? "High-converting thumbnails designed for better CTR."
-            : "Thumbnailovi napravljeni za veći CTR.",
-        icon: "thumbnail",
-      },
-      {
-        title: "YouTube SEO",
-        desc:
-          language === "en"
-            ? "Titles, keywords and discoverability optimization."
-            : "Optimizacija naslova, ključnih reči i pretrage.",
-        icon: "seo",
-      },
-      {
-        title: language === "en" ? "Channel Strategy" : "Strategija Kanala",
-        desc:
-          language === "en"
-            ? "Long-term positioning and growth planning."
-            : "Dugoročna strategija i plan razvoja kanala.",
-        icon: "strategy",
-      },
-      {
-        title: language === "en" ? "Brand Identity" : "Brend Identitet",
-        desc:
-          language === "en"
-            ? "Professional visual identity for your channel."
-            : "Profesionalni vizuelni identitet kanala.",
-        icon: "branding",
-      },
-      {
-        title: language === "en" ? "Analytics Review" : "Analiza Statistike",
-        desc:
-          language === "en"
-            ? "Data-driven insights to improve performance."
-            : "Detaljna analiza podataka i performansi.",
-        icon: "analytics",
-      },
-      {
-        title: language === "en" ? "Channel Audit" : "Analiza Kanala",
-        desc:
-          language === "en"
-            ? "Complete review with actionable recommendations."
-            : "Kompletna analiza sa konkretnim predlozima.",
-        icon: "audit",
-      },
-    ].map((service, index) => (
- <motion.div
-  key={service.title}
-  onClick={() => setSelectedService(service.icon)}
-  initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.3 }}
-    transition={{
-      duration: 0.5,
-      delay: index * 0.08,
-      ease: "easeOut",
-    }}
-    whileHover={{ y: -8, scale: 1.02 }}
-    className="glass group cursor-pointer rounded-3xl border border-transparent p-7 hover:border-purple-500/40"
-  >
-        <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-purple-600/10 transition-all duration-300 group-hover:rotate-6 group-hover:scale-110 group-hover:bg-purple-600/20">
-
-          {service.icon === "thumbnail" && (
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="5" width="18" height="14" rx="3" stroke="#A78BFA" strokeWidth="1.8"/>
-              <path d="M7 14l3-3 2 2 3-4 2 5" stroke="#A78BFA" strokeWidth="1.8" strokeLinecap="round"/>
-            </svg>
-          )}
-
-          {service.icon === "seo" && (
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <circle cx="11" cy="11" r="6" stroke="#A78BFA" strokeWidth="1.8"/>
-              <path d="M20 20l-4-4" stroke="#A78BFA" strokeWidth="1.8" strokeLinecap="round"/>
-            </svg>
-          )}
-
-          {service.icon === "strategy" && (
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M5 16l4-4 3 3 7-8" stroke="#A78BFA" strokeWidth="1.8" strokeLinecap="round"/>
-            </svg>
-          )}
-
-          {service.icon === "branding" && (
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M12 3l7 4v10l-7 4-7-4V7l7-4z" stroke="#A78BFA" strokeWidth="1.8"/>
-              <circle cx="12" cy="12" r="2" fill="#A78BFA"/>
-            </svg>
-          )}
-
-          {service.icon === "analytics" && (
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <path d="M5 19V9M12 19V5M19 19v-7" stroke="#A78BFA" strokeWidth="1.8" strokeLinecap="round"/>
-            </svg>
-          )}
-
-          {service.icon === "audit" && (
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <rect x="5" y="4" width="14" height="16" rx="2" stroke="#A78BFA" strokeWidth="1.8"/>
-              <path d="M8 9h8M8 13h5" stroke="#A78BFA" strokeWidth="1.8" strokeLinecap="round"/>
-            </svg>
-          )}
-
-        </div>
-
-        <h3 className="font-[family-name:var(--font-manrope)] text-xl font-semibold text-white">
-          {service.title}
-        </h3>
-
-        <p className="mt-3 text-sm leading-7 text-slate-400">
-          {service.desc}
-        </p>
-      </motion.div>
-    ))}
-  </div>
-</motion.section>
-
-
-
-{/* Pricing */}
-<motion.section
-  id="pricing"
-  initial={{ opacity: 0, y: 40 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, amount: 0.2 }}
-  transition={{ duration: 0.6 }}
-  className="mx-auto max-w-7xl px-5 py-20 md:px-6 md:py-28"
->
-  <div className="text-center">
-    <p className="text-sm uppercase tracking-[0.3em] text-purple-400">
-      {language === "en" ? "Pricing" : "Cene"}
-    </p>
-
-    <h2 className="mt-4 font-[family-name:var(--font-manrope)] text-3xl font-bold leading-tight text-white md:text-5xl">
-      {language === "en" ? "Choose Your Plan" : "Izaberi Svoj Paket"}
-    </h2>
-
-    <p className="mx-auto mt-6 max-w-2xl text-slate-400">
-      {language === "en"
-        ? "Transparent pricing for creators and brands."
-        : "Transparentne cene za kreatore i brendove."}
-    </p>
-  </div>
-
-  <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-    {[
-      {
-        name: "Launch",
-        price: "FREE",
-        free: true,
-        path: "/plans/launch",
-      },
-      {
-        name: "Starter",
-        price: "€69",
-        path: "/plans/starter",
-      },
-      {
-        name: "Growth",
-        price: "€99",
-        popular: true,
-        path: "/plans/growth",
-      },
-      {
-        name: "Media Pro",
-        price: "€199",
-        path: "/plans/media-pro",
-      },
-      {
-        name: "Performance",
-        price: "€95",
-        extra: "+15%",
-        path: "/plans/performance",
-      },
-    ].map((plan) => (
-      <motion.div
-        key={plan.name}
-        whileHover={{ y: -8, scale: 1.02 }}
-        transition={{ type: "spring", stiffness: 260, damping: 18 }}
-        className={`relative flex flex-col rounded-3xl p-5 md:p-6 ${
-          plan.popular
-            ? "border border-purple-500 bg-purple-500/10"
-            : plan.free
-            ? "border border-emerald-500/40 bg-emerald-500/10"
-            : "glass border border-transparent"
-        }`}
-      >
-        {plan.popular && (
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-purple-600 px-3 py-1 text-[10px] font-bold uppercase text-white">
-            {language === "en" ? "Most Popular" : "Najpopularniji"}
-          </div>
-        )}
-
-        {plan.free && (
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-3 py-1 text-[10px] font-bold uppercase text-white">
-            FREE
-          </div>
-        )}
-
-        <h3 className="text-xl font-bold text-white">{plan.name}</h3>
-
-        <div className="mt-5 flex items-end gap-1">
-          <span className="text-4xl font-extrabold text-white">
-            {plan.price}
-          </span>
-        </div>
-
-       {plan.free && (
-  <p className="mt-3 mb-5 text-xs font-medium leading-5 text-emerald-300">
-    {language === "en"
-      ? "For non-monetized channels only"
-      : "Samo za kanale bez monetizacije"}
-  </p>
-)}
-
-        {plan.extra && (
-          <p className="mt-1 text-sm font-medium text-purple-300">
-            {language === "en"
-              ? `${plan.extra} YouTube Revenue`
-              : `${plan.extra} od YouTube zarade`}
-          </p>
-        )}
-
-        <button
-          onClick={() => {
-            window.location.href = plan.path;
-          }}
-          className={`mt-auto w-full rounded-2xl py-3 text-sm font-semibold transition ${
-            plan.popular
-              ? "purple-gradient text-white hover:scale-105"
-              : plan.free
-              ? "bg-emerald-500 text-white hover:bg-emerald-400"
-              : "glass text-white hover:bg-white/10"
-          }`}
-        >
-          {language === "en" ? "View Plan" : "Pogledaj Paket"}
-        </button>
-      </motion.div>
-    ))}
-  </div>
-</motion.section>
-
-
-
-{/* About */}
-<motion.section
-  id="about"
-  initial={{ opacity: 0, y: 40 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, amount: 0.2 }}
-  transition={{ duration: 0.6 }}
-  className="mx-auto max-w-7xl px-6 py-28"
->
-  <p className="text-sm uppercase tracking-[0.3em] text-purple-400">
-    {language === "en" ? "About Us" : "O Nama"}
-  </p>
-
-  <h2 className="mt-4 text-4xl font-bold text-white md:text-5xl">
-    {language === "en"
-      ? "Young team of creators building modern media brands."
-      : "Mladi tim kreatora koji gradi moderne medijske brendove."}
-  </h2>
-
-  <p className="mt-6 max-w-4xl leading-8 text-slate-400">
-    {language === "en"
-      ? "Lensia Media is a creative agency focused on YouTube growth, branding and content optimization. We combine design, analytics and strategy to help creators and businesses grow sustainably."
-      : "Lensia Media je kreativna agencija fokusirana na YouTube rast, brending i optimizaciju sadržaja. Spajamo dizajn, analitiku i strategiju kako bismo pomogli kreatorima i kompanijama da dugoročno rastu."}
-  </p>
-
-  <div className="mt-10 grid gap-6 lg:grid-cols-[1.2fr_1fr] items-start">
-
-    {/* LEFT - Professional Experience */}
-    <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm">
-      <div className="bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-6">
-        <div className="flex items-center justify-between">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-purple-200">
-            {language === "en"
-              ? "Founder's Professional Experience"
-              : "Profesionalno Iskustvo osnivača"}
-          </p>
-
-          <div className="flex gap-2">
-            <button
-              onClick={() =>
-                setExperienceIndex(
-                  experienceIndex === 0
-                    ? experiences.length - 1
-                    : experienceIndex - 1
-                )
-              }
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-white hover:bg-white/20"
-            >
-              ←
-            </button>
-
-            <button
-              onClick={() =>
-                setExperienceIndex(
-                  experienceIndex === experiences.length - 1
-                    ? 0
-                    : experienceIndex + 1
-                )
-              }
-              className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/10 text-white hover:bg-white/20"
-            >
-              →
-            </button>
-          </div>
-        </div>
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={experienceIndex}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -30 }}
-            transition={{ duration: 0.25 }}
-            className="mt-4 flex items-center gap-4"
-          >
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-8 w-8 text-white"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={1.8}
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M3 21h18M5 21V7l7-4 7 4v14M9 9h6M9 13h6M9 17h6"
-    />
-  </svg>
-</div>
-
-            <div>
-              <h3 className="text-xl font-bold text-white">
-                {experiences[experienceIndex].company}
-              </h3>
-              <p className="text-sm text-purple-100">
-                {language === "en"
-                  ? experiences[experienceIndex].roleEn
-                  : experiences[experienceIndex].roleSr}
-              </p>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      <div className="p-6">
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={experienceIndex}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.25 }}
-            className="mb-5 text-sm leading-7 text-slate-300"
-          >
-            {language === "en"
-              ? experiences[experienceIndex].descEn
-              : experiences[experienceIndex].descSr}
-          </motion.p>
-        </AnimatePresence>
-
-        <div className="mb-5 flex justify-center gap-2">
-          {experiences.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setExperienceIndex(i)}
-              className={`h-2 rounded-full transition-all ${
-                i === experienceIndex
-                  ? "w-8 bg-purple-500"
-                  : "w-2 bg-white/30"
-              }`}
-            />
-          ))}
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          {(language === "en"
-            ? experiences[experienceIndex].featuresEn
-            : experiences[experienceIndex].featuresSr
-          ).map((item) => (
-            <div
-              key={item}
-              className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2"
-            >
-              <div className="flex h-5 w-5 items-center justify-center rounded-full bg-green-600 text-[10px] font-bold text-white">
-                ✓
-              </div>
-              <span className="text-xs font-medium text-white">{item}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-
-{/* RIGHT - Founders */}
-<div className="grid h-full grid-cols-3 gap-4">
-  {[
-    {
-      name: "Miloš Vranješ",
-      image: "/team/founder1.png",
-      roleEn: "Founder & CEO",
-      roleSr: "Osnivač i CEO",
-    },
-    {
-      name: "Lazar Sekulić",
-      image: "/team/founder2.png",
-      roleEn: "Balkan Client Manager",
-      roleSr: "Menadžer za Balkanske Klijente",
-    },
-    {
-      name: "Vlatko Danilovski",
-      image: "/team/founder3.png",
-      roleEn: "International Growth Strategist",
-      roleSr: "Strateg za Internacionalni Rast",
-    },
-  ].map((founder, index) => {
-    const active = experienceIndex === index;
-
-    return (
-      <motion.div
-        key={founder.name}
-        layout
-        onClick={() => setExperienceIndex(index)}
-        animate={{
-          scale: active ? 1.06 : 0.97,
-          y: active ? -6 : 2,
-          opacity: active ? 1 : 0.82,
-        }}
-        transition={{
-          duration: 0.35,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className={`group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border ${
-          active
-            ? "border-purple-500 bg-white/10 shadow-[0_0_24px_rgba(124,58,237,0.30)]"
-            : "border-white/10 bg-white/5"
-        }`}
-      >
-        <div className="flex-1 overflow-hidden">
-          <img
-            src={founder.image}
-            alt={founder.name}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        </div>
-
-        <div className="p-4">
-          <h3 className="text-sm font-semibold text-white">
-            {founder.name}
-          </h3>
-
-          <p
-            className={`mt-1 text-xs transition-colors duration-300 ${
-              active ? "text-purple-300" : "text-slate-400"
+            key={item.id}
+            type="button"
+            onClick={() => scrollToSection(item.id)}
+            className={`text-[13px] font-medium transition-colors duration-200 ${
+              activeSection === item.id
+                ? "text-white"
+                : "text-white/55 hover:text-white"
             }`}
           >
-            {language === "en" ? founder.roleEn : founder.roleSr}
-          </p>
-        </div>
-      </motion.div>
-    );
-  })}
-</div>
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      {/* RIGHT SIDE */}
+      <div className="flex shrink-0 items-center gap-3 sm:gap-5">
+        {/* LANGUAGE */}
+        <button
+          type="button"
+          onClick={() => setLanguage(language === "en" ? "sr" : "en")}
+          aria-label={
+            language === "en"
+              ? "Switch to Serbian"
+              : "Prebaci na engleski"
+          }
+          className="whitespace-nowrap text-[10px] font-semibold tracking-wider transition-colors duration-200 sm:text-[11px]"
+        >
+          <span
+            className={
+              language === "en" ? "text-white" : "text-white/40"
+            }
+          >
+            EN
+          </span>
+          <span className="mx-1 text-white/20 sm:mx-1.5">/</span>
+          <span
+            className={
+              language === "sr" ? "text-white" : "text-white/40"
+            }
+          >
+            SR
+          </span>
+        </button>
+
+        {/* DESKTOP CTA */}
+        <button
+          type="button"
+          onClick={() => window.location.assign("/buy")}
+          className="hidden rounded-xl bg-white px-5 py-3 text-xs font-semibold text-black transition-colors duration-200 hover:bg-purple-300 sm:block"
+        >
+          {language === "en" ? "Start a project" : "Započni saradnju"}
+        </button>
+
+        {/* MOBILE MENU BUTTON */}
+        <button
+          type="button"
+          onClick={() => setMobileMenu((previous) => !previous)}
+          aria-label={
+            mobileMenu
+              ? language === "en"
+                ? "Close menu"
+                : "Zatvori meni"
+              : language === "en"
+                ? "Open menu"
+                : "Otvori meni"
+          }
+          aria-expanded={mobileMenu}
+          aria-controls="mobile-navigation"
+          className="flex min-h-10 items-center gap-2 rounded-lg border border-white/10 px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-white transition-colors duration-200 hover:border-white/25 lg:hidden sm:text-xs"
+        >
+          <span>
+            {mobileMenu
+              ? language === "en"
+                ? "Close"
+                : "Zatvori"
+              : language === "en"
+                ? "Menu"
+                : "Meni"}
+          </span>
+
+          <span className="relative flex h-3.5 w-4 flex-col justify-center gap-[5px]">
+            <span
+              className={`h-px w-full bg-white transition-transform duration-300 ${
+                mobileMenu
+                  ? "translate-y-[3px] rotate-45"
+                  : "translate-y-0"
+              }`}
+            />
+            <span
+              className={`h-px w-full bg-white transition-transform duration-300 ${
+                mobileMenu
+                  ? "-translate-y-[3px] -rotate-45"
+                  : "translate-y-0"
+              }`}
+            />
+          </span>
+        </button>
+      </div>
+    </div>
+
+    {/* MOBILE PREMIUM DROPDOWN */}
+    <AnimatePresence initial={false}>
+      {mobileMenu && (
+        <motion.div
+          id="mobile-navigation"
+          key="mobile-navigation"
+          initial={{ opacity: 0, height: 0, y: -8 }}
+          animate={{ opacity: 1, height: "auto", y: 0 }}
+          exit={{ opacity: 0, height: 0, y: -8 }}
+          transition={{
+            height: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+            opacity: { duration: 0.2 },
+            y: { duration: 0.25, ease: [0.22, 1, 0.36, 1] },
+          }}
+          className="overflow-hidden lg:hidden"
+        >
+          <div className="mt-3 overflow-hidden rounded-2xl border border-white/10 bg-[#09090c]/95 shadow-2xl shadow-black/30 backdrop-blur-xl">
+            {/* MENU HEADER */}
+            <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/40">
+                {language === "en" ? "Navigation" : "Navigacija"}
+              </p>
+
+              <span className="text-[10px] font-medium tracking-wider text-purple-300">
+                L / M
+              </span>
+            </div>
+
+            {/* NAVIGATION LINKS */}
+            <div className="px-3 py-2">
+              {[
+                {
+                  id: "youtube-services",
+                  number: "01",
+                  label: language === "en" ? "Services" : "Usluge",
+                },
+                {
+                  id: "pricing",
+                  number: "02",
+                  label: language === "en" ? "Pricing" : "Cene",
+                },
+                {
+                  id: "about",
+                  number: "03",
+                  label: language === "en" ? "About us" : "O nama",
+                },
+                {
+                  id: "contact",
+                  number: "04",
+                  label: language === "en" ? "Contact" : "Kontakt",
+                },
+              ].map((item, index) => (
+                <motion.button
+                  key={item.id}
+                  type="button"
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: 0.25,
+                    delay: index * 0.045,
+                  }}
+                  onClick={() => {
+                    setMobileMenu(false);
+                    scrollToSection(item.id);
+                  }}
+                  className={`group flex min-h-[56px] w-full items-center gap-4 rounded-xl px-3 text-left transition-colors duration-200 ${
+                    activeSection === item.id
+                      ? "bg-white/[0.07] text-white"
+                      : "text-white/65 hover:bg-white/[0.04] hover:text-white"
+                  }`}
+                >
+                  <span
+                    className={`w-6 text-[10px] font-medium tabular-nums ${
+                      activeSection === item.id
+                        ? "text-purple-300"
+                        : "text-white/25"
+                    }`}
+                  >
+                    {item.number}
+                  </span>
+
+                  <span className="flex-1 text-[15px] font-medium">
+                    {item.label}
+                  </span>
+
+                  <span
+                    className={`text-base transition-all duration-200 ${
+                      activeSection === item.id
+                        ? "translate-x-0 text-purple-300"
+                        : "-translate-x-1 text-white/20 group-hover:translate-x-0 group-hover:text-white/70"
+                    }`}
+                  >
+                    →
+                  </span>
+                </motion.button>
+              ))}
+            </div>
+
+            {/* CTA */}
+            <div className="border-t border-white/[0.08] p-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenu(false);
+                  window.location.assign("/buy");
+                }}
+                className="flex min-h-[50px] w-full items-center justify-between rounded-xl bg-white px-5 py-3 text-sm font-semibold text-black transition-colors duration-200 hover:bg-purple-300"
+              >
+                <span>
+                  {language === "en"
+                    ? "Start a project"
+                    : "Započni saradnju"}
+                </span>
+
+                <span className="text-lg">↗</span>
+              </button>
+
+              <p className="mt-3 text-center text-[10px] tracking-wide text-white/30">
+                {language === "en"
+                  ? "YouTube Growth Agency"
+                  : "Agencija za YouTube rast"}
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </nav>
+</header>
+
+      
+
+
+
+
+
+{/* HERO — LENSIA MEDIA */}
+<section
+  id="home"
+  className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 pb-24 pt-28 text-white sm:px-8"
+>
+  {/* Background glow */}
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-0"
+    style={{
+      background:
+        "radial-gradient(ellipse at 50% 42%, rgba(109,40,217,0.09) 0%, transparent 55%)",
+    }}
+  />
+
+  {/* Organic ribbon waves */}
+  <div
+    aria-hidden="true"
+    className="lensia-reference-waves pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-[43%] overflow-hidden sm:h-[47%]"
+  >
+    <svg
+      viewBox="0 0 1440 400"
+      preserveAspectRatio="none"
+      className="h-full w-full"
+      fill="none"
+    >
+      <defs>
+        <linearGradient
+          id="lensia-ribbon-stroke"
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="1"
+        >
+          <stop offset="0%" stopColor="#c8c8cc" stopOpacity="0.72" />
+          <stop offset="45%" stopColor="#898991" stopOpacity="0.55" />
+          <stop offset="100%" stopColor="#55555d" stopOpacity="0.08" />
+        </linearGradient>
+
+        <linearGradient
+          id="lensia-ribbon-mask"
+          x1="0"
+          y1="0"
+          x2="0"
+          y2="1"
+        >
+          <stop offset="0%" stopColor="white" stopOpacity="0" />
+          <stop offset="12%" stopColor="white" stopOpacity="1" />
+          <stop offset="65%" stopColor="white" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="white" stopOpacity="0" />
+        </linearGradient>
+
+        <mask id="lensia-ribbon-visibility">
+          <rect width="1440" height="400" fill="url(#lensia-ribbon-mask)" />
+        </mask>
+      </defs>
+
+      <g mask="url(#lensia-ribbon-visibility)">
+        {Array.from({ length: 58 }, (_, i) => {
+          const y = 54 + i * 4.8;
+          const t = i / 57;
+
+          const variation = (n: number) =>
+            Math.sin(i * 0.37 + n * 1.7) * 15 +
+            Math.sin(i * 0.19 + n * 2.4) * 9;
+
+          const p = [
+            [-80, y + variation(0)],
+            [100, y - 12 + variation(1)],
+            [205, y - 30 + variation(2)],
+            [330, y - 5 + variation(3)],
+            [440, y + 15 + variation(4)],
+            [555, y - 13 + variation(5)],
+            [680, y - 25 + variation(6)],
+            [800, y + 13 + variation(7)],
+            [925, y + 29 + variation(8)],
+            [1045, y - 10 + variation(9)],
+            [1160, y - 26 + variation(10)],
+            [1280, y + 9 + variation(11)],
+            [1510, y + variation(12)],
+          ];
+
+          let d = `M ${p[0][0]} ${p[0][1]}`;
+
+          for (let j = 0; j < p.length - 1; j++) {
+            const a = p[j];
+            const b = p[j + 1];
+            const distance = b[0] - a[0];
+
+            d += ` C ${a[0] + distance * 0.42} ${a[1] + variation(j + 2) * 0.22},
+              ${b[0] - distance * 0.42} ${b[1] - variation(j + 4) * 0.22},
+              ${b[0]} ${b[1]}`;
+          }
+
+          return (
+            <path
+              key={i}
+              d={d}
+              stroke="url(#lensia-ribbon-stroke)"
+              strokeWidth={i % 8 === 0 ? 1.45 : 0.9}
+              opacity={0.12 + (1 - t) * 0.22}
+              className="lensia-reference-wave"
+              style={{
+                animationDelay: `${-(i % 10) * 0.7}s`,
+                animationDuration: `${12 + (i % 7) * 1.5}s`,
+              }}
+            />
+          );
+        })}
+      </g>
+    </svg>
   </div>
+
+  {/* Main content */}
+  <div className="relative z-10 mx-auto flex w-full max-w-[1500px] flex-col items-center text-center">
+    {/* Eyebrow */}
+    <motion.div
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7 }}
+      className="mb-8 flex items-center gap-3 sm:mb-10"
+    >
+      <span className="h-px w-6 bg-purple-400/70 sm:w-9" />
+
+      <span className="text-[9px] font-medium uppercase tracking-[0.2em] text-white/75 sm:text-xs sm:tracking-[0.28em]">
+        {language === "en"
+          ? "Creative Studio · Digital Growth"
+          : "Kreativni studio · Digitalni rast"}
+      </span>
+
+      <span className="h-px w-6 bg-purple-400/70 sm:w-9" />
+    </motion.div>
+
+    {/* Single-line brand title — matching purple gradient */}
+    <motion.h1
+      initial={{ opacity: 0, y: 25, filter: "blur(8px)" }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{
+        duration: 1,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="relative z-10 whitespace-nowrap select-none text-[clamp(2.5rem,9.5vw,9rem)] font-black uppercase leading-none tracking-[-0.065em]"
+      style={{
+        fontFamily:
+          "var(--font-space-grotesk, var(--font-manrope, sans-serif))",
+      }}
+    >
+      <span
+        className="inline-block text-transparent"
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, #ffffff 0%, #d9c5ff 50%, #a78bfa 100%)",
+          backgroundClip: "text",
+          WebkitBackgroundClip: "text",
+        }}
+      >
+        LENSIA
+      </span>
+
+      <span
+        className="ml-[0.14em] inline-block text-transparent"
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, #ffffff 0%, #d9c5ff 50%, #a78bfa 100%)",
+          backgroundClip: "text",
+          WebkitBackgroundClip: "text",
+        }}
+      >
+        MEDIA
+      </span>
+    </motion.h1>
+
+    {/* Accent line */}
+    <motion.div
+      initial={{ opacity: 0, scaleX: 0.2 }}
+      animate={{ opacity: 1, scaleX: 1 }}
+      transition={{ delay: 0.35, duration: 0.9 }}
+      className="mt-6 h-px w-20 origin-center bg-purple-400/70 sm:mt-7 sm:w-28"
+    />
+
+    {/* Description — no slogan underneath the title */}
+    <motion.p
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5, duration: 0.7 }}
+      className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-white/90 sm:mt-7 sm:text-base sm:leading-8"
+    >
+      {language === "en"
+        ? "We help creators and brands grow through creative design, engaging content and digital strategy."
+        : "Pomažemo kreatorima i brendovima da rastu kroz kreativni dizajn, kvalitetan sadržaj i digitalnu strategiju."}
+    </motion.p>
+
+    {/* Interactive creative services */}
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.6, duration: 0.7 }}
+      className="mt-7 flex flex-wrap items-center justify-center gap-x-3 gap-y-3 text-[8px] font-medium uppercase tracking-[0.13em] text-white/75 sm:gap-x-5 sm:text-[10px] sm:tracking-[0.18em]"
+    >
+      <motion.span
+        whileHover={{ scale: 1.12, color: "#c4a7ff" }}
+        transition={{ type: "spring", stiffness: 350, damping: 18 }}
+        className="inline-block cursor-default"
+      >
+        {language === "en" ? "Social Media" : "Društvene mreže"}
+      </motion.span>
+
+      <span className="text-purple-400">/</span>
+
+      <motion.span
+        whileHover={{ scale: 1.12, color: "#c4a7ff" }}
+        transition={{ type: "spring", stiffness: 350, damping: 18 }}
+        className="inline-block cursor-default"
+      >
+        {language === "en" ? "Creative Design" : "Kreativni dizajn"}
+      </motion.span>
+
+      <span className="text-purple-400">/</span>
+
+      <motion.span
+        whileHover={{ scale: 1.12, color: "#c4a7ff" }}
+        transition={{ type: "spring", stiffness: 350, damping: 18 }}
+        className="inline-block cursor-default"
+      >
+        {language === "en" ? "Content Strategy" : "Strategija sadržaja"}
+      </motion.span>
+    </motion.div>
+
+    {/* CTA */}
+    <motion.button
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.7, duration: 0.7 }}
+      onClick={() => scrollToSection("services")}
+      className="group mt-7 inline-flex min-h-12 items-center justify-center gap-5 border border-white/25 bg-black/30 px-6 py-3 text-[9px] font-semibold uppercase tracking-[0.2em] backdrop-blur-sm transition-all duration-300 hover:border-purple-400 hover:bg-purple-500/10 sm:mt-8 sm:px-8 sm:text-[10px]"
+    >
+      <span>
+        {language === "en" ? "Explore Services" : "Istraži usluge"}
+      </span>
+
+      <span className="text-base text-purple-300 transition-transform duration-300 group-hover:translate-y-1">
+        ↓
+      </span>
+    </motion.button>
+  </div>
+
+ 
+{/* Centered Scroll Indicator */}
+<motion.button
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ delay: 1.1, duration: 0.8 }}
+  onClick={() => scrollToSection("services")}
+  aria-label={language === "en" ? "Scroll to services" : "Skroluj do usluga"}
+  className="group absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-3 text-white/40 transition-colors duration-300 hover:text-white sm:bottom-7"
+>
+  <span className="text-[9px] font-medium uppercase tracking-[0.28em] transition-colors duration-300 group-hover:text-purple-300">
+    {language === "en" ? "Scroll to explore" : "Skroluj za više"}
+  </span>
+
+  <span className="relative h-10 w-px overflow-hidden bg-white/15">
+    <motion.span
+      animate={{ y: [-16, 40] }}
+      transition={{
+        duration: 1.6,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+      className="absolute left-0 top-0 h-4 w-px bg-purple-400"
+    />
+  </span>
+</motion.button>
+</section>
+
+
+
+
+{/* LENSIA MEDIA — SERVICES */}
+
+{/* YouTube Services Showcase */}
+<motion.section
+  id="youtube-services"
+  initial={{ opacity: 0, y: 35, scale: 0.98 }}
+  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+  viewport={{ once: true, amount: 0.2 }}
+  transition={{
+    duration: 1,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className="relative isolate w-full scroll-mt-28 overflow-hidden px-0 py-16 md:py-20"
+>
+  {/* Background glow */}
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute left-1/2 top-[55%] -z-10 h-64 w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-purple-600/20 blur-[100px] sm:h-96"
+  />
+
+  {/* YouTube Heading */}
+  <div className="mx-auto mb-8 max-w-4xl px-5 text-center sm:mb-10">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="mb-5 flex justify-center"
+    >
+      <div className="inline-flex items-center gap-2.5 rounded-full border border-red-500/25 bg-red-500/[0.08] px-4 py-2">
+        <svg
+          viewBox="0 0 24 24"
+          className="h-5 w-5 text-red-500"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z" />
+        </svg>
+
+        <span className="text-xs font-bold uppercase tracking-[0.22em] text-red-400">
+          YouTube Services
+        </span>
+      </div>
+    </motion.div>
+
+    <h2 className="font-[family-name:var(--font-manrope)] text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
+      {language === "en"
+        ? "YouTube Optimization &"
+        : "YouTube optimizacija i"}
+
+      <span className="mt-1 block text-red-400">
+        {language === "en" ? "Channel Growth" : "rast kanala"}
+      </span>
+    </h2>
+  </div>
+
+  {/* YouTube Dashboard Image */}
+  <motion.div
+    initial={{ opacity: 0, y: 25, scale: 0.97 }}
+    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{
+      duration: 1.2,
+      delay: 0.15,
+      ease: [0.22, 1, 0.36, 1],
+    }}
+    className="relative mx-auto w-full"
+  >
+    <img
+      src="/services/lensia-services.png"
+      alt={
+        language === "en"
+          ? "Lensia Media YouTube SEO, analytics and channel strategy"
+          : "Lensia Media YouTube SEO, analitika i strategija kanala"
+      }
+      loading="lazy"
+      className="relative z-10 block h-auto w-full object-contain drop-shadow-[0_0_35px_rgba(139,92,246,0.12)]"
+    />
+
+    {/* Thumbnail Gallery Heading */}
+    <div className="relative z-20 mb-5 mt-8 text-center sm:mt-10">
+      <h3 className="font-[family-name:var(--font-manrope)] text-xl font-bold text-white sm:text-2xl">
+        {language === "en"
+          ? "Our Thumbnails"
+          : "Primeri thumbnailova"}
+      </h3>
+
+      <div className="mx-auto mt-3 h-1 w-12 rounded-full bg-red-500" />
+    </div>
+
+    <ThumbnailGallery />
+  </motion.div>
 </motion.section>
 
+{/* YouTube Services Checklist */}
+<motion.div
+  initial={{ opacity: 0, y: 15 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, amount: 0.5 }}
+  transition={{
+    duration: 0.7,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className="relative mx-auto w-full max-w-7xl px-5 pb-6 pt-2 sm:px-6"
+>
+  <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+    {(language === "en"
+      ? [
+          "YouTube SEO",
+          "Channel Analytics",
+          "Channel Strategy",
+          "Thumbnail Design",
+        ]
+      : [
+          "SEO optimizacija",
+          "Analitika kanala",
+          "Strategija kanala",
+          "Thumbnailovi",
+        ]
+    ).map((service) => (
+      <div
+        key={service}
+        className="flex items-center gap-2 whitespace-nowrap"
+      >
+        <svg
+          className="h-5 w-5 shrink-0 text-green-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="m5 12 4 4L19 6" />
+        </svg>
 
+        <span className="text-sm font-medium text-slate-200 sm:text-base">
+          {service}
+        </span>
+      </div>
+    ))}
+  </div>
+</motion.div>
 
-{/* Contact */}
-
+{/* Instagram Strategy Section */}
 <motion.section
-  id="contact"
-  initial={{ opacity: 0, y: 40 }}
+  id="instagram-services"
+  initial={{ opacity: 0, y: 30 }}
   whileInView={{ opacity: 1, y: 0 }}
   viewport={{ once: true, amount: 0.2 }}
-  transition={{ duration: 0.6 }}
-  className="mx-auto max-w-5xl px-6 py-28"
+  transition={{
+    duration: 0.9,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className="relative isolate w-full scroll-mt-28 overflow-hidden py-14 md:py-20"
 >
-  <div className="glass relative overflow-hidden rounded-[32px] p-10 md:p-14">
-    <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-purple-600/20 blur-3xl" />
-    <div className="absolute -left-20 bottom-0 h-56 w-56 rounded-full bg-fuchsia-600/10 blur-3xl" />
+  {/* Background glow */}
+  <div
+    aria-hidden="true"
+    className="pointer-events-none absolute left-1/2 top-[55%] -z-10 h-64 w-[75%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-fuchsia-600/15 blur-[100px] sm:h-96"
+  />
 
-    <div className="relative text-center">
-      <p className="text-sm uppercase tracking-[0.3em] text-purple-400">
-        {language === "en" ? "Contact" : "Kontakt"}
-      </p>
-
-      <h2 className="mt-4 font-[family-name:var(--font-manrope)] text-4xl font-bold text-white md:text-5xl">
-        {language === "en"
-          ? "Let's Grow Your Channel"
-          : "Hajde da Razvijemo Tvoj Kanal"}
-      </h2>
-
-      <p className="mx-auto mt-6 max-w-2xl leading-8 text-slate-400">
-        {language === "en"
-          ? "Tell us about your channel, goals, and current challenges. We'll review your request and get back to you with the best solution for your needs."
-          : "Pošalji nam informacije o svom kanalu, ciljevima i trenutnim izazovima. Pregledaćemo tvoj upit i javićemo ti se sa rešenjem koje najbolje odgovara tvojim potrebama."}
-      </p>
-
-      <a
-        href="mailto:lensiamedia@gmail.com"
-        className="purple-gradient mx-auto mt-10 flex w-full max-w-md items-center justify-center gap-3 rounded-2xl px-8 py-4 text-lg font-semibold text-white transition hover:scale-105"
-      >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M4 6l8 6 8-6M5 6h14a1 1 0 011 1v10a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1z"
-            stroke="white"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+  {/* Instagram Heading */}
+  <div className="mx-auto mb-8 max-w-4xl px-5 text-center sm:mb-10">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="mb-5 flex justify-center"
+    >
+      <div className="inline-flex items-center gap-2.5 rounded-full border border-fuchsia-500/25 bg-fuchsia-500/[0.08] px-4 py-2">
+        <svg
+          viewBox="0 0 24 24"
+          className="h-5 w-5 text-fuchsia-400"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          aria-hidden="true"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle
+            cx="18"
+            cy="6"
+            r="1"
+            fill="currentColor"
+            stroke="none"
           />
         </svg>
 
-        lensiamedia@gmail.com
-      </a>
-
-      <div className="mt-8 grid gap-3 sm:grid-cols-3">
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-          <p className="text-2xl font-bold text-white">&lt;12h</p>
-          <p className="mt-1 text-xs text-slate-400">
-            {language === "en" ? "Average response" : "Prosečan odgovor"}
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-          <p className="text-2xl font-bold text-white">FREE</p>
-          <p className="mt-1 text-xs text-slate-400">
-            {language === "en" ? "Channel audit" : "Analiza kanala"}
-          </p>
-        </div>
-
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-          <p className="text-2xl font-bold text-white">🌍</p>
-          <p className="mt-1 text-xs text-slate-400">
-            {language === "en" ? "Worldwide" : "Globalno"}
-          </p>
-        </div>
+        <span className="text-xs font-bold uppercase tracking-[0.22em] text-fuchsia-300">
+          Instagram Services
+        </span>
       </div>
+    </motion.div>
 
-      <p className="mt-6 text-sm text-slate-500">
-        {language === "en"
-          ? "Free consultation • Worldwide creators"
-          : "Besplatna konsultacija • Kreatori širom sveta"}
-      </p>
-    </div>
+    <h2 className="font-[family-name:var(--font-manrope)] text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl">
+      {language === "en"
+        ? "Instagram Strategy &"
+        : "Instagram strategija i"}
+
+      <span className="mt-1 block bg-gradient-to-r from-fuchsia-400 to-purple-400 bg-clip-text text-transparent">
+        {language === "en" ? "Profile Growth" : "rast profila"}
+      </span>
+    </h2>
   </div>
+
+  {/* Instagram Visual */}
+  <motion.div
+    initial={{ opacity: 0, y: 25, scale: 0.98 }}
+    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+    viewport={{ once: true, amount: 0.2 }}
+    transition={{
+      duration: 1.1,
+      delay: 0.15,
+      ease: [0.22, 1, 0.36, 1],
+    }}
+    className="relative mx-auto w-[95vw] max-w-[1600px]"
+  >
+    {/* Visual Heading */}
+    <div className="relative z-20 mb-5 mt-2 text-center sm:mb-7">
+      <h3 className="font-[family-name:var(--font-manrope)] text-xl font-bold text-white sm:text-2xl">
+        {language === "en"
+          ? "Instagram Content"
+          : "Instagram objave"}
+      </h3>
+
+      <div className="mx-auto mt-3 h-1 w-12 rounded-full bg-gradient-to-r from-fuchsia-500 to-purple-500" />
+    </div>
+
+    <img
+      src="/services/instagram-strategy.png"
+      alt={
+        language === "en"
+          ? "Instagram strategy, content planning and profile optimization"
+          : "Instagram strategija, planiranje sadržaja i optimizacija profila"
+      }
+      loading="lazy"
+      className="relative z-10 block h-auto w-full object-contain drop-shadow-[0_0_35px_rgba(192,38,211,0.12)]"
+    />
+  </motion.div>
+
+  {/* Instagram Services Checklist */}
+  <motion.div
+    initial={{ opacity: 0, y: 12 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.5 }}
+    transition={{ duration: 0.7, delay: 0.1 }}
+    className="relative mx-auto w-full max-w-7xl px-5 pb-4 pt-5 sm:px-6"
+  >
+    <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+      {(language === "en"
+        ? [
+            "Instagram Strategy",
+            "Content Planning",
+            "Profile Optimization",
+            "Analytics & Growth",
+          ]
+        : [
+            "Instagram strategija",
+            "Planiranje sadržaja",
+            "Optimizacija profila",
+            "Analitika i rast",
+          ]
+      ).map((service) => (
+        <div
+          key={service}
+          className="flex items-center gap-2 whitespace-nowrap"
+        >
+          <svg
+            className="h-5 w-5 shrink-0 text-green-400"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m5 12 4 4L19 6" />
+          </svg>
+
+          <span className="text-sm font-medium text-slate-200 sm:text-base">
+            {service}
+          </span>
+        </div>
+      ))}
+    </div>
+  </motion.div>
 </motion.section>
 
 
 
-    {/* Service Popup */}
-<AnimatePresence>
-  {selectedService === "thumbnail" && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    onClick={() => setSelectedService(null)}
-    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 md:p-6"
-  >
-    <motion.div
-      initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.95, opacity: 0 }}
-      transition={{ duration: 0.25 }}
-      onClick={(e) => e.stopPropagation()}
-      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020]"
-    >
-      {/* HERO */}
-      <div className="relative overflow-hidden rounded-t-[32px] bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-8">
-        <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-3xl" />
 
-        <div className="relative">
-          <p className="text-xs uppercase tracking-[0.35em] text-purple-200">
-            {language === "en" ? "Thumbnail Design" : "Thumbnail Dizajn"}
-          </p>
 
-          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
-            {language === "en"
-              ? "Thumbnails That Drive Clicks"
-              : "Thumbnailovi Koji Donose Klikove"}
-          </h2>
+{/* LENSIA MEDIA — WIDE PRICING */}
+<section
+  id="pricing"
+  className="relative isolate overflow-hidden bg-[#050505] px-5 pt-12 pb-20 text-white sm:px-8 sm:pt-16 lg:px-12 lg:pt-20 lg:pb-24"
+>
 
-          <p className="mt-4 max-w-2xl text-purple-100 leading-7">
-            {language === "en"
-              ? "We design high-converting YouTube thumbnails focused on curiosity, clarity and strong visual hierarchy."
-              : "Dizajniramo YouTube thumbnailove sa fokusom na CTR, jasnu poruku i profesionalan vizuelni identitet."}
-          </p>
-        </div>
-      </div>
+  <div className="pointer-events-none absolute left-0 top-0 h-[500px] w-full bg-[radial-gradient(ellipse_at_top,rgba(124,58,237,0.10),transparent_60%)]" />
 
-      {/* CONTENT */}
-      <div className="p-6 md:p-8 space-y-8">
-        {/* Gallery */}
-        <div>
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "Recent Work" : "Naši Radovi"}
-          </h3>
+  <div className="relative mx-auto max-w-[1600px]">
+    
+{/* HEADER */}
+<div className="mb-16 flex flex-col items-center text-center lg:mb-20">
+  <div className="mb-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-purple-300">
+    <span className="h-2 w-2 rounded-full bg-purple-400 shadow-[0_0_12px_rgba(167,139,250,0.7)]" />
+    {language === "sr"
+      ? "Lensia Media / Cenovnik"
+      : "Lensia Media / Pricing"}
+  </div>
 
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {["thumb1", "thumb2", "thumb3", "thumb4"].map((img) => (
-              <div
-                key={img}
-                className="group overflow-hidden rounded-2xl border border-white/10 bg-white/5"
+  <h2 className="text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+    {language === "sr" ? (
+      <>
+        Tvoj sadržaj.
+        <br />
+        <span className="bg-gradient-to-r from-purple-300 to-indigo-400 bg-clip-text text-transparent">
+          Na sledećem nivou.
+        </span>
+      </>
+    ) : (
+      <>
+        Your content.
+        <br />
+        <span className="bg-gradient-to-r from-purple-300 to-indigo-400 bg-clip-text text-transparent">
+          The next level.
+        </span>
+      </>
+    )}
+  </h2>
+
+  <p className="mt-6 max-w-2xl text-sm leading-7 text-white/50 sm:text-base">
+    {language === "sr"
+      ? "Od pojedinačnih usluga do kompletne strategije rasta. Izaberi model saradnje koji odgovara tvojim ciljevima."
+      : "From individual services to a complete growth strategy. Choose the approach that fits your goals."}
+  </p>
+</div>
+
+
+    {/* YOUTUBE & INSTAGRAM */}
+    <div className="grid items-start gap-8 xl:grid-cols-2">
+      {/* YOUTUBE */}
+      <div className="overflow-hidden rounded-[28px] border border-white/10 bg-[#0b0b10]">
+        {/* Header */}
+        <div className="border-b border-white/10 border-t-2 border-t-red-500 p-8">
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-500/10">
+              <svg
+                viewBox="0 0 24 24"
+                className="h-6 w-6 fill-red-400"
+                aria-hidden="true"
               >
-                <img
-                  src={`/thumbnails/${img}.png`}
-                  alt="Thumbnail"
-                  className="aspect-video w-full object-cover transition duration-500 group-hover:scale-105"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Features */}
-        <div>
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "What You Get" : "Šta Dobijaš"}
-          </h3>
-
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {[
-              {
-                title: language === "en" ? "High CTR Design" : "Dizajn za CTR",
-                desc:
-                  language === "en"
-                    ? "Every thumbnail is built to maximize click-through rate."
-                    : "Svaki thumbnail je pravljen sa ciljem većeg CTR-a.",
-              },
-              {
-                title:
-                  language === "en"
-                    ? "Professional Editing"
-                    : "Profesionalna Obrada",
-                desc:
-                  language === "en"
-                    ? "Clean composition, lighting and visual hierarchy."
-                    : "Čista kompozicija, osvetljenje i jasna hijerarhija.",
-              },
-              {
-                title:
-                  language === "en"
-                    ? "Brand Consistency"
-                    : "Dosledan Brending",
-                desc:
-                  language === "en"
-                    ? "A recognizable style across every upload."
-                    : "Prepoznatljiv izgled kroz ceo kanal.",
-              },
-              {
-                title:
-                  language === "en" ? "Fast Delivery" : "Brza Isporuka",
-                desc:
-                  language === "en"
-                    ? "Ready-to-upload thumbnails delivered in high quality."
-                    : "Thumbnail spreman za objavu u visokoj rezoluciji.",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="rounded-2xl border border-white/10 bg-white/5 p-5"
-              >
-                <h4 className="font-semibold text-white">{item.title}</h4>
-                <p className="mt-2 text-sm leading-6 text-slate-400">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Process */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "Our Process" : "Naš Proces"}
-          </h3>
-
-          <div className="mt-6 space-y-5">
-            {[
-              {
-                n: "01",
-                t: language === "en" ? "Research" : "Analiza",
-                d:
-                  language === "en"
-                    ? "Study competitors, audience and click patterns."
-                    : "Analiziramo konkurenciju, publiku i obrasce klikova.",
-              },
-              {
-                n: "02",
-                t: language === "en" ? "Design" : "Dizajn",
-                d:
-                  language === "en"
-                    ? "Create multiple concepts with strong visual hierarchy."
-                    : "Kreiramo koncept sa jasnom vizuelnom hijerarhijom.",
-              },
-              {
-                n: "03",
-                t: language === "en" ? "Refinement" : "Finalizacija",
-                d:
-                  language === "en"
-                    ? "Polish every detail for maximum CTR potential."
-                    : "Finalna obrada svakog detalja radi maksimalnog CTR potencijala.",
-              },
-            ].map((step) => (
-              <div key={step.n} className="flex gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
-                  {step.n}
-                </div>
-
-                <div>
-                  <h4 className="font-semibold text-white">{step.t}</h4>
-                  <p className="mt-1 text-sm text-slate-400">{step.d}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Close */}
-      <button
-        onClick={() => setSelectedService(null)}
-        className="absolute right-6 top-6 rounded-xl bg-white/10 p-2 text-white transition hover:bg-white/20"
-      >
-        ✕
-      </button>
-    </motion.div>
-  </motion.div>
-)}
-
-
-{selectedService === "strategy" && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    onClick={() => setSelectedService(null)}
-    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 md:p-6"
-  >
-    <motion.div
-      initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.95, opacity: 0 }}
-      transition={{ duration: 0.25 }}
-      onClick={(e) => e.stopPropagation()}
-      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020]"
-    >
-      {/* HERO */}
-      <div className="relative overflow-hidden rounded-t-[32px] bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-8">
-        <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-3xl" />
-
-        <div className="relative">
-          <p className="text-xs uppercase tracking-[0.35em] text-purple-200">
-            {language === "en" ? "Growth Strategy" : "Strategija Rasta"}
-          </p>
-
-          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
-            {language === "en"
-              ? "Build a Channel That Scales"
-              : "Izgradi Kanal Koji Raste"}
-          </h2>
-
-          <p className="mt-4 max-w-2xl text-purple-100 leading-7">
-            {language === "en"
-              ? "We create a repeatable content strategy based on audience behavior, niche positioning and long-term YouTube growth."
-              : "Pravimo sistem sadržaja zasnovan na publici, pozicioniranju niše i dugoročnom rastu na YouTube-u."}
-          </p>
-        </div>
-      </div>
-
-      {/* CONTENT */}
-      <div className="p-6 md:p-8">
-        <div>
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "What's Included" : "Šta Dobijaš"}
-          </h3>
-
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {[
-              {
-                title:
-                  language === "en"
-                    ? "Niche Positioning"
-                    : "Pozicioniranje Niše",
-                desc:
-                  language === "en"
-                    ? "Define your audience and competitive advantage."
-                    : "Definišemo ciljnu publiku i prednost u odnosu na konkurenciju.",
-              },
-              {
-                title:
-                  language === "en"
-                    ? "Content Pillars"
-                    : "Stubovi Sadržaja",
-                desc:
-                  language === "en"
-                    ? "3–5 repeatable formats that build consistency."
-                    : "3–5 formata videa koji stvaraju dosledan sadržaj.",
-              },
-              {
-                title:
-                  language === "en"
-                    ? "Upload Schedule"
-                    : "Plan Objavljivanja",
-                desc:
-                  language === "en"
-                    ? "A realistic weekly publishing workflow."
-                    : "Realan nedeljni sistem objavljivanja.",
-              },
-              {
-                title:
-                  language === "en"
-                    ? "Growth Roadmap"
-                    : "Plan Rasta",
-                desc:
-                  language === "en"
-                    ? "Clear priorities for the next 30–90 days."
-                    : "Jasni prioriteti za narednih 30–90 dana.",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="rounded-2xl border border-white/10 bg-white/5 p-5"
-              >
-                <h4 className="font-semibold text-white">{item.title}</h4>
-                <p className="mt-2 text-sm leading-6 text-slate-400">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* PROCESS */}
-        <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "Our Process" : "Naš Proces"}
-          </h3>
-
-          <div className="mt-6 space-y-5">
-            {[
-              {
-                n: "01",
-                t: language === "en" ? "Research" : "Istraživanje",
-                d:
-                  language === "en"
-                    ? "Analyze your channel, niche and competitors."
-                    : "Analiziramo kanal, nišu i konkurenciju.",
-              },
-              {
-                n: "02",
-                t: language === "en" ? "Strategy" : "Strategija",
-                d:
-                  language === "en"
-                    ? "Design repeatable content formats and positioning."
-                    : "Kreiramo formate sadržaja i pozicioniranje kanala.",
-              },
-              {
-                n: "03",
-                t: language === "en"
-                    ? "Execution Plan"
-                    : "Plan Izvršenja",
-                d:
-                  language === "en"
-                    ? "You receive a structured publishing roadmap."
-                    : "Dobijaš kompletan plan objavljivanja i rasta.",
-              },
-            ].map((step) => (
-              <div key={step.n} className="flex gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
-                  {step.n}
-                </div>
-
-                <div>
-                  <h4 className="font-semibold text-white">{step.t}</h4>
-                  <p className="mt-1 text-sm text-slate-400">{step.d}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* CLOSE */}
-      <button
-        onClick={() => setSelectedService(null)}
-        className="absolute right-6 top-6 rounded-xl bg-white/10 p-2 text-white transition hover:bg-white/20"
-      >
-        ✕
-      </button>
-    </motion.div>
-  </motion.div>
-)}
-
-
-
-  {selectedService === "branding" && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    onClick={() => setSelectedService(null)}
-    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 md:p-6"
-  >
-    <motion.div
-      initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.95, opacity: 0 }}
-      transition={{ duration: 0.25 }}
-      onClick={(e) => e.stopPropagation()}
-      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020]"
-    >
-      {/* HERO */}
-      <div className="relative overflow-hidden rounded-t-[32px] bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-8">
-        <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-3xl" />
-
-        <div className="relative">
-          <p className="text-xs uppercase tracking-[0.35em] text-purple-200">
-            {language === "en" ? "Brand Identity" : "Vizuelni Identitet"}
-          </p>
-
-          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
-            {language === "en"
-              ? "Build a Brand People Remember"
-              : "Izgradi Brend Koji Se Pamti"}
-          </h2>
-
-          <p className="mt-4 max-w-2xl text-purple-100 leading-7">
-            {language === "en"
-              ? "We create a consistent visual identity that makes your channel instantly recognizable across YouTube and every social platform."
-              : "Kreiramo dosledan vizuelni identitet koji čini tvoj kanal odmah prepoznatljivim na YouTube-u i svim društvenim mrežama."}
-          </p>
-        </div>
-      </div>
-
-      {/* CONTENT */}
-      <div className="p-6 md:p-8 space-y-8">
-        {/* Services */}
-        <div>
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "What's Included" : "Šta Dobijaš"}
-          </h3>
-
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {[
-              {
-                title: language === "en" ? "Logo System" : "Sistem Logotipa",
-                desc:
-                  language === "en"
-                    ? "Primary and secondary logo for YouTube, social media and future business use."
-                    : "Primarni i sekundarni logotip za YouTube, društvene mreže i buduću upotrebu.",
-              },
-              {
-                title:
-                  language === "en" ? "Visual Direction" : "Vizuelni Pravac",
-                desc:
-                  language === "en"
-                    ? "Colors, typography and a complete design language."
-                    : "Boje, tipografija i kompletan dizajn sistem.",
-              },
-              {
-                title:
-                  language === "en" ? "Channel Presence" : "Izgled Kanala",
-                desc:
-                  language === "en"
-                    ? "Banner, profile picture and branded assets optimized for every device."
-                    : "Baner, profilna slika i svi elementi optimizovani za svaki uređaj.",
-              },
-              {
-                title:
-                  language === "en" ? "Thumbnail Style" : "Stil Thumbnailova",
-                desc:
-                  language === "en"
-                    ? "A repeatable thumbnail system that improves recognition."
-                    : "Prepoznatljiv stil thumbnailova koji gradi identitet kanala.",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="rounded-2xl border border-white/10 bg-white/5 p-5"
-              >
-                <h4 className="font-semibold text-white">{item.title}</h4>
-                <p className="mt-2 text-sm leading-6 text-slate-400">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Why Branding Matters */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <p className="text-xs uppercase tracking-[0.25em] text-purple-300">
-            {language === "en" ? "Why Branding Matters" : "Zašto je Brending Bitan"}
-          </p>
-
-          <p className="mt-4 text-slate-300 leading-7">
-            {language === "en"
-              ? "Strong branding increases recognition, builds trust and makes every upload feel like part of one professional ecosystem. Consistency is often the difference between a creator and a memorable brand."
-              : "Jak brending povećava prepoznatljivost, gradi poverenje i čini da svaki video izgleda kao deo jednog profesionalnog sistema. Doslednost je često razlika između običnog kreatora i prepoznatljivog brenda."}
-          </p>
-        </div>
-
-        {/* Process */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "Our Process" : "Naš Proces"}
-          </h3>
-
-          <div className="mt-6 space-y-5">
-            {[
-              {
-                n: "01",
-                t: language === "en" ? "Discovery" : "Analiza",
-                d:
-                  language === "en"
-                    ? "Research your niche, audience and competitors."
-                    : "Istražujemo tvoju nišu, publiku i konkurenciju.",
-              },
-              {
-                n: "02",
-                t: language === "en" ? "Identity" : "Identitet",
-                d:
-                  language === "en"
-                    ? "Define the visual personality of your brand."
-                    : "Definišemo vizuelnu ličnost tvog brenda.",
-              },
-              {
-                n: "03",
-                t: language === "en" ? "Design & Delivery" : "Dizajn i Isporuka",
-                d:
-                  language === "en"
-                    ? "Deliver organized logo, banner and branding assets ready for immediate use."
-                    : "Isporučujemo logotip, baner i kompletne brend elemente spremne za korišćenje.",
-              },
-            ].map((step) => (
-              <div key={step.n} className="flex gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
-                  {step.n}
-                </div>
-
-                <div>
-                  <h4 className="font-semibold text-white">{step.t}</h4>
-                  <p className="mt-1 text-sm text-slate-400">{step.d}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* CLOSE */}
-      <button
-        onClick={() => setSelectedService(null)}
-        className="absolute right-6 top-6 rounded-xl bg-white/10 p-2 text-white transition hover:bg-white/20"
-      >
-        ✕
-      </button>
-    </motion.div>
-  </motion.div>
-)}
-
-{selectedService === "analytics" && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    onClick={() => setSelectedService(null)}
-    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 md:p-6"
-  >
-    <motion.div
-      initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.95, opacity: 0 }}
-      transition={{ duration: 0.25 }}
-      onClick={(e) => e.stopPropagation()}
-      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020]"
-    >
-      {/* HERO */}
-      <div className="relative overflow-hidden rounded-t-[32px] bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-8">
-        <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-3xl" />
-
-        <div className="relative">
-          <p className="text-xs uppercase tracking-[0.35em] text-purple-200">
-            {language === "en" ? "Performance Analytics" : "Analitika Performansi"}
-          </p>
-
-          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
-            {language === "en"
-              ? "Turn Data Into Growth"
-              : "Pretvori Podatke u Rast"}
-          </h2>
-
-          <p className="mt-4 max-w-2xl text-purple-100 leading-7">
-            {language === "en"
-              ? "We analyze the metrics that truly drive YouTube growth and identify the highest-impact opportunities for your channel."
-              : "Analiziramo metrike koje zaista pokreću rast na YouTube-u i pronalazimo najveće prilike za napredak tvog kanala."}
-          </p>
-        </div>
-      </div>
-
-      {/* CONTENT */}
-      <div className="p-6 md:p-8 space-y-8">
-        {/* Metrics */}
-        <div>
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "Key Metrics We Analyze" : "Ključne Metrike"}
-          </h3>
-
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {[
-              {
-                title: "CTR",
-                desc:
-                  language === "en"
-                    ? "Understand what makes viewers click."
-                    : "Otkrivamo šta povećava stopu klikova.",
-              },
-              {
-                title:
-                  language === "en"
-                    ? "Audience Retention"
-                    : "Retention Publike",
-                desc:
-                  language === "en"
-                    ? "Pinpoint where viewers lose interest."
-                    : "Pronalazimo tačne momente kada publika odlazi.",
-              },
-              {
-                title:
-                  language === "en"
-                    ? "Traffic Sources"
-                    : "Izvori Saobraćaja",
-                desc:
-                  language === "en"
-                    ? "Evaluate Browse, Search and Suggested traffic."
-                    : "Analiza Browse, Search i Suggested izvora.",
-              },
-              {
-                title:
-                  language === "en"
-                    ? "Returning Viewers"
-                    : "Povratni Gledaoci",
-                desc:
-                  language === "en"
-                    ? "Measure audience loyalty and long-term growth."
-                    : "Merimo lojalnost publike i potencijal dugoročnog rasta.",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="rounded-2xl border border-white/10 bg-white/5 p-5"
-              >
-                <h4 className="font-semibold text-white">{item.title}</h4>
-                <p className="mt-2 text-sm leading-6 text-slate-400">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Deliverables */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "What You'll Receive" : "Šta Dobijaš"}
-          </h3>
-
-          <div className="mt-5 grid gap-3 md:grid-cols-2">
-            {[
-              language === "en"
-                ? "Detailed performance report"
-                : "Detaljan izveštaj performansi",
-              language === "en"
-                ? "CTR improvement opportunities"
-                : "Prilike za povećanje CTR-a",
-              language === "en"
-                ? "Retention breakdown"
-                : "Analiza retention-a",
-              language === "en"
-                ? "Traffic source evaluation"
-                : "Analiza izvora saobraćaja",
-              language === "en"
-                ? "Audience behavior insights"
-                : "Uvid u ponašanje publike",
-              language === "en"
-                ? "Actionable growth recommendations"
-                : "Konkretne preporuke za rast",
-            ].map((item) => (
-              <div key={item} className="flex items-center gap-3">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-600 text-xs font-bold text-white">
-                  ✓
-                </div>
-                <span className="text-slate-300">{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Process */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "Our Process" : "Naš Proces"}
-          </h3>
-
-          <div className="mt-6 space-y-5">
-            {[
-              {
-                n: "01",
-                t: language === "en" ? "Collect Data" : "Prikupljanje Podataka",
-                d:
-                  language === "en"
-                    ? "Review YouTube Analytics across your content."
-                    : "Pregled svih ključnih podataka iz YouTube Analytics-a.",
-              },
-              {
-                n: "02",
-                t: language === "en" ? "Find Patterns" : "Pronalaženje Obrazaca",
-                d:
-                  language === "en"
-                    ? "Identify what's limiting growth and what's already working."
-                    : "Otkrivamo šta usporava rast i šta već funkcioniše.",
-              },
-              {
-                n: "03",
-                t: language === "en" ? "Optimization Plan" : "Plan Optimizacije",
-                d:
-                  language === "en"
-                    ? "Receive prioritized actions with measurable impact."
-                    : "Dobijaš prioritetne korake sa najvećim potencijalom rasta.",
-              },
-            ].map((step) => (
-              <div key={step.n} className="flex gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
-                  {step.n}
-                </div>
-
-                <div>
-                  <h4 className="font-semibold text-white">{step.t}</h4>
-                  <p className="mt-1 text-sm text-slate-400">{step.d}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* CLOSE */}
-      <button
-        onClick={() => setSelectedService(null)}
-        className="absolute right-6 top-6 rounded-xl bg-white/10 p-2 text-white transition hover:bg-white/20"
-      >
-        ✕
-      </button>
-    </motion.div>
-  </motion.div>
-)}
-
-
-{selectedService === "audit" && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    onClick={() => setSelectedService(null)}
-    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 md:p-6"
-  >
-    <motion.div
-      initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.95, opacity: 0 }}
-      transition={{ duration: 0.25 }}
-      onClick={(e) => e.stopPropagation()}
-      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020]"
-    >
-      {/* HERO */}
-      <div className="relative overflow-hidden rounded-t-[32px] bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-8">
-        <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-3xl" />
-
-        <div className="relative">
-          <p className="text-xs uppercase tracking-[0.35em] text-purple-200">
-            {language === "en" ? "Channel Audit" : "Analiza Kanala"}
-          </p>
-
-          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
-            {language === "en"
-              ? "A Complete Health Check For Your Channel"
-              : "Kompletan Health Check Tvog Kanala"}
-          </h2>
-
-          <p className="mt-4 max-w-2xl text-purple-100 leading-7">
-            {language === "en"
-              ? "We perform a comprehensive review of your branding, SEO, thumbnails and content structure to uncover the biggest growth opportunities."
-              : "Radimo detaljnu analizu brendinga, SEO-a, thumbnailova i strukture sadržaja kako bismo pronašli najveće prilike za rast."}
-          </p>
-        </div>
-      </div>
-
-      {/* CONTENT */}
-      <div className="p-6 md:p-8 space-y-8">
-        {/* Checklist */}
-        <div>
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "20+ Point Evaluation" : "Analiza Kroz 20+ Tačaka"}
-          </h3>
-
-          <div className="mt-5 grid gap-3 md:grid-cols-2">
-            {(
-              language === "en"
-                ? [
-                    "Channel Branding",
-                    "Logo & Banner",
-                    "Thumbnail Quality",
-                    "Title Optimization",
-                    "Video Descriptions",
-                    "Keyword Strategy",
-                    "CTR Analysis",
-                    "Audience Retention",
-                    "Content Structure",
-                    "Upload Consistency",
-                  ]
-                : [
-                    "Brending Kanala",
-                    "Logo i Baner",
-                    "Kvalitet Thumbnailova",
-                    "Optimizacija Naslova",
-                    "Opisi Videa",
-                    "Strategija Ključnih Reči",
-                    "CTR Analiza",
-                    "Zadržavanje Publike",
-                    "Struktura Sadržaja",
-                    "Doslednost Objava",
-                  ]
-            ).map((item) => (
-              <div
-                key={item}
-                className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-4"
-              >
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-green-600 text-sm font-bold text-white">
-                  ✓
-                </div>
-                <span className="text-white">{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Deliverables */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "What You'll Receive" : "Šta Dobijaš"}
-          </h3>
-
-          <div className="mt-5 grid gap-3 md:grid-cols-2">
-            {[
-              language === "en"
-                ? "Detailed audit report (PDF)"
-                : "Detaljan audit izveštaj (PDF)",
-              language === "en"
-                ? "Personalized growth roadmap"
-                : "Personalizovan plan rasta",
-              language === "en"
-                ? "Thumbnail & CTR feedback"
-                : "Analizu thumbnailova i CTR-a",
-              language === "en"
-                ? "SEO improvement opportunities"
-                : "SEO prilike za napredak",
-              language === "en"
-                ? "Content structure review"
-                : "Pregled strukture sadržaja",
-              language === "en"
-                ? "Prioritized action list"
-                : "Listu prioriteta za dalje korake",
-            ].map((item) => (
-              <div key={item} className="flex items-center gap-3">
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-green-600 text-xs font-bold text-white">
-                  ✓
-                </div>
-                <span className="text-slate-300">{item}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Process */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "Our Process" : "Naš Proces"}
-          </h3>
-
-          <div className="mt-6 space-y-5">
-            {[
-              {
-                n: "01",
-                t: language === "en" ? "Channel Review" : "Pregled Kanala",
-                d:
-                  language === "en"
-                    ? "We analyze every major aspect of your YouTube channel."
-                    : "Analiziramo svaki važan segment tvog YouTube kanala.",
-              },
-              {
-                n: "02",
-                t: language === "en" ? "Opportunity Mapping" : "Mapiranje Prilika",
-                d:
-                  language === "en"
-                    ? "We identify weaknesses and the highest-impact improvements."
-                    : "Pronalazimo slabosti i najveće prilike za napredak.",
-              },
-              {
-                n: "03",
-                t: language === "en" ? "Action Plan" : "Akcioni Plan",
-                d:
-                  language === "en"
-                    ? "You receive a clear roadmap with practical next steps."
-                    : "Dobijaš jasan plan sa konkretnim koracima za rast.",
-              },
-            ].map((step) => (
-              <div key={step.n} className="flex gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
-                  {step.n}
-                </div>
-
-                <div>
-                  <h4 className="font-semibold text-white">{step.t}</h4>
-                  <p className="mt-1 text-sm text-slate-400">{step.d}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* CLOSE */}
-      <button
-        onClick={() => setSelectedService(null)}
-        className="absolute right-6 top-6 rounded-xl bg-white/10 p-2 text-white transition hover:bg-white/20"
-      >
-        ✕
-      </button>
-    </motion.div>
-  </motion.div>
-)}
-
-
-
-{selectedService === "seo" && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    onClick={() => setSelectedService(null)}
-    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 md:p-6"
-  >
-    <motion.div
-      initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0.95, opacity: 0 }}
-      transition={{ duration: 0.25 }}
-      onClick={(e) => e.stopPropagation()}
-      className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-white/10 bg-[#0B1020]"
-    >
-      {/* HERO */}
-      <div className="relative overflow-hidden rounded-t-[32px] bg-gradient-to-br from-[#7C3AED] via-[#5B21B6] to-[#312E81] p-8">
-        <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-white/10 blur-3xl" />
-
-        <div className="relative">
-          <p className="text-xs uppercase tracking-[0.35em] text-purple-200">
-            {language === "en" ? "YouTube SEO" : "YouTube SEO"}
-          </p>
-
-          <h2 className="mt-3 text-3xl md:text-4xl font-bold text-white">
-            {language === "en"
-              ? "Get Discovered More Often"
-              : "Povećaj Vidljivost u Pretrazi"}
-          </h2>
-
-          <p className="mt-4 max-w-2xl text-purple-100 leading-7">
-            {language === "en"
-              ? "We optimize every upload using keyword research, titles, descriptions and metadata to improve discoverability."
-              : "Optimizujemo svaki video kroz istraživanje ključnih reči, naslove, opise i metapodatke kako bi sadržaj bio lakše pronađen."}
-          </p>
-        </div>
-      </div>
-
-      {/* CONTENT */}
-      <div className="p-6 md:p-8 space-y-8">
-        {/* What's Included */}
-        <div>
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "What's Included" : "Šta Dobijaš"}
-          </h3>
-
-          <div className="mt-5 grid gap-4 md:grid-cols-2">
-            {[
-              {
-                title: language === "en" ? "Keyword Research" : "Ključne Reči",
-                desc:
-                  language === "en"
-                    ? "Find high-potential search terms for your niche."
-                    : "Pronalazimo ključne reči sa najvećim potencijalom.",
-              },
-              {
-                title: language === "en" ? "SEO Titles" : "SEO Naslovi",
-                desc:
-                  language === "en"
-                    ? "Titles built for both clicks and search intent."
-                    : "Naslovi optimizovani za CTR i pretragu.",
-              },
-              {
-                title:
-                  language === "en"
-                    ? "Description Optimization"
-                    : "Optimizacija Opisa",
-                desc:
-                  language === "en"
-                    ? "Descriptions structured for visibility and relevance."
-                    : "Strukturirani opisi koji povećavaju vidljivost.",
-              },
-              {
-                title: language === "en" ? "Metadata" : "Metapodaci",
-                desc:
-                  language === "en"
-                    ? "Tags, hashtags and publishing structure."
-                    : "Tagovi, hashtagovi i pravilna struktura objave.",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className="rounded-2xl border border-white/10 bg-white/5 p-5"
-              >
-                <h4 className="font-semibold text-white">{item.title}</h4>
-                <p className="mt-2 text-sm leading-6 text-slate-400">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Example */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <p className="text-xs uppercase tracking-[0.25em] text-purple-300">
-            {language === "en"
-              ? "Example Optimization"
-              : "Primer Optimizacije"}
-          </p>
-
-          <div className="mt-5 space-y-4">
-            <div className="rounded-xl border border-white/5 bg-[#111827] p-4">
-              <p className="mb-2 text-xs text-slate-500">
-                {language === "en" ? "Optimized Title" : "Optimizovan Naslov"}
+                <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.3 3.6-6.3 3.6Z" />
+              </svg>
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-semibold text-white">YouTube</h3>
+              <p className="mt-1 text-sm text-gray-400">
+                {language === "sr"
+                  ? "Optimizacija i rast kanala"
+                  : "Channel optimization and growth"}
               </p>
+            </div>
+          </div>
+        </div>
 
-              <h4 className="font-semibold text-white">
-                {language === "en"
-                  ? "How I Gained 1,000,000 Views With Better Thumbnails"
-                  : "Kako sam došao do 1.000.000 pregleda uz bolje thumbnailove"}
+        {/* Main packages */}
+        <div className="grid grid-cols-2">
+          {/* Starter */}
+          <a
+            href="/plans/starter"
+            className="border-b border-r border-white/10 p-6 transition-colors hover:bg-white/[0.03] sm:p-8"
+          >
+            <h4 className="text-lg font-semibold text-white">Starter</h4>
+            <p className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+              €69
+            </p>
+            <p className="mt-3 text-sm text-gray-400">
+              {language === "sr"
+                ? "Osnovna optimizacija"
+                : "Essential optimization"}
+            </p>
+          </a>
+
+          {/* Growth */}
+          <a
+            href="/plans/growth"
+            className="border-b border-white/10 bg-purple-500/10 p-6 transition-colors hover:bg-purple-500/[0.15] sm:p-8"
+          >
+            <div className="flex items-start justify-between gap-2">
+              <h4 className="text-lg font-semibold text-white">Growth</h4>
+              <span className="rounded-md border border-purple-400/30 bg-purple-500/10 px-2 py-1 text-[10px] font-bold uppercase text-purple-300">
+                {language === "sr" ? "Popularno" : "Popular"}
+              </span>
+            </div>
+            <p className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+              €99
+            </p>
+            <p className="mt-3 text-sm text-gray-400">
+              {language === "sr"
+                ? "Strategija rasta kanala"
+                : "Channel growth strategy"}
+            </p>
+          </a>
+
+          {/* Media Pro - full width */}
+          <a
+            href="/plans/media-pro"
+            className="col-span-2 border-b border-white/10 p-6 transition-colors hover:bg-white/[0.03] sm:p-8"
+          >
+            <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
+              <div>
+                <h4 className="text-lg font-semibold text-white">Media Pro</h4>
+                <p className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+                  €199
+                </p>
+                <p className="mt-3 text-sm text-gray-400">
+                  {language === "sr"
+                    ? "Napredna podrška"
+                    : "Advanced support"}
+                </p>
+              </div>
+
+              <span className="hidden text-sm font-medium text-gray-500 sm:block">
+                {language === "sr"
+                  ? "Za ozbiljan rast kanala"
+                  : "For serious channel growth"}
+              </span>
+            </div>
+          </a>
+        </div>
+
+        {/* Launch FREE - in development */}
+        <div className="flex items-center justify-between gap-4 border-b border-white/10 bg-white/[0.02] p-6 sm:p-8">
+          <div>
+            <div className="flex flex-wrap items-center gap-3">
+              <h4 className="text-lg font-semibold text-white">Launch</h4>
+              <span className="rounded-md border border-amber-400/25 bg-amber-400/[0.08] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-300">
+                In Development
+              </span>
+            </div>
+            <p className="mt-3 text-sm text-gray-400">
+              {language === "sr"
+                ? "Za kanale bez monetizacije"
+                : "For non-monetized channels"}
+            </p>
+          </div>
+
+          <p className="shrink-0 text-2xl font-bold text-white">FREE</p>
+        </div>
+
+        {/* Performance - in development */}
+        <div className="flex items-center justify-between gap-4 p-6 sm:p-8">
+          <div>
+            <div className="flex flex-wrap items-center gap-3">
+              <h4 className="text-lg font-semibold text-white">
+                Performance
               </h4>
+              <span className="rounded-md border border-amber-400/25 bg-amber-400/[0.08] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-300">
+                In Development
+              </span>
             </div>
-
-            <div className="rounded-xl border border-white/5 bg-[#111827] p-4">
-              <p className="mb-2 text-xs text-slate-500">
-                {language === "en" ? "Primary Keywords" : "Glavne Ključne Reči"}
-              </p>
-
-              <div className="flex flex-wrap gap-2">
-                {[
-                  "youtube seo",
-                  "thumbnail design",
-                  "high ctr",
-                  "youtube growth",
-                ].map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full bg-purple-500/20 px-3 py-1 text-sm text-purple-200"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
+            <p className="mt-3 text-sm text-gray-400">
+              {language === "sr"
+                ? "Fiksna cena uz udeo u zaradi"
+                : "Fixed fee plus a share of revenue"}
+            </p>
           </div>
-        </div>
 
-        {/* Process */}
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-          <h3 className="text-xl font-semibold text-white">
-            {language === "en" ? "Our Process" : "Naš Proces"}
-          </h3>
-
-          <div className="mt-6 space-y-5">
-            {[
-              {
-                n: "01",
-                t: language === "en" ? "Research" : "Istraživanje",
-                d:
-                  language === "en"
-                    ? "Analyze search demand and competitor keywords."
-                    : "Analiza pretrage i ključnih reči konkurencije.",
-              },
-              {
-                n: "02",
-                t: language === "en" ? "Optimization" : "Optimizacija",
-                d:
-                  language === "en"
-                    ? "Rewrite titles, descriptions and metadata."
-                    : "Optimizujemo naslove, opise i metapodatke.",
-              },
-              {
-                n: "03",
-                t: language === "en" ? "Growth System" : "Sistem Rasta",
-                d:
-                  language === "en"
-                    ? "Receive a repeatable SEO framework for future uploads."
-                    : "Dobijaš sistem koji možeš primenjivati na svaki novi video.",
-              },
-            ].map((step) => (
-              <div key={step.n} className="flex gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-purple-600 font-bold text-white">
-                  {step.n}
-                </div>
-
-                <div>
-                  <h4 className="font-semibold text-white">{step.t}</h4>
-                  <p className="mt-1 text-sm text-slate-400">{step.d}</p>
-                </div>
-              </div>
-            ))}
+          <div className="shrink-0 text-right">
+            <p className="text-2xl font-bold text-white">€95</p>
+            <p className="mt-1 text-sm font-semibold text-purple-300">+15%</p>
           </div>
         </div>
       </div>
 
-      {/* CLOSE */}
-      <button
-        onClick={() => setSelectedService(null)}
-        className="absolute right-6 top-6 rounded-xl bg-white/10 p-2 text-white transition hover:bg-white/20"
-      >
-        ✕
-      </button>
-    </motion.div>
-  </motion.div>
-)}
+      
 
-</AnimatePresence>
+{/* INSTAGRAM */}
+<div className="overflow-hidden rounded-[28px] border border-white/10 bg-[#0b0b10]">
+  {/* Header */}
+  <div className="border-b border-white/10 border-t-2 border-t-purple-500 p-8">
+    <div className="flex items-center gap-4">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-500/10">
+        <svg
+          viewBox="0 0 24 24"
+          className="h-6 w-6 fill-none stroke-purple-400"
+          strokeWidth="1.8"
+          aria-hidden="true"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle
+            cx="17.5"
+            cy="6.5"
+            r="1"
+            className="fill-purple-400 stroke-none"
+          />
+        </svg>
+      </div>
 
-{/* Footer */}
-<footer className="border-t border-white/10 py-8">
-  <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 text-sm text-slate-400 md:flex-row">
+      <div>
+        <h3 className="text-2xl font-semibold text-white">Instagram</h3>
+        <p className="mt-1 text-sm text-gray-400">
+          {language === "sr"
+            ? "Optimizacija i rast profila"
+            : "Profile optimization and growth"}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* Main packages */}
+  <div className="grid grid-cols-2">
+    {/* Starter */}
+    <a
+      href="/plans/instagram-starter"
+      className="border-b border-r border-white/10 p-6 transition-colors hover:bg-white/[0.03] sm:p-8"
+    >
+      <h4 className="text-lg font-semibold text-white">Starter</h4>
+      <p className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+        €19
+      </p>
+      <p className="mt-3 text-sm text-gray-400">
+        {language === "sr"
+          ? "Osnovna optimizacija profila"
+          : "Essential profile optimization"}
+      </p>
+    </a>
+
+    {/* Growth */}
+    <a
+      href="/plans/instagram-growth"
+      className="border-b border-white/10 bg-purple-500/10 p-6 transition-colors hover:bg-purple-500/[0.15] sm:p-8"
+    >
+      <div className="flex items-start justify-between gap-2">
+        <h4 className="text-lg font-semibold text-white">Growth</h4>
+        <span className="rounded-md border border-purple-400/30 bg-purple-500/10 px-2 py-1 text-[10px] font-bold uppercase text-purple-300">
+          {language === "sr" ? "Popularno" : "Popular"}
+        </span>
+      </div>
+      <p className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+        €39
+      </p>
+      <p className="mt-3 text-sm text-gray-400">
+        {language === "sr"
+          ? "Strategija rasta profila"
+          : "Profile growth strategy"}
+      </p>
+    </a>
+
+    {/* Pro */}
+    <a
+      href="/plans/instagram-pro"
+      className="col-span-2 border-b border-white/10 p-6 transition-colors hover:bg-white/[0.03] sm:p-8"
+    >
+      <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center">
+        <div>
+          <h4 className="text-lg font-semibold text-white">Media Pro</h4>
+          <p className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            €79
+          </p>
+          <p className="mt-3 text-sm text-gray-400">
+            {language === "sr"
+              ? "Napredna strategija i analitika"
+              : "Advanced strategy and analytics"}
+          </p>
+        </div>
+
+        <span className="hidden text-sm font-medium text-gray-500 sm:block">
+          {language === "sr"
+            ? "Za ozbiljan rast profila"
+            : "For serious profile growth"}
+        </span>
+      </div>
+    </a>
+  </div>
+
+  
+
+{/* YouTube + Instagram Combo */}
+<a
+  href="#contact"
+  className="block border-b border-white/10 bg-white/[0.02] p-6 transition-colors hover:bg-white/[0.05] sm:p-8"
+>
+  <div className="flex items-center justify-between gap-4">
     <div>
-      <p className="font-semibold text-white">LENSIA MEDIA</p>
-      <p className="mt-1">
-        {language === "en" ? "Growth Together" : "Rastemo Zajedno"}
+      <div className="flex flex-wrap items-center gap-3">
+        <h4 className="text-lg font-semibold text-white">
+          YouTube + Instagram Combo
+        </h4>
+
+        
+      </div>
+
+      <p className="mt-3 text-sm text-gray-400">
+        {language === "sr"
+          ? "Kombinovana podrška za rast na YouTube-u i Instagramu"
+          : "Combined support for growth on YouTube and Instagram"}
       </p>
     </div>
 
-    <div className="flex gap-6">
-      <a href="/privacy" className="hover:text-white transition">
-        Privacy Policy
+    <span className="shrink-0 text-2xl font-bold text-white transition-colors group-hover:text-purple-300">
+      {language === "sr" ? "Kontakt" : "Contact"} 
+    </span>
+  </div>
+
+  </a>
+</div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+{/* INDIVIDUAL SERVICES */}
+<section id="individual-services" className="py-24">
+  <div className="mx-auto max-w-7xl px-6">
+    <div className="mb-14 text-center">
+      <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-purple-400">
+        {language === "sr" ? "Pojedinačne usluge" : "Individual Services"}
+      </p>
+
+      <h2 className="text-3xl font-bold text-white md:text-5xl">
+        {language === "sr"
+          ? "Izaberite uslugu koja vam je potrebna"
+          : "Choose the Service You Need"}
+      </h2>
+
+      <p className="mx-auto mt-4 max-w-2xl text-gray-400">
+        {language === "sr"
+          ? "Kupite pojedinačne usluge bez obavezivanja na mesečni paket."
+          : "Purchase individual services without committing to a monthly plan."}
+      </p>
+    </div>
+
+    <div className="grid gap-6 md:grid-cols-2">
+      {/* YOUTUBE SERVICES */}
+      <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-8">
+        <h3 className="mb-6 text-2xl font-bold text-white">
+          {language === "sr" ? "YouTube usluge" : "YouTube Services"}
+        </h3>
+
+        <div className="space-y-4">
+          {/* THUMBNAIL DESIGN */}
+          <a
+            href="/buy?category=services&service=thumbnail-design"
+            className="group flex items-center justify-between gap-4 rounded-xl border border-white/10 p-5 transition hover:border-purple-500/50 hover:bg-purple-500/5"
+          >
+            <div>
+              <h4 className="font-semibold text-white transition group-hover:text-purple-300">
+                {language === "sr" ? "Dizajn thumbnail-a" : "Thumbnail Design"}
+              </h4>
+              <p className="mt-1 text-sm text-gray-400">
+                {language === "sr"
+                  ? "YouTube thumbnail-i osmišljeni da privuku pažnju i klikove."
+                  : "Custom YouTube thumbnails designed to attract clicks."}
+              </p>
+              <p className="mt-2 text-sm font-medium text-purple-300">
+                {language === "sr" ? "15 € po thumbnail-u" : "€15 / thumbnail"}
+              </p>
+            </div>
+            <span className="text-xl text-gray-400 transition group-hover:translate-x-1 group-hover:text-purple-300">
+              →
+            </span>
+          </a>
+
+          {/* VIDEO EDITING */}
+          <a
+            href="/buy?category=services&service=video-editing"
+            className="group flex items-center justify-between gap-4 rounded-xl border border-white/10 p-5 transition hover:border-purple-500/50 hover:bg-purple-500/5"
+          >
+            <div>
+              <h4 className="font-semibold text-white transition group-hover:text-purple-300">
+                {language === "sr" ? "Montaža YouTube videa" : "YouTube Video Editing"}
+              </h4>
+              <p className="mt-1 text-sm text-gray-400">
+                {language === "sr"
+                  ? "Profesionalna montaža prilagođena sadržaju vašeg kanala."
+                  : "Professional editing tailored to your channel."}
+              </p>
+              <p className="mt-2 text-sm font-medium text-purple-300">
+                {language === "sr" ? "Cena po dogovoru" : "Custom pricing"}
+              </p>
+            </div>
+            <span className="text-xl text-gray-400 transition group-hover:translate-x-1 group-hover:text-purple-300">
+              →
+            </span>
+          </a>
+
+          {/* YOUTUBE SEO */}
+          <a
+            href="/buy?category=services&service=youtube-seo"
+            className="group flex items-center justify-between gap-4 rounded-xl border border-white/10 p-5 transition hover:border-purple-500/50 hover:bg-purple-500/5"
+          >
+            <div>
+              <h4 className="font-semibold text-white transition group-hover:text-purple-300">
+                YouTube SEO
+              </h4>
+              <p className="mt-1 text-sm text-gray-400">
+                {language === "sr"
+                  ? "Jednokratna optimizacija YouTube kanala."
+                  : "One-time YouTube channel optimization."}
+              </p>
+              <p className="mt-2 text-sm font-medium text-purple-300">
+                {language === "sr" ? "25 € jednokratno" : "€25 one-time"}
+              </p>
+            </div>
+            <span className="text-xl text-gray-400 transition group-hover:translate-x-1 group-hover:text-purple-300">
+              →
+            </span>
+          </a>
+
+          {/* YOUTUBE REBRANDING */}
+          <a
+            href="/buy?category=services&service=youtube-rebranding"
+            className="group flex items-center justify-between gap-4 rounded-xl border border-white/10 p-5 transition hover:border-purple-500/50 hover:bg-purple-500/5"
+          >
+            <div>
+              <h4 className="font-semibold text-white transition group-hover:text-purple-300">
+                {language === "sr" ? "Redizajn YouTube kanala" : "YouTube Rebranding"}
+              </h4>
+              <p className="mt-1 text-sm text-gray-400">
+                {language === "sr"
+                  ? "Osvežite vizuelni identitet i brending svog kanala."
+                  : "Refresh your channel's visual identity and branding."}
+              </p>
+              <p className="mt-2 text-sm font-medium text-purple-300">
+                {language === "sr" ? "Cena po dogovoru" : "Custom pricing"}
+              </p>
+            </div>
+            <span className="text-xl text-gray-400 transition group-hover:translate-x-1 group-hover:text-purple-300">
+              →
+            </span>
+          </a>
+        </div>
+      </div>
+
+      {/* INSTAGRAM SERVICES */}
+      <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-8">
+        <h3 className="mb-6 text-2xl font-bold text-white">
+          {language === "sr" ? "Instagram usluge" : "Instagram Services"}
+        </h3>
+
+        <div className="space-y-4">
+          {/* PHOTO EDITING */}
+          <a
+            href="/buy?category=services&service=instagram-photo-editing"
+            className="group flex items-center justify-between gap-4 rounded-xl border border-white/10 p-5 transition hover:border-purple-500/50 hover:bg-purple-500/5"
+          >
+            <div>
+              <h4 className="font-semibold text-white transition group-hover:text-purple-300">
+                {language === "sr" ? "Obrada fotografija" : "Photo Editing"}
+              </h4>
+              <p className="mt-1 text-sm text-gray-400">
+                {language === "sr"
+                  ? "Profesionalna obrada fotografija za društvene mreže."
+                  : "Clean, professional edits for your social media content."}
+              </p>
+              <p className="mt-2 text-sm font-medium text-purple-300">
+                {language === "sr" ? "Cena po dogovoru" : "Custom pricing"}
+              </p>
+            </div>
+            <span className="text-xl text-gray-400 transition group-hover:translate-x-1 group-hover:text-purple-300">
+              →
+            </span>
+          </a>
+
+          {/* INSTAGRAM REELS */}
+          <a
+            href="/buy?category=services&service=instagram-reels-editing"
+            className="group flex items-center justify-between gap-4 rounded-xl border border-white/10 p-5 transition hover:border-purple-500/50 hover:bg-purple-500/5"
+          >
+            <div>
+              <h4 className="font-semibold text-white transition group-hover:text-purple-300">
+                {language === "sr" ? "Montaža Instagram Reels videa" : "Instagram Reels Editing"}
+              </h4>
+              <p className="mt-1 text-sm text-gray-400">
+                {language === "sr"
+                  ? "Dinamična montaža Reels videa za društvene mreže."
+                  : "Engaging Reels edited for social media."}
+              </p>
+              <p className="mt-2 text-sm font-medium text-purple-300">
+                {language === "sr" ? "Cena po dogovoru" : "Custom pricing"}
+              </p>
+            </div>
+            <span className="text-xl text-gray-400 transition group-hover:translate-x-1 group-hover:text-purple-300">
+              →
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+{/* ABOUT US */}
+<section id="about" className="py-24">
+  <div className="mx-auto max-w-7xl px-6">
+    {/* SECTION HEADER */}
+    <div className="mb-14 text-center">
+      <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-purple-400">
+        {language === "sr" ? "O nama" : "About Us"}
+      </p>
+
+    <h2 className="text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+  <span className="bg-gradient-to-r from-purple-300 to-indigo-400 bg-clip-text text-transparent">
+     {language === "sr"
+          ? "Ljudi iza Lensia Media"
+          : "The People Behind Lensia Media"}
+  </span>
+</h2>
+
+
+      <p className="mx-auto mt-4 max-w-2xl text-gray-400">
+        {language === "sr"
+          ? "Upoznajte naše iskustvo u YouTube sadržaju, marketingu i vizuelnom dizajnu."
+          : "Discover our experience in YouTube content, marketing, and visual design."}
+      </p>
+    </div>
+
+    {/* TEAM MEMBERS */}
+    <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+      {[
+        {
+          name: "Miloš Vranješ",
+          role:
+            language === "sr"
+              ? "Osnivač i direktor"
+              : "Founder & CEO",
+          image: "/team/founder1.png",
+        },
+        {
+          name: "Lazar Sekulić",
+          role:
+            language === "sr"
+              ? "Menadžer za klijente — Balkan"
+              : "Balkan Client Manager",
+          image: "/team/founder2.png",
+        },
+        {
+          name: "Vlatko Danilovski",
+          role:
+            language === "sr"
+              ? "Stručnjak za međunarodni rast"
+              : "International Growth Strategist",
+          image: "/team/founder3.png",
+        },
+      ].map((member, index) => (
+        <button
+          key={member.name}
+          type="button"
+          onClick={() => setSelectedMember(index)}
+          aria-pressed={selectedMember === index}
+          className={`group overflow-hidden rounded-xl border text-left transition-colors duration-500 ${
+            selectedMember === index
+              ? "border-purple-500"
+              : "border-white/10 hover:border-white/25"
+          }`}
+        >
+          {/* PORTRAIT */}
+          <div className="relative aspect-[3/4] overflow-hidden bg-[#0b0b10]">
+            <img
+              src={member.image}
+              alt={member.name}
+              className={`h-full w-full object-cover object-center transform-gpu origin-center transition-transform duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+                selectedMember === index
+                  ? "scale-[1.06]"
+                  : "scale-100 group-hover:scale-[1.02]"
+              }`}
+            />
+          </div>
+
+          {/* NAME AND POSITION */}
+          <div className="bg-[#0b0b10] px-5 py-5">
+            <h3 className="text-lg font-semibold text-white">
+              {member.name}
+            </h3>
+
+            <p className="mt-1 text-sm text-gray-400">
+              {member.role}
+            </p>
+          </div>
+        </button>
+      ))}
+    </div>
+
+    {/* EXPERIENCE PANEL */}
+    <div
+      key={selectedMember}
+      className="mt-8 grid overflow-hidden rounded-xl border border-white/10 bg-[#0b0b10] md:grid-cols-[0.9fr_1.1fr]"
+    >
+      {/* EXPERIENCE DESCRIPTION */}
+      <div className="border-b border-white/10 p-7 md:border-b-0 md:border-r md:p-10">
+        <p className="text-sm font-medium text-purple-400">
+          {language === "sr"
+            ? "Profesionalno iskustvo"
+            : "Professional Experience"}
+        </p>
+
+        <h3 className="mt-4 text-2xl font-semibold text-white md:text-3xl">
+          {[
+            language === "sr"
+              ? "YouTube video montaža i upravljanje kanalom"
+              : "YouTube Video Editing & Channel Management",
+            language === "sr"
+              ? "Marketing malih biznisa"
+              : "Small Business Marketing",
+            language === "sr"
+              ? "Rebrending i vizuelni dizajn"
+              : "Rebranding & Visual Design",
+          ][selectedMember]}
+        </h3>
+
+        <p className="mt-5 text-sm leading-7 text-gray-400 md:text-base">
+          {[
+            language === "sr"
+              ? "Praktično iskustvo u montaži videa, objavi YouTube sadržaja, izradi thumbnailova, pisanju naslova i optimizaciji YouTube metapodataka u okviru definisane strategije kanala."
+              : "Hands-on experience in video editing, YouTube publishing, thumbnail creation, title writing, and metadata optimization within a defined channel strategy.",
+            language === "sr"
+              ? "Planiranje i realizacija marketinških strategija za više malih biznisa sa fokusom na povećanje vidljivosti, privlačenje novih klijenata i unapređenje online prisustva."
+              : "Planning and executing marketing strategies for multiple small businesses, focusing on increasing visibility, attracting new clients, and improving online presence.",
+            language === "sr"
+              ? "Izrada kompletnog vizuelnog identiteta za male biznise, uključujući logotipe, menije, promotivne materijale i redizajn postojećih brendova."
+              : "Creating complete visual identities for small businesses, including logos, menus, promotional materials, and redesigns of existing brands.",
+          ][selectedMember]}
+        </p>
+      </div>
+
+      {/* AREAS OF EXPERTISE */}
+      <div className="p-7 md:p-10">
+        <h4 className="mb-6 text-lg font-semibold text-white">
+          {language === "sr"
+            ? "Oblasti stručnosti"
+            : "Areas of Expertise"}
+        </h4>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          {[
+            [
+              language === "sr" ? "Objava na YouTube" : "YouTube Publishing",
+              language === "sr" ? "Thumbnail dizajn" : "Thumbnail Design",
+              language === "sr" ? "Optimizacija naslova" : "Title Optimization",
+              "YouTube SEO",
+              language === "sr" ? "Video montaža" : "Video Editing",
+              language === "sr" ? "Analitika" : "Analytics",
+            ],
+            [
+              language === "sr" ? "Strategija društvenih mreža" : "Social Media Strategy",
+              language === "sr" ? "Brend marketing" : "Brand Marketing",
+              language === "sr" ? "Kreiranje sadržaja" : "Content Creation",
+              language === "sr" ? "Privlačenje klijenata" : "Client Acquisition",
+              "Meta Ads",
+              language === "sr" ? "Rast malih biznisa" : "Small Business Growth",
+            ],
+            [
+              language === "sr" ? "Dizajn logotipa" : "Logo Design",
+              language === "sr" ? "Dizajn menija" : "Menu Design",
+              language === "sr" ? "Vizuelni identitet" : "Visual Identity",
+              language === "sr" ? "Grafički dizajn" : "Graphic Design",
+              language === "sr" ? "Štampani materijali" : "Print Materials",
+              language === "sr" ? "Rebrending biznisa" : "Business Rebranding",
+            ],
+          ][selectedMember].map((skill) => (
+            <div
+              key={skill}
+              className="rounded-lg border border-white/10 px-4 py-3 transition-colors duration-300 hover:border-purple-500/40"
+            >
+              <span className="text-sm text-gray-300">{skill}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* CENTERED NAVIGATION ARROWS */}
+        <div className="mt-8 flex items-center justify-center gap-3 border-t border-white/10 pt-6">
+          <button
+            type="button"
+            onClick={() =>
+              setSelectedMember((selectedMember + 2) % 3)
+            }
+            aria-label={
+              language === "sr" ? "Prethodni član" : "Previous member"
+            }
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-white transition-colors duration-300 hover:border-purple-500/60 hover:bg-purple-500/10"
+          >
+            ←
+          </button>
+
+          <button
+            type="button"
+            onClick={() =>
+              setSelectedMember((selectedMember + 1) % 3)
+            }
+            aria-label={
+              language === "sr" ? "Sledeći član" : "Next member"
+            }
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 text-white transition-colors duration-300 hover:border-purple-500/60 hover:bg-purple-500/10"
+          >
+            →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+{/* LENSIA MEDIA — CONTACT */}
+<section
+  id="contact"
+  className="relative overflow-hidden bg-[#050505] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-24"
+>
+  {/* Background glow */}
+  <div className="pointer-events-none absolute left-0 top-0 h-[400px] w-full bg-[radial-gradient(ellipse_at_top,rgba(124,58,237,0.10),transparent_60%)]" />
+
+  <div className="relative mx-auto max-w-[1600px]">
+    {/* HEADER */}
+    <div className="flex flex-col items-center text-center">
+      <div className="mb-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-purple-300">
+        <span className="h-2 w-2 rounded-full bg-purple-400 shadow-[0_0_12px_rgba(167,139,250,0.7)]" />
+
+        {language === "sr"
+          ? "Lensia Media / Kontakt"
+          : "Lensia Media / Contact"}
+      </div>
+
+      
+<h2 className="text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+  <span className="bg-gradient-to-r from-purple-300 to-indigo-400 bg-clip-text text-transparent">
+    {language === "sr" ? "Kontaktirajte nas" : "Get in touch"}
+  </span>
+</h2>
+
+
+      <p className="mt-6 max-w-2xl text-sm leading-7 text-white/50 sm:text-base">
+        {language === "sr"
+          ? "Opiši nam svoju ideju, ciljeve ili izazove. Razgovarajmo o tome kako Lensia Media može da doprinese tvom projektu."
+          : "Tell us about your ideas, goals or challenges. Let's discuss how Lensia Media can contribute to your project."}
+      </p>
+
+      {/* CONTACT CARD */}
+      <div className="mt-12 w-full max-w-3xl overflow-hidden rounded-[28px] border border-white/10 bg-[#0b0b10] sm:mt-14">
+        <div className="border-t-2 border-t-purple-400 px-6 py-10 sm:px-12 sm:py-14">
+          {/* EMAIL ICON */}
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-purple-400/20 bg-purple-500/10">
+            <svg
+              viewBox="0 0 24 24"
+              className="h-8 w-8 text-purple-300"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="m3 7 9 6 9-6" />
+            </svg>
+          </div>
+
+          {/* DESCRIPTION */}
+          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
+            {language === "sr"
+              ? "Kontaktiraj nas putem emaila"
+              : "Get in touch by email"}
+          </p>
+
+          {/* EMAIL ADDRESS */}
+          <p className="mt-3 break-all text-lg font-semibold text-white sm:text-2xl">
+            lensiamedia@gmail.com
+          </p>
+
+          {/* LARGE GMAIL BUTTON */}
+          <a
+            href="https://mail.google.com/mail/?view=cm&fs=1&to=lensiamedia%40gmail.com&su=Lensia%20Media%20-%20Poslovni%20upit"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group mx-auto mt-8 flex min-h-[76px] w-full max-w-xl items-center justify-center gap-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 px-6 py-5 text-lg font-bold text-white shadow-[0_0_35px_rgba(124,58,237,0.22)] transition duration-300 hover:scale-[1.02] hover:shadow-[0_0_50px_rgba(124,58,237,0.35)] active:scale-[0.99] sm:px-8 sm:text-xl"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className="h-6 w-6 shrink-0"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="m3 7 9 6 9-6" />
+            </svg>
+
+            <span>
+              {language === "sr"
+                ? "Pošalji email"
+                : "Send an email"}
+            </span>
+
+            <svg
+              viewBox="0 0 24 24"
+              className="h-5 w-5 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </a>
+
+          {/* FOOTNOTE */}
+          <p className="mt-5 text-sm text-gray-500">
+            {language === "sr"
+              ? "Saradnja sa klijentima širom sveta"
+              : "Working with clients worldwide"}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+{/* Footer */}
+<footer className="border-t border-white/10 bg-[#050505]">
+  <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 px-6 py-7 sm:flex-row">
+    {/* Brand */}
+    <a href="/" className="text-center sm:text-left">
+      <p className="text-sm font-bold tracking-[0.12em] text-white">
+        LENSIA <span className="text-purple-400">MEDIA</span>
+      </p>
+      <p className="mt-1 text-xs text-slate-500">
+        {language === "en" ? "Growth Together" : "Rastemo zajedno"}
+      </p>
+    </a>
+
+    {/* Legal links */}
+    <div className="flex items-center gap-5 text-xs text-slate-400 sm:gap-6 sm:text-sm">
+      <a
+        href="/privacy"
+        className="transition-colors hover:text-white"
+      >
+        {language === "en" ? "Privacy Policy" : "Politika privatnosti"}
       </a>
 
-      <a href="/terms" className="hover:text-white transition">
-        Terms of Service
+      <a
+        href="/terms"
+        className="transition-colors hover:text-white"
+      >
+        {language === "en" ? "Terms of Service" : "Uslovi korišćenja"}
       </a>
     </div>
+
+    {/* Copyright */}
+    <p className="text-xs text-slate-500">
+      © {new Date().getFullYear()} Lensia Media
+    </p>
   </div>
 </footer>
 
 
-    </main>
-  );
+      </main>
+    );
 }

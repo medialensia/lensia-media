@@ -4,300 +4,171 @@ import { useLanguage } from "../../context/LanguageContext";
 
 export default function MediaProPlan() {
   const { language } = useLanguage();
+  const isEnglish = language === "en";
 
-  const t =
-    language === "en"
-      ? {
-          back: "← Back to Home",
-          badge: "Premium Monthly Plan",
-          title: "Media Pro",
-          subtitle:
-            "Our complete monthly solution for creators who want consistent growth, premium thumbnails and a professional YouTube strategy.",
-          priceLabel: "/ month",
-
-          included: "What's Included",
-          who: "Who is this for?",
-          whoText:
-            "Designed for experienced creators, brands, and media teams looking for a dedicated partner to support the ongoing management and development of their YouTube presence.",
-
-          process: "Our Process",
-          faq: "FAQ",
-
-          summary: "Summary",
-          price: "Price",
-          delivery: "Delivery",
-          revisions: "Revisions",
-
-          deliveryValue: "24–48 Hours",
-          revisionsValue: "Unlimited",
-
-          cta: "Get Started",
-          note: "Monthly subscription with priority support.",
-
-          features: [
-            "40 Premium Thumbnails",
-            "Complete YouTube SEO Strategy",
-            "Monthly Channel Analysis",
-            "Content Strategy",
-            "Priority Delivery",
-            "Unlimited Revisions",
-            "24/7 Support",
-          ],
-
-          steps: [
-            [
-              "1",
-              "Deep Audit",
-              "We perform a complete analysis of your channel, audience and competitors.",
-            ],
-            [
-              "2",
-              "Growth Strategy",
-              "A monthly content, thumbnail and SEO strategy is built around your niche.",
-            ],
-            [
-              "3",
-              "Execution",
-              "Our team designs thumbnails, optimizes uploads and improves discoverability.",
-            ],
-            [
-              "4",
-              "Scaling",
-              "We monitor performance every month and continuously improve CTR and growth.",
-            ],
-          ],
-
-          faqs: [
-  [
-    "How fast is delivery?",
-    "All requests are delivered within a maximum of 24 hours, with the highest priority for Media Pro clients.",
-  ],
-  [
-    "Is there a contract commitment?",
-    "Yes. The minimum commitment is one month. To cancel your package, please notify us at least 15 days before the next billing cycle.",
-  ],
-  [
-    "Do I get a dedicated strategy?",
-    "Yes. Every month we analyze your channel, competitors and performance to continuously improve thumbnails, SEO and your overall content strategy.",
-  ],
-]
-        }
-      : {
-          back: "← Nazad na početnu",
-          badge: "Premium mesečni paket",
-          title: "Media Pro",
-          subtitle:
-            "Kompletno mesečno rešenje za kreatore koji žele kontinuiran rast, vrhunske thumbnailove i profesionalnu YouTube strategiju.",
-          priceLabel: "/ mesec",
-
-          included: "Šta dobijaš",
-          who: "Kome je namenjen?",
-          whoText:
-            "Namenjen je iskusnim kreatorima, brendovima i medijskim timovima koji traže pouzdanog partnera za kontinuirano vođenje i razvoj svog YouTube prisustva.",
-
-          process: "Naš proces",
-          faq: "Česta pitanja",
-
-          summary: "Pregled",
-          price: "Cena",
-          delivery: "Isporuka",
-          revisions: "Revizije",
-
-          deliveryValue: "24–48h",
-          revisionsValue: "Neograničene",
-
-          cta: "Započni saradnju",
-          note: "Mesečna pretplata uz prioritetnu podršku.",
-
-          features: [
-            "40 premium thumbnailova",
-            "Kompletna YouTube SEO strategija",
-            "Mesečna analiza kanala",
-            "Strategija sadržaja",
-            "Prioritetna isporuka",
-            "Neograničene revizije",
-            "24/7 podrška",
-          ],
-
-          steps: [
-            [
-              "1",
-              "Detaljna analiza",
-              "Analiziramo kanal, publiku i konkurenciju kako bismo pronašli najveći potencijal za rast.",
-            ],
-            [
-              "2",
-              "Strategija rasta",
-              "Kreiramo mesečni plan sadržaja, thumbnailova i SEO optimizacije.",
-            ],
-            [
-              "3",
-              "Realizacija",
-              "Naš tim izrađuje thumbnailove, optimizuje svaki upload i povećava vidljivost.",
-            ],
-            [
-              "4",
-              "Skaliranje",
-              "Kontinuirano pratimo rezultate i unapređujemo CTR i rast kanala.",
-            ],
-          ],
-
-          faqs: [
-  [
-    "Koliko traje isporuka?",
-    "Sve zahteve isporučujemo u roku od najviše 24 sata, uz najviši prioritet za Media Pro klijente.",
-  ],
-  [
-    "Da li postoji ugovorna obaveza?",
-    "Da. Minimalna obaveza traje jedan mesec. Za prekid paketa potrebno je da nas obavestite najmanje 15 dana pre narednog obračunskog perioda.",
-  ],
-  [
-    "Da li dobijam posvećenu strategiju?",
-    "Da. Svakog meseca analiziramo tvoj kanal, konkurenciju i rezultate kako bismo kontinuirano unapređivali thumbnailove, SEO i kompletnu strategiju sadržaja.",
-  ],
-]
-        };
+  const content = isEnglish
+    ? {
+        back: "Back to home",
+        eyebrow: "LENSIA MEDIA / YOUTUBE GROWTH",
+        title: "YouTube Media Pro",
+        description:
+          "A complete YouTube growth solution with premium thumbnails, SEO strategy and ongoing channel analysis.",
+        priceLabel: "/ month",
+        included: "What’s included",
+        features: [
+          "40 premium thumbnails",
+          "Complete YouTube SEO strategy",
+          "Monthly channel analysis",
+          "Content strategy",
+          "Priority delivery",
+          "Unlimited revisions",
+          "24/7 support",
+        ],
+        faq: "Frequently asked questions",
+        questions: [
+          {
+            q: "How fast is delivery?",
+            a: "Requests are delivered within a maximum of 24 hours, with the highest priority for Media Pro clients.",
+          },
+          {
+            q: "Is there a contract commitment?",
+            a: "The minimum commitment is one month. To cancel, please notify us at least 15 days before the next billing cycle.",
+          },
+          {
+            q: "Do I get a dedicated strategy?",
+            a: "Yes. Every month we analyze your channel, competitors and performance to improve thumbnails, SEO and your content strategy.",
+          },
+        ],
+        cta: "Get started",
+        ctaNote: "Monthly package · No hidden fees",
+        priceCaption: "Media Pro monthly price",
+      }
+    : {
+        back: "Nazad na početnu",
+        eyebrow: "LENSIA MEDIA / YOUTUBE GROWTH",
+        title: "YouTube Media Pro paket",
+        description:
+          "Kompletno YouTube rešenje sa premium thumbnailovima, SEO strategijom i kontinuiranom analizom kanala.",
+        priceLabel: "/ mesečno",
+        included: "Šta nudimo",
+        features: [
+          "40 premium thumbnailova",
+          "Kompletna YouTube SEO strategija",
+          "Mesečna analiza kanala",
+          "Strategija sadržaja",
+          "Prioritetna isporuka",
+          "Neograničene revizije",
+          
+        ],
+        faq: "Česta pitanja",
+        questions: [
+          {
+            q: "Koliko traje isporuka?",
+            a: "Sve zahteve isporučujemo u roku od najviše 24 sata, uz najviši prioritet za Media Pro klijente.",
+          },
+          {
+            q: "Da li postoji ugovorna obaveza?",
+            a: "Minimalna obaveza traje jedan mesec. Za otkazivanje je potrebno da nas obavestiš najmanje 15 dana pre narednog obračunskog perioda.",
+          },
+          {
+            q: "Da li dobijam posebnu strategiju?",
+            a: "Da. Svakog meseca analiziramo tvoj kanal, konkurenciju i rezultate kako bismo unapredili thumbnailove, SEO i strategiju sadržaja.",
+          },
+        ],
+        cta: "Započni saradnju",
+        ctaNote: "Mesečni paket · Bez skrivenih troškova",
+        priceCaption: "Mesečna cena Media Pro paketa",
+      };
 
   return (
-    <main className="min-h-screen bg-[#070B14] text-white">
-      {/* Hero */}
-      <section className="relative overflow-hidden border-b border-white/10">
-        <div className="absolute inset-0">
-          <div className="absolute left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full bg-purple-600/20 blur-[120px]" />
-        </div>
+    <main className="min-h-screen bg-[#050505] text-white">
+      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-6 py-6 sm:px-10 sm:py-8 lg:px-12">
+        <a
+          href="/"
+          className="inline-flex w-fit items-center gap-2 text-base text-white/55 transition-colors hover:text-white"
+        >
+          <span aria-hidden="true">←</span>
+          {content.back}
+        </a>
 
-        <div className="relative mx-auto max-w-6xl px-6 py-20">
-          <a
-            href="/"
-            className="inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-white"
-          >
-            {t.back}
-          </a>
+        <header className="mt-7 flex flex-col gap-3 border-b border-white/10 pb-7 sm:mt-8 sm:pb-8">
+          <p className="inline-flex w-fit items-center gap-2 rounded-full border border-[#8b5cf6]/30 bg-[#8b5cf6]/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-[#c4b5fd]">
+            {content.eyebrow}
+          </p>
+          <h1 className="text-5xl font-semibold tracking-tight sm:text-5xl">
+            {content.title}
+          </h1>
+          <p className="max-w-2xl text-base leading-7 text-white/60 sm:text-lg">
+            {content.description}
+          </p>
+        </header>
 
-          <div className="mt-10 max-w-3xl">
-            <div className="inline-flex rounded-full border border-yellow-500/30 bg-yellow-500/10 px-4 py-1 text-sm font-medium text-yellow-300">
-              {t.badge}
+        <div className="grid flex-1 gap-8 py-7 md:grid-cols-[minmax(0,1fr)_360px] md:gap-12 md:py-8 lg:grid-cols-[minmax(0,1fr)_390px]">
+          <div className="flex min-w-0 flex-col gap-8">
+            <section>
+              <h2 className="text-xl font-semibold">{content.included}</h2>
+              <ul className="mt-4 grid gap-x-7 sm:grid-cols-2">
+                {content.features.map((feature) => (
+                  <li
+                    key={feature}
+                    className="flex items-start gap-2.5 border-b border-white/[0.07] py-3 text-base leading-6 text-white/80"
+                  >
+                    <span className="mt-px text-purple-300" aria-hidden="true">
+                      ✓
+                    </span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-semibold">{content.faq}</h2>
+              <div className="mt-3 grid gap-x-8 sm:grid-cols-2">
+                {content.questions.map((item) => (
+                  <details
+                    key={item.q}
+                    className="group border-b border-white/10 py-4"
+                  >
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-medium text-white/85 marker:content-none [&::-webkit-details-marker]:hidden">
+                      <span>{item.q}</span>
+                      <span
+                        className="shrink-0 text-lg leading-none text-white/45 transition-transform group-open:rotate-45"
+                        aria-hidden="true"
+                      >
+                        +
+                      </span>
+                    </summary>
+                    <p className="pt-3 text-base leading-6 text-white/60">
+                      {item.a}
+                    </p>
+                  </details>
+                ))}
+              </div>
+            </section>
+          </div>
+
+          <aside className="h-fit rounded-2xl border border-white/10 bg-white/[0.035] p-7 md:sticky md:top-8 md:p-8">
+            <p className="text-sm font-medium text-[#c4b5fd]">YouTube · {content.priceCaption}</p>
+            <div className="mt-3 flex items-baseline gap-2">
+              <span className="text-5xl font-semibold tracking-tight">€199</span>
+              <span className="text-sm text-white/45">{content.priceLabel}</span>
             </div>
-
-            <h1 className="mt-6 text-5xl font-extrabold md:text-7xl">
-              {t.title}
-            </h1>
-
-            <p className="mt-6 text-xl leading-8 text-slate-300">
-              {t.subtitle}
+            <div className="my-6 h-px bg-white/10" />
+            <p className="text-base leading-7 text-white/60">{content.description}</p>
+            <a
+              href="/buy"
+              className="mt-6 flex min-h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#8b5cf6] px-6 py-4 text-base font-semibold text-white transition-colors hover:bg-[#7c3aed]"
+            >
+              {content.cta}
+              <span aria-hidden="true">↗</span>
+            </a>
+            <p className="mt-4 text-center text-sm text-white/45">
+              {content.ctaNote}
             </p>
-
-            <div className="mt-10 flex items-end gap-2">
-              <span className="text-6xl font-extrabold">€199</span>
-              <span className="pb-2 text-slate-400">{t.priceLabel}</span>
-            </div>
-          </div>
+          </aside>
         </div>
-      </section>
-
-      {/* Content */}
-      <section className="mx-auto max-w-6xl px-6 py-20">
-        <div className="grid gap-12 lg:grid-cols-3">
-          <div className="space-y-12 lg:col-span-2">
-            <div>
-              <h2 className="text-3xl font-bold">{t.included}</h2>
-
-              <div className="mt-8 grid gap-4 md:grid-cols-2">
-                {t.features.map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-2xl border border-white/10 bg-white/5 p-4"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-600">
-                        ✓
-                      </div>
-                      <span>{item}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-3xl font-bold">{t.who}</h2>
-              <p className="mt-5 leading-8 text-slate-300">{t.whoText}</p>
-            </div>
-
-            <div>
-              <h2 className="text-3xl font-bold">{t.process}</h2>
-
-              <div className="mt-8 space-y-6">
-                {t.steps.map(([n, title, desc]) => (
-                  <div key={n} className="flex gap-5">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-600 font-bold">
-                      {n}
-                    </div>
-
-                    <div>
-                      <h3 className="text-xl font-semibold">{title}</h3>
-                      <p className="mt-1 text-slate-400">{desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h2 className="text-3xl font-bold">{t.faq}</h2>
-
-              <div className="mt-6 space-y-4">
-                {t.faqs.map(([q, a]) => (
-                  <div
-                    key={q}
-                    className="rounded-2xl border border-white/10 bg-white/5 p-5"
-                  >
-                    <h4 className="font-semibold">{q}</h4>
-                    <p className="mt-2 text-slate-400">{a}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Right Sidebar */}
-          <div>
-            <div className="sticky top-8 rounded-3xl border border-white/10 bg-white/5 p-6">
-              <h3 className="text-2xl font-bold">{t.summary}</h3>
-
-              <div className="mt-6 space-y-4 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-slate-400">{t.price}</span>
-                  <span>€199</span>
-                </div>
-
-                <div className="flex justify-between">
-                  <span className="text-slate-400">{t.delivery}</span>
-                  <span>{t.deliveryValue}</span>
-                </div>
-
-                <div className="flex justify-between">
-                  <span className="text-slate-400">{t.revisions}</span>
-                  <span>{t.revisionsValue}</span>
-                </div>
-              </div>
-
-              <div className="my-6 h-px bg-white/10" />
-
-              <a
-                href="/buy"
-                className="flex w-full justify-center rounded-2xl bg-purple-600 py-4 font-semibold transition hover:bg-purple-500"
-              >
-                {t.cta}
-              </a>
-
-              <p className="mt-4 text-center text-xs leading-5 text-slate-500">
-                {t.note}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
     </main>
   );
 }
